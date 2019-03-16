@@ -1,0 +1,73 @@
+/* -Buttons
+-----------------------------------------------------------------------------*/
+
+/*---------- Mixins ----------*/
+@mixin button {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 0;
+  border-radius: 3px;
+  text-decoration: none;
+  text-transform: none;
+  text-align: center;
+  font-size: 100%;
+  font-weight: $font-weight-bold;
+  line-height: 1.25;
+  vertical-align: baseline;
+  text-shadow: none;
+  box-shadow: none;
+
+  &:focus {
+    @include theme-rule(
+      $rule: outline,
+      $value-template: '2px dotted {{color}}',
+      $color-name: 'foreground'
+    );
+  }
+}
+
+@mixin button-primary {
+  @include button;
+  @include theme-rule(background-color, 'action');
+  @include theme-rule(color, 'action-foreground');
+
+  &:not([disabled]) {
+    &:hover,
+    &:focus {
+      @include theme-rule(background-color, 'action', 10%);
+      @include theme-rule(border-color, 'action', 10%);
+    }
+  }
+}
+
+// ---------- Standard button classes ---------- //
+.btn,
+a.btn,
+button,
+input[type='submit'],
+input[type='button'],
+input[type='reset'] {
+  @include button-primary;
+
+  &[disabled] {
+    opacity: 0.5;
+  }
+}
+
+// 'Invisible' button
+.btn-neutral {
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  color: inherit !important;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+// Non-button element that takes up the same space as a button
+.btn-placeholder {
+  @include button;
+}

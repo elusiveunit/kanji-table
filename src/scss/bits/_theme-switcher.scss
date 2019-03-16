@@ -1,0 +1,117 @@
+.theme-switcher {
+  position: relative;
+  padding: 10px;
+  overflow-x: hidden;
+  overflow-y: visible;
+
+  fieldset {
+    @include theme-tint-shade-transparent(
+      $rule: border,
+      $value-template: '1px solid {{color}}',
+      $amount: 0.15
+    );
+    margin: 0;
+    padding: 5px 10px 10px;
+  }
+  input[type='radio'] {
+    position: absolute;
+    left: -40px;
+  }
+}
+
+.theme-switcher-items {
+  display: flex;
+}
+
+.theme-switcher-item {
+  @include theme-rule(
+    $rule: border,
+    $color-name: 'background-accent',
+    $value-template: '2px solid {{color}}'
+  );
+
+  flex-grow: 1;
+  position: relative;
+  height: 30px;
+  box-shadow: 0 0 0 3px transparent;
+  transition: box-shadow 0.2s ease;
+
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
+  &:hover {
+    @include theme-rule(
+      $rule: box-shadow,
+      $color-name: 'foreground',
+      $value-template: '0 0 0 3px {{color}}',
+      $tint-shade-amount: 10%,
+      $tint-shade-reverse: true
+    );
+  }
+}
+
+.theme-switcher-item-label {
+  @include theme-light-dark($rule: background-color);
+  @include theme-light-dark($rule: color, $reverse: true);
+
+  display: inline-block;
+  position: absolute;
+  bottom: 100%;
+  left: -200px;
+  transform: translateX(-50%);
+  margin-bottom: 16px;
+  padding: 4px 6px 5px;
+  border-radius: 3px;
+  opacity: 0.01;
+  transition: margin-bottom 0.2s ease, opacity 0.2s ease;
+  font-size: rem(12px);
+  line-height: 1;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    box-sizing: content-box;
+    top: 100%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -5px;
+    border: 5px solid transparent;
+    @include theme-light-dark(border-top-color);
+  }
+}
+
+@each $theme-name, $theme-data in $themes {
+  .theme-switcher-item--#{$theme-name} {
+    background: get-theme-color($theme-name, 'background');
+  }
+  #theme-switcher-item-#{$theme-name}:checked
+    ~ .theme-switcher-item--#{$theme-name} {
+    @include theme-rule(
+      $rule: box-shadow,
+      $color-name: 'action',
+      $value-template: '0 0 0 3px {{color}}'
+    );
+  }
+  #theme-switcher-item-#{$theme-name}:focus
+    ~ .theme-switcher-item--#{$theme-name} {
+    @include theme-rule(
+      $rule: box-shadow,
+      $color-name: 'foreground',
+      $value-template: '0 0 0 3px {{color}}',
+      $tint-shade-amount: 10%,
+      $tint-shade-reverse: true
+    );
+  }
+  #theme-switcher-item-#{$theme-name}:hover
+    ~ .theme-switcher-item--#{$theme-name},
+  #theme-switcher-item-#{$theme-name}:focus
+    ~ .theme-switcher-item--#{$theme-name} {
+    .theme-switcher-item-label {
+      left: 50%;
+      margin-bottom: 12px;
+      opacity: 1;
+    }
+  }
+}

@@ -1,0 +1,12 @@
+/* -Focus
+-----------------------------------------------------------------------------*/
+button,
+a,
+[tabindex='0'] {
+  &:focus {
+    outline: 2px dotted;
+  }
+  .hide-focus &:focus {
+    outline: 0;
+  }
+}

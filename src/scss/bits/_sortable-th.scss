@@ -1,0 +1,32 @@
+/* -Sortable table header
+-----------------------------------------------------------------------------*/
+.sortable-th {
+  padding: 0;
+
+  button,
+  .btn-placeholder {
+    padding: $table-cell-padding-vertical $table-cell-padding-horizontal;
+  }
+  button {
+    padding: $table-cell-padding-vertical $table-cell-padding-horizontal;
+
+    &:hover,
+    &:focus {
+      @include theme-tint-shade-transparent(
+        $rule: background-color,
+        $amount: 0.05,
+        $important: true
+      );
+    }
+  }
+  .icon {
+    margin-left: 0.25em;
+    opacity: 0;
+  }
+  .js-loaded & .icon {
+    opacity: 1;
+  }
+  .js-loaded & .icon--sort {
+    opacity: 0.5;
+  }
+}

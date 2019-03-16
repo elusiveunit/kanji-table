@@ -1,0 +1,88 @@
+/* -Tables
+-----------------------------------------------------------------------------*/
+$table-border-tint-shade-amount: 0.15;
+
+.table-wrap {
+  @include media-max(rem(600px)) {
+    overflow-x: auto;
+  }
+}
+
+table {
+  @include theme-background;
+  @include theme-tint-shade-transparent(
+    $rule: border,
+    $value-template: '1px solid {{color}}',
+    $amount: $table-border-tint-shade-amount
+  );
+
+  border-spacing: 0;
+  // Would prefer `collapese`, but the borders added to the first row of th
+  // below is rendered in the table body in Firefox when sorting.
+  border-collapse: separate;
+  font-size: inherit;
+  width: 100%;
+}
+
+thead {
+  th {
+    @include theme-background;
+
+    background-clip: padding-box;
+    font-size: rem(14px);
+  }
+  tr:first-child th:not(:first-child) {
+    @include theme-tint-shade-transparent(
+      $rule: border-left,
+      $value-template: '1px solid {{color}}',
+      $amount: $table-border-tint-shade-amount
+    );
+
+    text-align: center;
+  }
+  tr:last-child th {
+    position: sticky;
+    top: 0;
+    // The th border stays behind when scrolling so disable it and do it via
+    // the below pseudo element instead.
+    border-bottom: 0;
+    z-index: 10;
+
+    &::after {
+      @include theme-tint-shade-transparent(
+        $rule: background,
+        $amount: $table-border-tint-shade-amount
+      );
+
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+    }
+  }
+}
+
+caption {
+  @extend %h3;
+}
+
+legend {
+  padding: 0 0.5em;
+  font-size: 14px;
+}
+
+th,
+td {
+  @include theme-tint-shade-transparent(
+    $rule: border-bottom,
+    $value-template: '1px solid {{color}}',
+    $amount: $table-border-tint-shade-amount
+  );
+
+  padding: $table-cell-padding-vertical $table-cell-padding-horizontal;
+  white-space: nowrap;
+  text-align: left;
+}

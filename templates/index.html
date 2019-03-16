@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <title>Kanji Table</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      /* prettier-ignore */
+      (function(d,h){
+        h.classList.add('theme-'+((d.cookie.match(/\btheme\s*=\s*([^;]+)/)||[])[1]||'light'));
+        h.classList.remove('no-js');
+        h.classList.add('js');
+      }(document,document.documentElement))
+    </script>
+  </head>
+  <body>
+    <div class="visuallyhidden" role="presentation">
+      <svg width="0" height="0">
+        <symbol viewBox="0 4 16 16" id="icon-chevron-down"><path d="M13 10.049L11.8 8.85 8 12.65l-3.8-3.8-1.2 1.3 5 5v-.1l5-5.001z"/></symbol>
+        <symbol viewBox="0 4 16 16" id="icon-chevron-up"><path d="M3 13.949l1.2 1.199L8 11.349l3.8 3.799L13 13.85l-5-5v.1l-5 4.999z"/></symbol>
+        <symbol viewBox="0 4 16 16" id="icon-sort"><path d="M3 10.1l1.2 1.199L8 7.5l3.8 3.799L13 10 8 5v.1l-5 5zM13 13.899L11.799 12.7 8 16.499 4.2 12.7 3 13.999 8 19v-.1l5-5.001z"/></symbol>
+      </svg>
+    </div>
+    <div id="root" class="root">
+      {{ prerender }}
+    </div>
+  </body>
+</html>

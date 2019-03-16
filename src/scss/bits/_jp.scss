@@ -1,0 +1,35 @@
+/* -Japanese content
+-----------------------------------------------------------------------------*/
+[lang='ja'] {
+  font-family: serif;
+  font-weight: $font-weight-jp-regular;
+
+  .jp-font-loaded & {
+    font-family: $font-stack-jp;
+  }
+  // strong,
+  // b {
+  //   font-weight: $font-weight-jp-bold;
+  // }
+}
+
+th[lang='ja'],
+td[lang='ja'] {
+  font-size: 24px;
+}
+
+p[lang='ja'] {
+  margin-bottom: 0;
+}
+
+rt {
+  position: relative;
+  top: 0.25em;
+  font-size: 60%;
+}
+
+@include media-max(rem($media-query-smaller-type)) {
+  td[lang='ja'] {
+    font-size: 18px;
+  }
+}
