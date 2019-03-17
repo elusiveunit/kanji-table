@@ -6,6 +6,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const mapValues = require('lodash/mapValues');
+const forEach = require('lodash/forEach');
 
 const constants = require('../src/constants');
 
@@ -19,11 +20,42 @@ const KANJI_FREQUENCY_PATHS = {
   [constants.TWITTER]: '../data/kanji-frequency-twitter.json',
   [constants.WIKIPEDIA]: '../data/kanji-frequency-wikipedia.json',
 };
+const GRADE_PATHS = {
+  [constants.JLPT]: '../data/jlpt-level.json',
+  [constants.JOYO]: '../data/joyo-grade.json',
+};
+const VARIANTS_PATH = '../data/variants.json';
 const OUTPUT_PATH = '../data/kanji.json';
 
 /* -------------------- Utils -------------------- */
 function assign(...obj) {
   return Object.assign({}, ...obj);
+}
+
+function assignIfNull(...obj) {
+  const result = obj[0];
+  let next = obj[1];
+  let i = 2;
+  while (next) {
+    Object.entries(next).forEach(([key, val]) => {
+      if (result[key] === null) {
+        result[key] = val;
+      }
+    });
+    next = obj[i];
+    i += 1;
+  }
+  return result;
+}
+
+function filterKeys(obj, keys) {
+  return Object.keys(obj)
+    .filter((key) => keys.includes(key))
+    .reduce((result, key) => {
+      // eslint-disable-next-line no-param-reassign
+      result[key] = obj[key];
+      return result;
+    }, {});
 }
 
 function readFile(filePath) {
@@ -32,17 +64,25 @@ function readFile(filePath) {
   });
 }
 
+function readJSON(filePath) {
+  return JSON.parse(readFile(filePath));
+}
+
 function parseTxtOrder(filePath) {
   return readFile(filePath)
     .split(/\s/)
     .map((str) => str.trim());
 }
 
+function parseGrade(filePath) {
+  return mapValues(readJSON(filePath), (str) => str.split(' '));
+}
+
 function parseKanjiFrequency(filePath, kanjiWhitelist) {
   let latestFreq = null;
   let latestRank = 1;
 
-  return JSON.parse(readFile(filePath))
+  return readJSON(filePath)
     .filter((item) => kanjiWhitelist.includes(item[0]))
     .reduce((result, item) => {
       /* eslint-disable no-param-reassign */
@@ -100,7 +140,7 @@ const freqKanjiFrequency = mapValues(KANJI_FREQUENCY_PATHS, (p) =>
 );
 
 console.log('Adding frequency data...');
-const output = kanji.map((obj) => {
+const kanjiWithFrequency = kanji.map((obj) => {
   const fBunka = freqBunka.find(
     (f) => f[constants.KANJI] === obj[constants.KANJI],
   );
@@ -112,6 +152,52 @@ const output = kanji.map((obj) => {
   return assign(obj, fKanji, {
     [constants.BUNKA]: fBunka ? fBunka.freq : null,
   });
+});
+
+/* -------------------- Add grades data -------------------- */
+console.log('Adding grade data...');
+const gradeJSON = mapValues(GRADE_PATHS, parseGrade);
+const kanjiWithGrades = kanjiWithFrequency.map((obj) => {
+  const kanjiGrade = {};
+  forEach(gradeJSON, (gradeData, key) => {
+    forEach(gradeData, (kanjiList, grade) => {
+      if (kanjiList.includes(obj[constants.KANJI])) {
+        // Use numbers where possible (grade 1, 2...), fall back to the raw
+        // text ('s', 'n5'...)
+        kanjiGrade[key] = parseInt(grade, 10) || grade.toUpperCase();
+      }
+    });
+  });
+  const gradeOutput = mapValues(gradeJSON, (_, key) => kanjiGrade[key] || null);
+  return assign(obj, gradeOutput);
+});
+
+/* -------------------- Copy between variants -------------------- */
+console.log('Copying between variants...');
+const variantJSON = readJSON(VARIANTS_PATH);
+const output = kanjiWithGrades.map((obj) => {
+  const found = variantJSON.find((chars) =>
+    chars.includes(obj[constants.KANJI]),
+  );
+  const variant = found
+    ? found.filter((char) => char !== obj[constants.KANJI])[0]
+    : null;
+  if (!variant) {
+    return obj;
+  }
+  const variantData = kanjiWithGrades.find(
+    (o) => o[constants.KANJI] === variant,
+  );
+  // Don't include any frequency data since that could be misleading
+  return assignIfNull(
+    obj,
+    filterKeys(variantData || {}, [
+      constants.KKLC,
+      constants.RTK,
+      constants.JLPT,
+      constants.JOYO,
+    ]),
+  );
 });
 
 /* -------------------- Write to file -------------------- */

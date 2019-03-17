@@ -1,7 +1,10 @@
 import { ORDER_ASC } from '../constants';
 
 function isPrerendering() {
-  const ua = (navigator.userAgent || '').toLowerCase();
+  const ua = (
+    (global.navigator && global.navigator.userAgent) ||
+    ''
+  ).toLowerCase();
   return ua.indexOf('jsdom') !== -1 || ua.indexOf('node') !== -1;
 }
 
@@ -26,6 +29,33 @@ export const IS_PRERENDERING = isPrerendering();
  */
 export function assign(...obj) {
   return Object.assign({}, ...obj);
+}
+
+/**
+ * Assign properties of objects from left to right if the properties assigned
+ * to are null.
+ *
+ * @param {...Object} obj - Objects to process.
+ * @return {Object} The resulting object.
+ * @example
+ *
+ * assignIfNull({ a: 'a1', b: null }, { a: 'a2', b: 'b2' });
+ * // => { a: 'a1', b: 'b2' }
+ */
+export function assignIfNull(...obj) {
+  const result = obj[0];
+  let next = obj[1];
+  let i = 2;
+  while (next) {
+    Object.entries(next).forEach(([key, val]) => {
+      if (result[key] === null) {
+        result[key] = val;
+      }
+    });
+    next = obj[i];
+    i += 1;
+  }
+  return result;
 }
 
 /**

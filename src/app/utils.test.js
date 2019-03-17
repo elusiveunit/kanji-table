@@ -1,5 +1,26 @@
 import { ORDER_ASC, ORDER_DESC } from '../constants';
-import { cycleValues, getNumProp, makeSorter, makeMultiSorter } from './utils';
+import {
+  assignIfNull,
+  cycleValues,
+  getNumProp,
+  makeSorter,
+  makeMultiSorter,
+} from './utils';
+
+describe('assignIfNull', () => {
+  it('only overwrites null values', () => {
+    const o1 = { a: 'a1', b: null };
+    const o2 = { a: 'a2', b: 'b2' };
+    expect(assignIfNull(o1, o2)).toEqual({ a: 'a1', b: 'b2' });
+  });
+
+  it('handles any number of objects', () => {
+    const o1 = { a: 'a1', b: null, c: null };
+    const o2 = { a: 'a2', b: 'b2', c: null };
+    const o3 = { a: 'a3', b: 'b3', c: 'c3' };
+    expect(assignIfNull(o1, o2, o3)).toEqual({ a: 'a1', b: 'b2', c: 'c3' });
+  });
+});
 
 describe('cycleValues', () => {
   it('cycles to the next value', () => {

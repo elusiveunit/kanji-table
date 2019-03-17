@@ -10,6 +10,8 @@ module.exports = {
   TWITTER: 'tw',
   WIKIPEDIA: 'wk',
   BUNKA: 'bu',
+  JLPT: 'jl',
+  JOYO: 'jo',
 
   // App
   ORDER_ASC: 'ASC',
