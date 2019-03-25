@@ -8,6 +8,9 @@ import {
   TWITTER,
   WIKIPEDIA,
   BUNKA,
+  JLPT,
+  JOYO,
+  STROKES,
 } from '../../constants';
 import { useStoreState } from '../state/store';
 import { setOrdering } from '../state/actions/ordering';
@@ -41,6 +44,10 @@ export default function MainTable() {
             <th scope="colgroup" colSpan="5">
               Frequency
             </th>
+            <th scope="colgroup" colSpan="2">
+              Grade
+            </th>
+            <th />
           </tr>
           <tr>
             <th scope="col">
@@ -54,6 +61,9 @@ export default function MainTable() {
             <SortableTh {...thProps} field={NEWS} text="News" />
             <SortableTh {...thProps} field={TWITTER} text="Twitter" />
             <SortableTh {...thProps} field={WIKIPEDIA} text="Wiki" />
+            <SortableTh {...thProps} field={JLPT} text="JLPT" />
+            <SortableTh {...thProps} field={JOYO} text="Jōyō" />
+            <SortableTh {...thProps} field={STROKES} text="Strokes" />
           </tr>
         </thead>
         <MainTableBody {...ordering} />

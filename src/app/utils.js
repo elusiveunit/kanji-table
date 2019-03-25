@@ -106,11 +106,16 @@ const NUM_REGEX = /\d+/;
 /**
  * Get a number for sorting.
  *
- * @param {mixed} raw - Raw value.
- * @return {number?}
+ * @param {*} raw - Raw value.
+ * @return {?number}
  */
-export function getNumProp(raw) {
-  // Handle things like 'N2' for JLPT
+export function getSortValue(raw) {
+  // Jōyō grade indicating secondary school. Could be equivalent to 7 for jōyō
+  // sorting purposes, but let's keep the S as a generic 'high number value'.
+  if (String(raw).toUpperCase() === 'S') {
+    return 100;
+  }
+  // Handle things like 'N2' for JLPT.
   const match = String(raw).match(NUM_REGEX);
   return match ? parseInt(match[0], 10) : null;
 }
@@ -120,6 +125,7 @@ export function getNumProp(raw) {
  *
  * @param {string} order - Sort order, ASC or DESC.
  * @param {string} orderBy - Field/property to sort by.
+ * @return {Function} The sorting function.
  * @example
  *
  * const arr = [{ a: 2 }, { a: 1 }, { a: 3 }];
@@ -129,9 +135,9 @@ export function getNumProp(raw) {
  */
 export function makeSorter(order, orderBy) {
   return function sorter(a, b) {
-    // Always put null values last
-    const aNum = getNumProp(a[orderBy]);
-    const bNum = getNumProp(b[orderBy]);
+    const aNum = getSortValue(a[orderBy]);
+    const bNum = getSortValue(b[orderBy]);
+    // Always put null values last.
     if (aNum === null) {
       return 1;
     }

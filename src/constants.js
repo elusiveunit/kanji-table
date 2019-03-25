@@ -12,6 +12,7 @@ module.exports = {
   BUNKA: 'bu',
   JLPT: 'jl',
   JOYO: 'jo',
+  STROKES: 'st',
 
   // App
   ORDER_ASC: 'ASC',

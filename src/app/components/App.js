@@ -32,14 +32,16 @@ export default function App() {
 
   return (
     <StoreProvider>
+      <Focus />
       <div className="app">
-        <Focus />
         <Skiplink href="#main-table" isHidden>
           Skip to table
         </Skiplink>
-        <h1>Kanji Table</h1>
-        <p>A sortable and filterable table of Japanese kanji.</p>
-        <MainTableDescription />
+        <div className="app-text">
+          <h1>Kanji Table</h1>
+          <p>A sortable and filterable table of Japanese kanji.</p>
+          <MainTableDescription />
+        </div>
         <MainTable />
       </div>
     </StoreProvider>

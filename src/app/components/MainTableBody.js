@@ -11,6 +11,9 @@ import {
   TWITTER,
   WIKIPEDIA,
   BUNKA,
+  JLPT,
+  JOYO,
+  STROKES,
 } from '../../constants';
 import { makeMultiSorter } from '../utils';
 
@@ -34,6 +37,9 @@ function MainTableBody(props) {
           <td>{d[NEWS] || blank}</td>
           <td>{d[TWITTER] || blank}</td>
           <td>{d[WIKIPEDIA] || blank}</td>
+          <td>{d[JLPT] || blank}</td>
+          <td>{d[JOYO] || blank}</td>
+          <td>{d[STROKES] || blank}</td>
         </tr>
       ))}
     </tbody>
