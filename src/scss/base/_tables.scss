@@ -3,9 +3,7 @@
 $table-border-tint-shade-amount: 0.15;
 
 .table-wrap {
-  @include media-max(rem(600px)) {
-    overflow-x: auto;
-  }
+  overflow-x: auto;
 }
 
 table {
@@ -21,7 +19,7 @@ table {
   // below is rendered in the table body in Firefox when sorting.
   border-collapse: separate;
   font-size: inherit;
-  width: 100%;
+  width: auto;
 }
 
 thead {
