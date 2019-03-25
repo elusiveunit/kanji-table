@@ -3,10 +3,13 @@
 // TODO: Build from the Aozora frequency list (or another) instead for more
 // kanji? Probably not that useful for most people.
 
+// TODO: Restructure.
+
 const path = require('path');
 const fs = require('fs-extra');
-const mapValues = require('lodash/mapValues');
 const forEach = require('lodash/forEach');
+const mapValues = require('lodash/mapValues');
+const reduce = require('lodash/reduce');
 
 const constants = require('../src/constants');
 
@@ -24,6 +27,7 @@ const GRADE_PATHS = {
   [constants.JLPT]: '../data/jlpt-level.json',
   [constants.JOYO]: '../data/joyo-grade.json',
 };
+const STROKE_COUNT_PATH = '../data/stroke-count.json';
 const VARIANTS_PATH = '../data/variants.json';
 const OUTPUT_PATH = '../data/kanji.json';
 
@@ -172,10 +176,28 @@ const kanjiWithGrades = kanjiWithFrequency.map((obj) => {
   return assign(obj, gradeOutput);
 });
 
+/* -------------------- Add stroke count -------------------- */
+console.log('Adding stroke count...');
+const strokeData = reduce(
+  readJSON(STROKE_COUNT_PATH),
+  (result, kanjiStr, count) => {
+    kanjiStr.split(' ').forEach((char) => {
+      result[char] = Number(count);
+    });
+    return result;
+  },
+  {},
+);
+const kanjiWithStrokeCount = kanjiWithGrades.map((obj) =>
+  assign(obj, {
+    [constants.STROKES]: strokeData[obj[constants.KANJI]] || null,
+  }),
+);
+
 /* -------------------- Copy between variants -------------------- */
 console.log('Copying between variants...');
 const variantJSON = readJSON(VARIANTS_PATH);
-const output = kanjiWithGrades.map((obj) => {
+const output = kanjiWithStrokeCount.map((obj) => {
   const found = variantJSON.find((chars) =>
     chars.includes(obj[constants.KANJI]),
   );
