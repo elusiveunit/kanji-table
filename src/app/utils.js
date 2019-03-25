@@ -1,5 +1,12 @@
 import { ORDER_ASC } from '../constants';
 
+/**
+ * Check if currently running in a prerendering task.
+ *
+ * @ignore
+ * @see IS_PRERENDERING
+ * @return {boolean}
+ */
 function isPrerendering() {
   const ua = (
     (global.navigator && global.navigator.userAgent) ||
@@ -59,6 +66,34 @@ export function assignIfNull(...obj) {
 }
 
 /**
+ * Get the first key from an object.
+ *
+ * @param {Object} obj - Object to get key from.
+ * @return {string} The key.
+ * @example
+ *
+ * getKey({ num: 42 });
+ * // => 'num'
+ */
+export function getKey(obj) {
+  return Object.keys(obj)[0];
+}
+
+/**
+ * Get the first value from an object no matter what the key is.
+ *
+ * @param {Object} obj - Object to get value from.
+ * @return {*} The value.
+ * @example
+ *
+ * getValue({ num: 42 });
+ * // => 42
+ */
+export function getValue(obj) {
+  return Object.values(obj)[0];
+}
+
+/**
  * Create an object with the same keys as the passed object and values generated
  * by running each property through iteratee.
  *
@@ -80,9 +115,9 @@ export function mapObject(obj, iteratee) {
 /**
  * Cycle through values from left to right.
  *
- * @param {mixed} current - The current value in the cycle.
- * @param  {...mixed} values - Values to cycle through.
- * @return {mixed} The next value, or first if at the end of the cycle.
+ * @param {*} current - The current value in the cycle.
+ * @param  {...*} values - Values to cycle through.
+ * @return {*} The next value, or first if at the end of the cycle.
  * @example
  *
  * const current = 1;
@@ -151,10 +186,19 @@ export function makeSorter(order, orderBy) {
 /**
  * Create function that sorts an array of objects by multiple fields.
  *
- * @param {string} order - Sort order, ASC or DESC.
- * @param {...string} fields - Fields/properties to sort by. Sorting is done
- *   left to right, i.e. the second field will only be sorted on if the first
- *   field comparison is equal.
+ * Sorting is done left to right, i.e. the second field will only be sorted on
+ * if the first field comparison is equal.
+ *
+ * The sort order can be set to the same for all fields (by passing order
+ * first followed by strings of field names) or on a per field basis (by
+ * passing config objects for each field).
+ *
+ * @param {string|...Object} order - Sort order, ASC or DESC, when sorting
+ *   all fields by the same order. If doing per-property sort order,
+ *   configuration object when doing per-property sort order.)
+ * @param {...string} fields - Fields/properties to sort by when not doing
+ *   per-property sorting.
+ * @return {Function} The sorting function.
  * @example
  *
  * const arr = [
@@ -163,25 +207,36 @@ export function makeSorter(order, orderBy) {
  *   { a: 1, b: 2 },
  *   { a: 2, b: 1 },
  * ];
+ *
+ * // Same order for all fields
  * const sorter = makeMultiSorter(ORDER_ASC, 'a', 'b');
  * const result = arr.slice().sort(sorter);
  * // => [{ a: 1, b: 2 }, { a: 1, b: 3 }, { a: 2, b: 1 }, { a: 2, b: 4 }]
+ *
+ * // Different order per field
+ * const sorter = makeMultiSorter({ a: ORDER_ASC }, { b: ORDER_DESC });
+ * const result = arr.slice().sort(sorter);
+ * // => [{ a: 1, b: 3 }, { a: 1, b: 2 }, { a: 2, b: 4 }, { a: 2, b: 1 }]
  */
 export function makeMultiSorter(order, ...fields) {
-  const sorters = fields.reduce(
-    (acc, field) =>
-      assign(acc, {
-        [field]: makeSorter(order, field),
-      }),
-    {},
-  );
-  const fieldCount = fields.length;
+  // Assume per-prop sorting objects if the first is an object.
+  const isPerProp = typeof order === 'object';
+  const sortFields = isPerProp ? [order, ...fields] : fields;
+  const sorters = sortFields.reduce((acc, field) => {
+    const fieldName = isPerProp ? getKey(field) : field;
+    const fieldOrder = isPerProp ? getValue(field) : order;
+    return assign(acc, {
+      [fieldName]: makeSorter(fieldOrder, fieldName),
+    });
+  }, {});
+  const fieldNames = Object.keys(sorters);
+  const fieldCount = fieldNames.length;
 
   return function multiSorter(a, b) {
     let i = 0;
     let result = 0;
     while (result === 0 && i < fieldCount) {
-      result = sorters[fields[i]](a, b);
+      result = sorters[fieldNames[i]](a, b);
       i += 1;
     }
     return result;

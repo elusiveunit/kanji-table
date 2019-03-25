@@ -2,7 +2,7 @@ import { ORDER_ASC, ORDER_DESC } from '../constants';
 import {
   assignIfNull,
   cycleValues,
-  getNumProp,
+  getSortValue,
   makeSorter,
   makeMultiSorter,
 } from './utils';
@@ -49,18 +49,22 @@ describe('cycleValues', () => {
   });
 });
 
-describe('getNumProp', () => {
+describe('getSortValue', () => {
   it('returns numeric values as is', () => {
-    expect(getNumProp(123)).toBe(123);
+    expect(getSortValue(123)).toBe(123);
   });
 
   it('extracts numbers from strings', () => {
-    expect(getNumProp('N2')).toBe(2);
+    expect(getSortValue('N2')).toBe(2);
+  });
+
+  it("treats 'S' as a high number", () => {
+    expect(getSortValue('S')).toBe(100);
   });
 
   it('returns null when there is no number', () => {
-    expect(getNumProp(null)).toBe(null);
-    expect(getNumProp('kanji')).toBe(null);
+    expect(getSortValue(null)).toBe(null);
+    expect(getSortValue('kanji')).toBe(null);
   });
 });
 
@@ -145,6 +149,65 @@ describe('makeMultiSorter', () => {
       { a: null, b: 6 },
     ];
     const sorter = makeMultiSorter(ORDER_ASC, 'a', 'b');
+    expect(input.slice().sort(sorter)).toEqual(expected);
+  });
+
+  it('can take objects with per-prop sort order', () => {
+    const input = [
+      { a: 1, b: 6 },
+      { a: 3, b: 3 },
+      { a: 2, b: 4 },
+      { a: 2, b: 2 },
+      { a: 1, b: 1 },
+      { a: 3, b: 5 },
+    ];
+    const expected = [
+      { a: 1, b: 6 },
+      { a: 1, b: 1 },
+      { a: 2, b: 4 },
+      { a: 2, b: 2 },
+      { a: 3, b: 5 },
+      { a: 3, b: 3 },
+    ];
+    const sorter = makeMultiSorter({ a: ORDER_ASC }, { b: ORDER_DESC });
+    expect(input.slice().sort(sorter)).toEqual(expected);
+  });
+
+  // TODO: Fix/implement
+  it.skip('handles mixed null fields with per-prop sort order', () => {
+    const input = [
+      { a: 2, b: null },
+      { a: 1, b: 6 },
+      { a: null, b: null },
+      { a: 2, b: 2 },
+      { a: null, b: 3 },
+      { a: null, b: 1 },
+      { a: null, b: 4 },
+    ];
+    const expected = [
+      { a: 2, b: 2 },
+      { a: 2, b: null },
+      { a: 1, b: 6 },
+      { a: null, b: 1 },
+      { a: null, b: 3 },
+      { a: null, b: 4 },
+      { a: null, b: null },
+    ];
+    const sorter = makeMultiSorter({ a: ORDER_DESC }, { b: ORDER_ASC });
+    expect(input.slice().sort(sorter)).toEqual(expected);
+  });
+
+  it('handles field duplicates', () => {
+    const input = [{ a: 1, b: 2 }, { a: 2, b: 1 }, { a: 1, b: 1 }];
+    const expected = [{ a: 1, b: 2 }, { a: 1, b: 1 }, { a: 2, b: 1 }];
+    const sorter = makeMultiSorter(ORDER_ASC, 'a', 'a');
+    expect(input.slice().sort(sorter)).toEqual(expected);
+  });
+
+  it('handles field duplicates for per-prop sorting', () => {
+    const input = [{ a: 1, b: 2 }, { a: 2, b: 1 }, { a: 1, b: 1 }];
+    const expected = [{ a: 1, b: 2 }, { a: 1, b: 1 }, { a: 2, b: 1 }];
+    const sorter = makeMultiSorter({ a: ORDER_DESC }, { a: ORDER_ASC });
     expect(input.slice().sort(sorter)).toEqual(expected);
   });
 });

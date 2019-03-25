@@ -14,13 +14,17 @@ import {
   JLPT,
   JOYO,
   STROKES,
+  ORDER_ASC,
 } from '../../constants';
 import { makeMultiSorter } from '../utils';
 
 function MainTableBody(props) {
   const { coreOrderBy, orderBy, order } = props;
   const blank = <span aria-label="None">—</span>;
-  const sorter = makeMultiSorter(order, orderBy, coreOrderBy);
+  const sorter = makeMultiSorter(
+    { [orderBy]: order },
+    { [coreOrderBy]: ORDER_ASC },
+  );
   const sortedData = kanjiData.slice().sort(sorter);
 
   return (
