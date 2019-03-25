@@ -1,14 +1,22 @@
 /* -Sortable table header
 -----------------------------------------------------------------------------*/
 .sortable-th {
-  padding: 0;
+  padding: 0 !important;
 
   button,
   .btn-placeholder {
-    padding: $table-cell-padding-vertical $table-cell-padding-horizontal;
+    width: 100%;
+    padding: 5px $table-cell-padding-horizontal;
+    text-align: left;
+  }
+  &:last-child {
+    button,
+    .btn-placeholder {
+      padding-right: $table-cell-edge-padding-horizontal;
+    }
   }
   button {
-    padding: $table-cell-padding-vertical $table-cell-padding-horizontal;
+    padding: 5px $table-cell-padding-horizontal;
 
     &:hover,
     &:focus {

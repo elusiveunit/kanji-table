@@ -85,4 +85,11 @@ td {
   padding: $table-cell-padding-vertical $table-cell-padding-horizontal;
   white-space: nowrap;
   text-align: left;
+
+  &:first-child {
+    padding-left: $table-cell-edge-padding-horizontal;
+  }
+  &:last-child {
+    padding-right: $table-cell-edge-padding-horizontal;
+  }
 }

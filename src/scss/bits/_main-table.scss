@@ -1,7 +1,8 @@
 /* -The main kanji table
 -----------------------------------------------------------------------------*/
 .main-table {
-  th[scope='row'] {
-    padding-right: 30px;
+  th:first-child {
+    padding-left: 15px;
+    padding-right: 25px;
   }
 }
