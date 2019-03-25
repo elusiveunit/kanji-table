@@ -36,14 +36,14 @@ function MainTableBody(props) {
           </th>
           <td>{d[KKLC] || blank}</td>
           <td>{d[RTK] || blank}</td>
+          <td>{d[JLPT] || blank}</td>
+          <td>{d[JOYO] || blank}</td>
+          <td>{d[STROKES] || blank}</td>
           <td>{d[BUNKA] || blank}</td>
           <td>{d[AOZORA] || blank}</td>
           <td>{d[NEWS] || blank}</td>
           <td>{d[TWITTER] || blank}</td>
           <td>{d[WIKIPEDIA] || blank}</td>
-          <td>{d[JLPT] || blank}</td>
-          <td>{d[JOYO] || blank}</td>
-          <td>{d[STROKES] || blank}</td>
         </tr>
       ))}
     </tbody>
