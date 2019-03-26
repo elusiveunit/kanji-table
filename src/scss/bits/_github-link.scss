@@ -1,0 +1,28 @@
+/* -Link to source on GitHub
+-----------------------------------------------------------------------------*/
+.github-link {
+  @include theme-tint-shade-transparent(
+    $rule: color,
+    $amount: 0.25,
+    $important: true
+  );
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: $icon-size + 20px;
+  height: $icon-size + 20px;
+  padding: 10px;
+
+  &:hover,
+  &:focus {
+    @include theme-tint-shade-transparent(
+      $rule: color,
+      $amount: 0.75,
+      $important: true
+    );
+  }
+  .icon {
+    vertical-align: top;
+  }
+}
