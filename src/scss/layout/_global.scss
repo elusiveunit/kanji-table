@@ -1,11 +1,11 @@
 /* -Global page layout
 -----------------------------------------------------------------------------*/
 .root {
-  padding: 20px;
+  padding: $page-padding;
 }
 
 .app {
-  max-width: rem(800px);
+  max-width: rem($page-width);
   margin: 0 auto;
 }
 

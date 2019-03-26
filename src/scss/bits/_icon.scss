@@ -3,8 +3,8 @@
 .icon {
   display: inline-block;
   vertical-align: middle;
-  width: 16px;
-  height: 16px;
+  width: $icon-size;
+  height: $icon-size;
 
   svg {
     display: inline-block;
@@ -20,5 +20,5 @@
   display: inline-block;
   vertical-align: middle;
   width: 0;
-  height: 16px;
+  height: $icon-size;
 }

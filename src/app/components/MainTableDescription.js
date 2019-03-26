@@ -1,9 +1,13 @@
 import React from 'react';
 
+import Collapsible from './Collapsible';
+
 export default function MainTableDescription() {
   return (
-    <div id="main-table-description">
-      <h2>Column descriptions and sources/credits</h2>
+    <Collapsible
+      id="main-table-description"
+      heading="Column descriptions and sources/credits"
+    >
       <ul>
         <li>
           The <strong>order</strong> column values are positional numbers from
@@ -93,7 +97,7 @@ export default function MainTableDescription() {
           The <strong>strokes</strong> column simply contains the stroke count.
         </li>
       </ul>
-    </div>
+    </Collapsible>
   );
 }
 MainTableDescription.displayName = 'MainTableDescription';

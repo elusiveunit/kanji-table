@@ -1,0 +1,81 @@
+/* -Collapsible sections
+-----------------------------------------------------------------------------*/
+$collapsible-toggle-size: 40px;
+
+.collapsible {
+  position: relative;
+  margin-bottom: $base-type-spacing;
+}
+
+.collapsible-toggle {
+  position: absolute;
+  top: 0;
+  left: -$collapsible-toggle-size;
+  width: $collapsible-toggle-size;
+  height: $collapsible-toggle-size;
+  line-height: $collapsible-toggle-size;
+
+  .icon {
+    position: relative;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: $icon-size + 10px;
+      height: $icon-size + 10px;
+      top: -5px;
+      left: -5px;
+      border-radius: 3px;
+      z-index: 1;
+    }
+    svg {
+      position: relative;
+      transition: transform 0.15s ease;
+      z-index: 2;
+    }
+  }
+  &:hover,
+  &:focus {
+    .icon::before {
+      @include theme-tint-shade-transparent(
+        $rule: background-color,
+        $amount: 0.1
+      );
+    }
+  }
+  .show-focus &:focus {
+    outline: 0;
+
+    .icon::before {
+      outline: 2px dotted;
+    }
+  }
+}
+
+.collapsible--collapsed {
+  .collapsible-toggle .icon svg {
+    transform: rotate(-90deg);
+  }
+  .collapsible-content {
+    display: none;
+  }
+}
+
+@include media-max(
+  rem($page-width + ($page-padding * 2) + $collapsible-toggle-size)
+) {
+  .collapsible-heading {
+    padding-right: $collapsible-toggle-size;
+  }
+  .collapsible-toggle {
+    left: auto;
+    right: 0;
+  }
+}
+
+@include media-max(rem($media-query-smaller-type)) {
+  .collapsible-toggle {
+    top: -5px;
+  }
+}

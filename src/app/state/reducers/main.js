@@ -1,23 +1,20 @@
-import { assign, mapObject } from '../../utils';
+import { mapObject } from '../../utils';
+
 import ordering, { initialState as initialOrderingState } from './ordering';
+import ui, { initialState as initialUiState } from './ui';
 
 export const initialState = {
-  ordering: initialOrderingState,
   filtering: [],
+  ordering: initialOrderingState,
+  ui: initialUiState,
 };
 
 const reducers = {
-  ordering,
   filtering: (s) => s,
+  ordering,
+  ui,
 };
 
 export default function mainReducer(state, action) {
   return mapObject(reducers, (reducer, key) => reducer(state[key], action));
-  /* return Object.keys(reducers).reduce(
-    (newState, stateTreeKey) =>
-      assign(newState, {
-        [stateTreeKey]: reducers[stateTreeKey](state[stateTreeKey], action),
-      }),
-    {},
-  ); */
 }
