@@ -17,8 +17,6 @@ export default class Skiplink extends React.Component {
   };
 
   handleClick = (e) => {
-    e.preventDefault();
-
     const id = e.target.getAttribute('href').replace(/^#/, '');
     const element = document.getElementById(id);
     if (element) {
@@ -29,7 +27,6 @@ export default class Skiplink extends React.Component {
         element.tabIndex = -1;
       }
 
-      element.scrollIntoView();
       element.focus();
     }
   };
