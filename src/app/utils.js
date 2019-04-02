@@ -1,4 +1,5 @@
-import { ORDER_ASC } from '../constants';
+import kanjiData from '../../data/kanji.json';
+import { ORDER_ASC, ORDER_DESC } from '../constants';
 
 /**
  * Check if currently running in a prerendering task.
@@ -156,6 +157,46 @@ export function getSortValue(raw) {
 }
 
 /**
+ * Sort numeric array values.
+ *
+ * @param {*} a - First value.
+ * @param {*} b - Second value.
+ * @param {string} [order] - Sort order, defaults to ascending.
+ */
+export function sort(a, b, order = ORDER_ASC) {
+  const aNum = getSortValue(a);
+  const bNum = getSortValue(b);
+  // Always put null values last.
+  if (aNum === null) {
+    return 1;
+  }
+  if (bNum === null) {
+    return -1;
+  }
+  return order === ORDER_ASC ? aNum - bNum : bNum - aNum;
+}
+
+/**
+ * Sort array values in ascending order. (Callback for `array.sort()`.)
+ *
+ * @param {*} a - First value.
+ * @param {*} b - Second value.
+ */
+export function sortAsc(a, b) {
+  return sort(a, b, ORDER_ASC);
+}
+
+/**
+ * Sort array values in descending order. (Callback for `array.sort()`.)
+ *
+ * @param {*} a - First value.
+ * @param {*} b - Second value.
+ */
+export function sortDesc(a, b) {
+  return sort(a, b, ORDER_DESC);
+}
+
+/**
  * Create a sorting function for an array of objects.
  *
  * @param {string} order - Sort order, ASC or DESC.
@@ -170,16 +211,7 @@ export function getSortValue(raw) {
  */
 export function makeSorter(order, orderBy) {
   return function sorter(a, b) {
-    const aNum = getSortValue(a[orderBy]);
-    const bNum = getSortValue(b[orderBy]);
-    // Always put null values last.
-    if (aNum === null) {
-      return 1;
-    }
-    if (bNum === null) {
-      return -1;
-    }
-    return order === ORDER_ASC ? aNum - bNum : bNum - aNum;
+    return sort(a[orderBy], b[orderBy], order);
   };
 }
 
@@ -241,4 +273,20 @@ export function makeMultiSorter(order, ...fields) {
     }
     return result;
   };
+}
+
+/**
+ * Get unique select options from the kanji data.
+ *
+ * @param {string} key Data key.
+ * @return {Array.<Object>} Objects with `label` and `value`.
+ */
+export function getDataSelectOptions(key) {
+  return Array.from(new Set(kanjiData.map((item) => item[key])))
+    .filter((val) => Boolean(val))
+    .sort(sortAsc)
+    .map((val) => ({
+      label: val,
+      value: val,
+    }));
 }

@@ -1,0 +1,34 @@
+/* -Base form elements
+-----------------------------------------------------------------------------*/
+input[type='number'],
+input[type='search'],
+input[type='text'],
+textarea {
+  height: rem($form-control-height);
+  padding: 0 rem($form-control-padding);
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 1rem;
+  background-color: #fff;
+  transition: border-color 0.15s linear;
+
+  &:focus {
+    @include theme-rule(border-color, 'action');
+    outline: 0;
+  }
+}
+
+select {
+  height: rem($form-control-height);
+  padding: 0 rem($form-control-padding);
+}
+
+input[type='number'],
+input[type='search'],
+input[type='text'],
+textarea,
+select {
+  .show-focus &:focus {
+    outline: 2px dotted;
+  }
+}

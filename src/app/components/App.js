@@ -5,6 +5,7 @@ import { StoreProvider } from '../state/store';
 import { IS_PRERENDERING } from '../utils';
 
 import AppIntro from './AppIntro';
+import Filter from './Filter';
 import Focus from './Focus';
 import MainTable from './MainTable';
 import MainTableDescription from './MainTableDescription';
@@ -42,6 +43,7 @@ export default function App() {
           <AppIntro />
           <MainTableDescription />
         </div>
+        <Filter />
         <MainTable />
       </div>
     </StoreProvider>
