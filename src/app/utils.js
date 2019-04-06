@@ -1,5 +1,13 @@
 import kanjiData from '../../data/kanji.json';
-import { ORDER_ASC, ORDER_DESC } from '../constants';
+import {
+  FREQUENCY_NAME,
+  FREQUENCY_KEYS,
+  KANJI,
+  MAX_SUFFIX,
+  MIN_SUFFIX,
+  ORDER_ASC,
+  ORDER_DESC,
+} from '../constants';
 
 /**
  * Check if currently running in a prerendering task.
@@ -253,7 +261,8 @@ export function makeSorter(order, orderBy) {
 export function makeMultiSorter(order, ...fields) {
   // Assume per-prop sorting objects if the first is an object.
   const isPerProp = typeof order === 'object';
-  const sortFields = isPerProp ? [order, ...fields] : fields;
+  const filteredFields = fields.filter((f) => Boolean(f));
+  const sortFields = isPerProp ? [order, ...filteredFields] : filteredFields;
   const sorters = sortFields.reduce((acc, field) => {
     const fieldName = isPerProp ? getKey(field) : field;
     const fieldOrder = isPerProp ? getValue(field) : order;
@@ -289,4 +298,53 @@ export function getDataSelectOptions(key) {
       label: val,
       value: val,
     }));
+}
+
+const MAX_SUFFIX_REGEX = new RegExp(`${MAX_SUFFIX}$`);
+const MIN_SUFFIX_REGEX = new RegExp(`${MIN_SUFFIX}$`);
+const MIN_MAX_SUFFIX_REGEX = new RegExp(`(${MIN_SUFFIX}|${MAX_SUFFIX})$`);
+
+export function isMaxFilter(filterKey) {
+  return MAX_SUFFIX_REGEX.test(filterKey);
+}
+
+export function isMinFilter(filterKey) {
+  return MIN_SUFFIX_REGEX.test(filterKey);
+}
+
+export function getRangeFilterDataKey(filterKey) {
+  return filterKey.replace(MIN_MAX_SUFFIX_REGEX, '');
+}
+
+export function isRangeFilter(filterKey) {
+  return isMinFilter(filterKey) || isMaxFilter(filterKey);
+}
+
+export function inRange(value, min, max) {
+  if (!min && !max) {
+    return value;
+  }
+  if (min && max) {
+    return value >= min && value <= max;
+  }
+  return min ? value >= min : value <= max;
+}
+
+export function filterKanjiData(data, filters) {
+  return data.filter((row) =>
+    filters.every(({ key, value }) => {
+      if (key === KANJI) {
+        return value.indexOf(row[KANJI]) !== -1;
+      }
+      if (isRangeFilter(key)) {
+        const dataKey = getRangeFilterDataKey(key);
+        const min = isMinFilter(key) ? value : null;
+        const max = isMaxFilter(key) ? value : null;
+        return dataKey === FREQUENCY_NAME
+          ? FREQUENCY_KEYS.every((freqKey) => inRange(row[freqKey], min, max))
+          : inRange(row[dataKey], min, max);
+      }
+      return row[key] === value;
+    }),
+  );
 }

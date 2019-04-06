@@ -1,20 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
-import kanjiData from '../../../data/kanji.json';
-import {
-  KKLC,
-  RTK,
-  AOZORA,
-  NEWS,
-  TWITTER,
-  WIKIPEDIA,
-  BUNKA,
-  JLPT,
-  JOYO,
-  STROKES,
-} from '../../constants';
-import { useStoreState } from '../state/store';
-import { setOrdering } from '../state/actions/ordering';
+import { KANJI, JLPT, JOYO, STROKES } from '../../constants';
+import { useDispatch } from '../state/store';
+import { filter } from '../state/actions/filtering';
 import { getDataSelectOptions } from '../utils';
 
 import BetweenInput from './BetweenInput';
@@ -23,12 +11,15 @@ import Select from './Select';
 
 const JLPT_OPTIONS = getDataSelectOptions(JLPT);
 const JOYO_OPTIONS = getDataSelectOptions(JOYO);
+const FREQUENCY_NAME = 'frequency';
 
 export default function Filter() {
-  const [ordering, d] = useStoreState((state) => state.ordering, {
-    setOrdering,
+  const d = useDispatch({ filter });
+  const handleChange = useCallback((e) => {
+    const val = e.target.value;
+    const intVal = parseInt(val, 10);
+    d.filter(e.target.name, val === String(intVal) ? intVal : val);
   });
-  const handleChange = () => {};
 
   return (
     <Collapsible id="filter" heading="Filter" className="filter">
@@ -38,6 +29,7 @@ export default function Filter() {
           <input
             type="text"
             id="filter-kanji"
+            name={KANJI}
             className="jp"
             onChange={handleChange}
           />
@@ -45,6 +37,7 @@ export default function Filter() {
       </div>
       <Select
         id="filter-jlpt"
+        name={JLPT}
         className="filter-jlpt"
         label="JLPT level"
         emptyOptionLabel="Any"
@@ -53,6 +46,7 @@ export default function Filter() {
       />
       <Select
         id="filter-joyo"
+        name={JOYO}
         className="filter-joyo"
         label="Jōyō grade"
         emptyOptionLabel="Any"
@@ -61,6 +55,7 @@ export default function Filter() {
       />
       <BetweenInput
         label="Stroke count"
+        name={STROKES}
         id="filter-stroke-count"
         className="filter-stroke-count"
         onMinChange={handleChange}
@@ -68,6 +63,7 @@ export default function Filter() {
       />
       <BetweenInput
         label="Frequency"
+        name={FREQUENCY_NAME}
         id="filter-frequency"
         className="filter-frequency"
         onMinChange={handleChange}

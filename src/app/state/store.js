@@ -60,6 +60,24 @@ export function useStoreState(mapState, mapDispatch) {
 }
 
 /**
+ * Hook that returns dispatch-wrapped action creators.
+ *
+ * @param {Object} mapDispatch - Map of action creator functions. For each
+ *   function, a new one will be returned that is warpped in dispatch.
+ * @example
+ *
+ * // Can call `d.incrementAnimal()` which will be the same as calling
+ * // `dispatch(incrementAnimal())`
+ * const d = useDispatch({ incrementAnimal });
+ */
+export function useDispatch(mapDispatch) {
+  const dispatch = useContext(StoreContext)[1];
+  return mapObject(mapDispatch, (action) => (...args) =>
+    dispatch(action(...args)),
+  );
+}
+
+/**
  * Higher order component that will return a new component with state and
  * action dispatchers added to props.
  *

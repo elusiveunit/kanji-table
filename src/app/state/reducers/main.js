@@ -1,16 +1,17 @@
 import { mapObject } from '../../utils';
 
-import ordering, { initialState as initialOrderingState } from './ordering';
-import ui, { initialState as initialUiState } from './ui';
+import filtering, { initialState as filteringInitialState } from './filtering';
+import ordering, { initialState as orderingInitialState } from './ordering';
+import ui, { initialState as uiInitialState } from './ui';
 
 export const initialState = {
-  filtering: [],
-  ordering: initialOrderingState,
-  ui: initialUiState,
+  filtering: filteringInitialState,
+  ordering: orderingInitialState,
+  ui: uiInitialState,
 };
 
 const reducers = {
-  filtering: (s) => s,
+  filtering,
   ordering,
   ui,
 };

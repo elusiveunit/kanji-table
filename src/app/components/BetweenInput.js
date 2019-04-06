@@ -1,6 +1,8 @@
 import React from 'react';
 import pt from 'prop-types';
 
+import { MAX_SUFFIX, MIN_SUFFIX } from '../../constants';
+
 export default function BetweenInput(props) {
   const { className, label, id, name, onMaxChange, onMinChange } = props;
 
@@ -14,22 +16,22 @@ export default function BetweenInput(props) {
         {label}:
       </span>
       <span aria-hidden="true">Between</span>
-      <label htmlFor={`${id}-min`}>
+      <label htmlFor={`${id}${MIN_SUFFIX}`}>
         <span className="visuallyhidden">Minimum {label.toLowerCase()}:</span>
         <input
           type="number"
-          id={`${id}-min`}
-          name={`${name}-min`}
+          id={`${id}${MIN_SUFFIX}`}
+          name={`${name}${MIN_SUFFIX}`}
           onChange={onMinChange}
         />
       </label>
       <span aria-hidden="true">and</span>
-      <label htmlFor={`${id}-max`}>
+      <label htmlFor={`${id}${MAX_SUFFIX}`}>
         <span className="visuallyhidden">Maximum {label.toLowerCase()}:</span>
         <input
           type="number"
-          id={`${id}-max`}
-          name={`${name}-max`}
+          id={`${id}${MAX_SUFFIX}`}
+          name={`${name}${MAX_SUFFIX}`}
           onChange={onMaxChange}
         />
       </label>

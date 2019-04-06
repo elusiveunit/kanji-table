@@ -16,20 +16,21 @@ import {
   STROKES,
   ORDER_ASC,
 } from '../../constants';
-import { makeMultiSorter } from '../utils';
+import { filterKanjiData, makeMultiSorter } from '../utils';
 
 function MainTableBody(props) {
-  const { coreOrderBy, orderBy, order } = props;
+  const { coreOrderBy, filters, orderBy, order } = props;
   const blank = <span aria-label="None">—</span>;
   const sorter = makeMultiSorter(
     { [orderBy]: order },
-    { [coreOrderBy]: ORDER_ASC },
+    coreOrderBy !== orderBy ? { [coreOrderBy]: ORDER_ASC } : null,
   );
-  const sortedData = kanjiData.slice().sort(sorter);
+  const resultData = filterKanjiData(kanjiData, filters).sort(sorter);
+  // const resultData = kanjiData.slice().sort(sorter);
 
   return (
     <tbody>
-      {sortedData.map((d) => (
+      {resultData.map((d) => (
         <tr key={d[KANJI]}>
           <th scope="row" lang="ja">
             {d[KANJI]}
@@ -52,6 +53,9 @@ function MainTableBody(props) {
 MainTableBody.displayName = 'MainTableBody';
 MainTableBody.propTypes = {
   coreOrderBy: pt.string.isRequired,
+  filters: pt.arrayOf(
+    pt.shape({ key: pt.string, value: pt.oneOfType([pt.string, pt.number]) }),
+  ).isRequired,
   order: pt.string.isRequired,
   orderBy: pt.string.isRequired,
 };
@@ -59,7 +63,8 @@ MainTableBody.propTypes = {
 function propsAreEqual(prevProps, nextProps) {
   return (
     prevProps.order === nextProps.order &&
-    prevProps.orderBy === nextProps.orderBy
+    prevProps.orderBy === nextProps.orderBy &&
+    prevProps.filters === nextProps.filters
   );
 }
 export default React.memo(MainTableBody, propsAreEqual);

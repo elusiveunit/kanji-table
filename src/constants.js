@@ -32,6 +32,8 @@ module.exports = {
   ORDER_DESC: 'DESC',
   ORDER_NONE: 'NONE',
 
+  MAX_SUFFIX: '-max',
+  MIN_SUFFIX: '-min',
   FREQUENCY_NAME: 'frequency',
   FREQUENCY_KEYS: [AOZORA, NEWS, TWITTER, WIKIPEDIA, BUNKA],
 };
