@@ -1,0 +1,48 @@
+/* -Filter controls
+-----------------------------------------------------------------------------*/
+$filter-spacing: 15px;
+
+.filter {
+  label .text {
+    display: inline-block;
+    margin-bottom: 0.25em;
+    font-weight: $font-weight-bold;
+  }
+}
+
+.filter-kanji {
+  margin: 5px 0 $filter-spacing;
+
+  textarea {
+    display: block;
+    width: 100%;
+  }
+}
+
+.filter-jlpt,
+.filter-joyo,
+.filter-stroke-count,
+.filter-frequency {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 1.75em $filter-spacing 0;
+}
+
+.filter-jlpt,
+.filter-joyo {
+  select {
+    display: block;
+    min-width: 100%;
+  }
+}
+
+.filter-stroke-count {
+  input {
+    width: 3em;
+  }
+}
+
+.filter-reset {
+  margin-bottom: $filter-spacing;
+  vertical-align: bottom;
+}

@@ -1,4 +1,13 @@
-import { ORDER_ASC } from '../constants';
+import kanjiData from '../../data/kanji.json';
+import {
+  FREQUENCY_NAME,
+  FREQUENCY_KEYS,
+  KANJI,
+  MAX_SUFFIX,
+  MIN_SUFFIX,
+  ORDER_ASC,
+  ORDER_DESC,
+} from '../constants';
 
 /**
  * Check if currently running in a prerendering task.
@@ -21,6 +30,26 @@ function isPrerendering() {
  * @type {boolean}
  */
 export const IS_PRERENDERING = isPrerendering();
+
+/**
+ * Check if a value is truthy.
+ *
+ * @param {*} val - The value to check.
+ * @return {boolean}
+ */
+export function isTruthy(val) {
+  return Boolean(val);
+}
+
+/**
+ * Check if a value is a number or numeric string.
+ *
+ * @param {*} val - The value to check.
+ * @return {boolean}
+ */
+export function isNumeric(val) {
+  return typeof val === 'number' || val === String(Number(val));
+}
 
 /**
  * Assign properties of objects from left to right.
@@ -156,6 +185,46 @@ export function getSortValue(raw) {
 }
 
 /**
+ * Sort numeric array values.
+ *
+ * @param {*} a - First value.
+ * @param {*} b - Second value.
+ * @param {string} [order] - Sort order, defaults to ascending.
+ */
+export function sort(a, b, order = ORDER_ASC) {
+  const aNum = getSortValue(a);
+  const bNum = getSortValue(b);
+  // Always put null values last.
+  if (aNum === null) {
+    return 1;
+  }
+  if (bNum === null) {
+    return -1;
+  }
+  return order === ORDER_ASC ? aNum - bNum : bNum - aNum;
+}
+
+/**
+ * Sort array values in ascending order. (Callback for `array.sort()`.)
+ *
+ * @param {*} a - First value.
+ * @param {*} b - Second value.
+ */
+export function sortAsc(a, b) {
+  return sort(a, b, ORDER_ASC);
+}
+
+/**
+ * Sort array values in descending order. (Callback for `array.sort()`.)
+ *
+ * @param {*} a - First value.
+ * @param {*} b - Second value.
+ */
+export function sortDesc(a, b) {
+  return sort(a, b, ORDER_DESC);
+}
+
+/**
  * Create a sorting function for an array of objects.
  *
  * @param {string} order - Sort order, ASC or DESC.
@@ -170,16 +239,7 @@ export function getSortValue(raw) {
  */
 export function makeSorter(order, orderBy) {
   return function sorter(a, b) {
-    const aNum = getSortValue(a[orderBy]);
-    const bNum = getSortValue(b[orderBy]);
-    // Always put null values last.
-    if (aNum === null) {
-      return 1;
-    }
-    if (bNum === null) {
-      return -1;
-    }
-    return order === ORDER_ASC ? aNum - bNum : bNum - aNum;
+    return sort(a[orderBy], b[orderBy], order);
   };
 }
 
@@ -221,7 +281,8 @@ export function makeSorter(order, orderBy) {
 export function makeMultiSorter(order, ...fields) {
   // Assume per-prop sorting objects if the first is an object.
   const isPerProp = typeof order === 'object';
-  const sortFields = isPerProp ? [order, ...fields] : fields;
+  const filteredFields = fields.filter(isTruthy);
+  const sortFields = isPerProp ? [order, ...filteredFields] : filteredFields;
   const sorters = sortFields.reduce((acc, field) => {
     const fieldName = isPerProp ? getKey(field) : field;
     const fieldOrder = isPerProp ? getValue(field) : order;
@@ -241,4 +302,69 @@ export function makeMultiSorter(order, ...fields) {
     }
     return result;
   };
+}
+
+/**
+ * Get unique select options from the kanji data.
+ *
+ * @param {string} key Data key.
+ * @return {Array.<Object>} Objects with `label` and `value`.
+ */
+export function getDataSelectOptions(key) {
+  return Array.from(new Set(kanjiData.map((item) => item[key])))
+    .filter(isTruthy)
+    .sort(sortAsc)
+    .map((val) => ({
+      label: val,
+      value: val,
+    }));
+}
+
+const MAX_SUFFIX_REGEX = new RegExp(`${MAX_SUFFIX}$`);
+const MIN_SUFFIX_REGEX = new RegExp(`${MIN_SUFFIX}$`);
+const MIN_MAX_SUFFIX_REGEX = new RegExp(`(${MIN_SUFFIX}|${MAX_SUFFIX})$`);
+
+export function isMaxFilter(filterKey) {
+  return MAX_SUFFIX_REGEX.test(filterKey);
+}
+
+export function isMinFilter(filterKey) {
+  return MIN_SUFFIX_REGEX.test(filterKey);
+}
+
+export function isRangeFilter(filterKey) {
+  return isMinFilter(filterKey) || isMaxFilter(filterKey);
+}
+
+export function getRangeFilterDataKey(filterKey) {
+  return filterKey.replace(MIN_MAX_SUFFIX_REGEX, '');
+}
+
+export function inRange(value, min, max) {
+  if (!min && !max) {
+    return value;
+  }
+  if (min && max) {
+    return value >= min && value <= max;
+  }
+  return min ? value >= min : value <= max;
+}
+
+export function filterKanjiData(data, filters) {
+  return data.filter((row) =>
+    filters.every(({ key, value }) => {
+      if (key === KANJI) {
+        return value.indexOf(row[KANJI]) !== -1;
+      }
+      if (isRangeFilter(key)) {
+        const dataKey = getRangeFilterDataKey(key);
+        const min = isMinFilter(key) ? value : null;
+        const max = isMaxFilter(key) ? value : null;
+        return dataKey === FREQUENCY_NAME
+          ? FREQUENCY_KEYS.every((freqKey) => inRange(row[freqKey], min, max))
+          : inRange(row[dataKey], min, max);
+      }
+      return row[key] === value;
+    }),
+  );
 }

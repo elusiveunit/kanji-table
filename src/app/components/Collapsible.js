@@ -15,9 +15,12 @@ export default function Collapsible(props) {
   const classSuffix = isCollapsed ? 'collapsed' : 'expanded';
   const headingId = `${id}-heading`;
   const contentId = `collapsible-${id}`;
+  const className = `collapsible collapsible--${classSuffix} ${
+    props.className
+  }`.trim();
 
   return (
-    <div className={`collapsible collapsible--${classSuffix}`} id={id}>
+    <div className={className} id={id}>
       <h2 className="collapsible-heading" id={headingId}>
         {heading}
       </h2>
@@ -45,6 +48,10 @@ export default function Collapsible(props) {
 Collapsible.displayName = 'Collapsible';
 Collapsible.propTypes = {
   children: pt.node.isRequired,
+  className: pt.string,
   heading: pt.string.isRequired,
   id: pt.string.isRequired,
+};
+Collapsible.defaultProps = {
+  className: '',
 };

@@ -2,17 +2,23 @@ import React from 'react';
 
 const CLASS_NAME_HIDE = 'hide-focus';
 const CLASS_NAME_SHOW = 'show-focus';
-const SHOW_FOCUS_KEYS = [
+const ARROW_KEYS = ['ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp'];
+const SHOW_FOCUS_KEYS = ARROW_KEYS.concat([
   ' ',
-  'ArrowDown',
-  'ArrowLeft',
-  'ArrowRight',
-  'ArrowUp',
   'Enter',
   'Escape',
   'Space',
   'Spacebar',
   'Tab',
+]);
+const TEXT_INPUT_TYPES = [
+  'email',
+  'number',
+  'password',
+  'search',
+  'tel',
+  'text',
+  'url',
 ];
 
 /**
@@ -57,7 +63,7 @@ export default class Focus extends React.Component {
       this.target.addEventListener('mousedown', this.handlePointer);
     }
 
-    this.target.addEventListener('keydown', this.handleKeyboard);
+    this.target.addEventListener('keyup', this.handleKeyboard);
   }
 
   /**
@@ -72,6 +78,16 @@ export default class Focus extends React.Component {
 
     // Check for common control keys
     if (SHOW_FOCUS_KEYS.includes(e.key)) {
+      // Moving the cursor in a text field doesn't count
+      const nodeName = e.target ? (e.target.nodeName || '').toLowerCase() : '';
+      if (
+        ARROW_KEYS.includes(e.key) &&
+        (nodeName === 'textarea' ||
+          (nodeName === 'input' && TEXT_INPUT_TYPES.includes(e.target.type)))
+      ) {
+        return;
+      }
+
       this.showFocus();
     }
   };

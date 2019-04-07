@@ -90,4 +90,7 @@ td {
   &:last-child {
     padding-right: $table-cell-edge-padding-horizontal;
   }
+  tbody tr:last-child & {
+    border-bottom: 0;
+  }
 }

@@ -18,9 +18,10 @@ import SortableTh from './SortableTh';
 import MainTableBody from './MainTableBody';
 
 export default function MainTable() {
-  const [ordering, d] = useStoreState((state) => state.ordering, {
-    setOrdering,
-  });
+  const [{ filtering, ordering }, d] = useStoreState(
+    (state) => ({ filtering: state.filtering, ordering: state.ordering }),
+    { setOrdering },
+  );
   const thProps = { setOrdering: d.setOrdering, ...ordering };
 
   return (
@@ -68,7 +69,7 @@ export default function MainTable() {
             <SortableTh {...thProps} field={WIKIPEDIA} text="Wiki" />
           </tr>
         </thead>
-        <MainTableBody {...ordering} />
+        <MainTableBody {...ordering} filters={filtering.filters} />
       </table>
     </div>
   );
