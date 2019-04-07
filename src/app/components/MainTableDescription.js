@@ -26,6 +26,32 @@ export default function MainTableDescription() {
           </ul>
         </li>
         <li>
+          The <strong>grade</strong> column values are school or test grades to
+          get a sense of&nbsp;difficulty.
+          <ul>
+            <li>
+              <strong>JLPT:</strong> <em>estimated</em>{' '}
+              <a href="https://www.jlpt.jp/e/">
+                JLPT (Japanese Language Proficiency Test)
+              </a>{' '}
+              level, from{' '}
+              <a href="http://www.tanos.co.uk/jlpt/skills/kanji/">
+                Jonathan Waller’s JLPT Resources
+              </a>
+              , since there is no official JLPT kanji&nbsp;list.
+            </li>
+            <li>
+              <strong>Jōyō:</strong> The grade in which the kanji is taught in
+              schools in Japan, where the numbers represent grade 1-6 in
+              elementary school while ’S’ means it’s taught in
+              secondary&nbsp;school.
+            </li>
+          </ul>
+        </li>
+        <li>
+          The <strong>strokes</strong> column simply contains the stroke count.
+        </li>
+        <li>
           The <strong>frequency</strong> column values are rankings for how
           often a kanji appears in different contexts, where a lower number
           means it appears more often (e.g. number 1 is the most
@@ -35,7 +61,7 @@ export default function MainTableDescription() {
               <strong>Bunka:</strong> rank from the{' '}
               <a href="http://www.bunka.go.jp/seisaku/bunkashingikai/kokugo/kanji_kako/24/pdf/sanko_3.pdf">
                 Kanji frequency list ver. 1.3 by the Japanese Agency for
-                Cultural&nbsp;Affairs
+                Cultural&nbsp;Affairs (PDF)
               </a>
               .
             </li>
@@ -69,32 +95,6 @@ export default function MainTableDescription() {
               . See the repository README for&nbsp;details.
             </li>
           </ul>
-        </li>
-        <li>
-          The <strong>grade</strong> column values are school or test grades to
-          get a sense of&nbsp;difficulty.
-          <ul>
-            <li>
-              <strong>JLPT:</strong> <em>estimated</em>{' '}
-              <a href="https://www.jlpt.jp/e/">
-                JLPT (Japanese Language Proficiency Test)
-              </a>{' '}
-              level, from{' '}
-              <a href="http://www.tanos.co.uk/jlpt/skills/kanji/">
-                Jonathan Waller’s JLPT Resources
-              </a>
-              , since there is no official JLPT kanji&nbsp;list.
-            </li>
-            <li>
-              <strong>Jōyō:</strong> The grade in which the kanji is taught in
-              schools in Japan, where the numbers represent grade 1-6 in
-              elementary school while ’S’ means it’s taught in
-              secondary&nbsp;school.
-            </li>
-          </ul>
-        </li>
-        <li>
-          The <strong>strokes</strong> column simply contains the stroke count.
         </li>
       </ul>
     </Collapsible>
