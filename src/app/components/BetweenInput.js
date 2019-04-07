@@ -5,6 +5,10 @@ import { MAX_SUFFIX, MIN_SUFFIX } from '../../constants';
 import TextField from './TextField';
 
 export default function BetweenInput(props) {
+  // There are proper labels in the TextField component, the labels here are
+  // just to make the text clickable.
+  /* eslint-disable jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for */
+
   const {
     className,
     label,
@@ -25,7 +29,9 @@ export default function BetweenInput(props) {
       <span id={`${id}-label`} className="between-input-label">
         {label}:
       </span>
-      <span aria-hidden="true">Between</span>
+      <label htmlFor={`${id}${MIN_SUFFIX}`} aria-hidden="true">
+        Between
+      </label>
       <TextField
         label={`Minimum ${label.toLowerCase()}`}
         hasVisibleLabel={false}
@@ -35,7 +41,9 @@ export default function BetweenInput(props) {
         onChange={onMinChange}
         pattern="[0-9]*"
       />
-      <span aria-hidden="true">and</span>
+      <label htmlFor={`${id}${MAX_SUFFIX}`} aria-hidden="true">
+        and
+      </label>
       <TextField
         label={`Maximum ${label.toLowerCase()}`}
         hasVisibleLabel={false}
