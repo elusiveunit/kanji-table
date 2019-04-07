@@ -1,7 +1,13 @@
 import React from 'react';
 import pt from 'prop-types';
 
-const AVAILABLE_ICON_NAMES = ['chevron-down', 'chevron-up', 'github', 'sort'];
+const AVAILABLE_ICON_NAMES = [
+  'chevron-down',
+  'chevron-up',
+  'github',
+  'palette',
+  'sort',
+];
 
 export default function Icon(props) {
   return (

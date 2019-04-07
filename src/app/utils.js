@@ -165,6 +165,27 @@ export function cycleValues(current, ...values) {
   return index + 1 >= values.length ? values[0] : values[index + 1];
 }
 
+/**
+ * Get unique select options from the kanji data.
+ *
+ * @param {string} key Data key.
+ * @return {Array.<Object>} Objects with `label` and `value`.
+ */
+export function getDataSelectOptions(key) {
+  return (
+    Array.from(new Set(kanjiData.map((item) => item[key])))
+      .filter(isTruthy)
+      // eslint-disable-next-line no-use-before-define
+      .sort(sortAsc)
+      .map((val) => ({
+        label: val,
+        value: val,
+      }))
+  );
+}
+
+/* -------------------- Ordering -------------------- */
+
 const NUM_REGEX = /\d+/;
 
 /**
@@ -304,21 +325,7 @@ export function makeMultiSorter(order, ...fields) {
   };
 }
 
-/**
- * Get unique select options from the kanji data.
- *
- * @param {string} key Data key.
- * @return {Array.<Object>} Objects with `label` and `value`.
- */
-export function getDataSelectOptions(key) {
-  return Array.from(new Set(kanjiData.map((item) => item[key])))
-    .filter(isTruthy)
-    .sort(sortAsc)
-    .map((val) => ({
-      label: val,
-      value: val,
-    }));
-}
+/* -------------------- Filtering -------------------- */
 
 const MAX_SUFFIX_REGEX = new RegExp(`${MAX_SUFFIX}$`);
 const MIN_SUFFIX_REGEX = new RegExp(`${MIN_SUFFIX}$`);
@@ -367,4 +374,125 @@ export function filterKanjiData(data, filters) {
       return row[key] === value;
     }),
   );
+}
+
+/* -------------------- Cookies -------------------- */
+// Based on https://github.com/madmurphy/cookies.js
+
+const INVALID_COOKIE_KEYS_REGEX = /^(?:expires|max-age|path|domain|secure)$/i;
+
+/**
+ * Encode and filter cookie key.
+ *
+ * @ignore
+ * @param {string} key - The raw key.
+ * @return {string}
+ */
+function formatCookieKey(key) {
+  return encodeURIComponent(key).replace(/[-.+*]/g, '\\$&');
+}
+
+/**
+ * Get a cookie value.
+ *
+ * @param {string} key - Cookie key.
+ * @return {string?} The value, or null if not set.
+ */
+export function getCookie(key) {
+  if (!key) {
+    throw new Error('Missing cookie key');
+  }
+  return (
+    decodeURIComponent(
+      document.cookie.replace(
+        new RegExp(
+          `(?:(?:^|.*;)\\s*${formatCookieKey(key)}\\s*\\=\\s*([^;]*).*$)|^.*$`,
+        ),
+        '$1',
+      ),
+    ) || null
+  );
+}
+
+/**
+ * Set a cookie value.
+ *
+ * @param {string} key - Cookie key.
+ * @param {string} value - Cookie value.
+ * @param {number} [end] - Expire time in seconds, defaults to one year.
+ * @param {string} [path] - Cookie path, defaults to '/'.
+ * @param {string} [domain] - Cookie domain.
+ * @param {boolean} [secure] - Only transfer cookie over https.
+ */
+export function setCookie(
+  key,
+  value,
+  end = 31536000,
+  path = '/',
+  domain = null,
+  secure = false,
+) {
+  if (!key || INVALID_COOKIE_KEYS_REGEX.test(key)) {
+    throw new Error(`Missing or invalid cookie key '${key}'`);
+  }
+  let expires;
+  if (end) {
+    switch (end.constructor) {
+      case Number:
+        expires =
+          end === Infinity
+            ? '; expires=Fri, 1 Jan 2038 12:00:00 GMT'
+            : `; max-age=${end}`;
+        break;
+      case String:
+        expires = `; expires=${end}`;
+        break;
+      case Date:
+        expires = `; expires=${end.toUTCString()}`;
+        break;
+      default:
+        expires = '';
+    }
+  }
+  document.cookie = `${encodeURIComponent(key)}=${encodeURIComponent(
+    value,
+  )}${expires}${domain ? `; domain=${domain}` : ''}${
+    path ? `; path=${path}` : ''
+  }${secure ? '; secure' : ''}`;
+}
+
+/**
+ * Check if a cookie exists.
+ *
+ * @param {string} key - Cookie key.
+ * @return {boolean}
+ */
+export function hasCookie(key) {
+  if (!key || INVALID_COOKIE_KEYS_REGEX.test(key)) {
+    throw new Error(`Missing or invalid cookie key '${key}'`);
+  }
+  return new RegExp(`(?:^|;\\s*)${formatCookieKey(key)}\\s*\\=`).test(
+    document.cookie,
+  );
+}
+
+/**
+ * Remove a cookie.
+ *
+ * @param {string} key - Cookie key.
+ * @param {string} [path] - Cookie path.
+ * @param {string} [domain] - Cookie domain.
+ * @return {boolean} True if the cookie was removed, false otherwise.
+ */
+export function removeCookie(key, path, domain) {
+  if (!hasCookie(key)) {
+    return false;
+  }
+  document.cookie = `${encodeURIComponent(
+    key,
+  )}=; expires=Thu, 01 Jan 1970 00:00:00 GMT${
+    domain ? `; domain=${domain}` : ''
+  }${path ? `; path=${path}` : ''}`;
+
+  return true;
 }

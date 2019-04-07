@@ -10,6 +10,7 @@ import Focus from './Focus';
 import MainTable from './MainTable';
 import MainTableDescription from './MainTableDescription';
 import Skiplink from './Skiplink';
+import ThemeSwitcher from './ThemeSwitcher';
 
 async function onBrowserLoad() {
   if (!IS_PRERENDERING) {
@@ -41,6 +42,7 @@ export default function App() {
       <div className="app">
         <div className="app-text">
           <AppIntro />
+          <ThemeSwitcher />
           <MainTableDescription />
         </div>
         <Filter />

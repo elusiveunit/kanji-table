@@ -203,7 +203,12 @@ $themes: (
 /// @param {boolean} $reverse [false] - By default a light theme results in a
 ///   black layer. With $reverse true it will be the opposite.
 /// @param {boolean} $important [false] - Use !important.
-@mixin theme-light-dark($rule, $value-template: '{{color}}', $reverse: false) {
+@mixin theme-light-dark(
+  $rule,
+  $value-template: '{{color}}',
+  $reverse: false,
+  $important: false
+) {
   $val: unquote(
     str-replace(
       $value-template,

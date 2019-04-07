@@ -1,21 +1,69 @@
-.theme-switcher {
-  position: relative;
-  padding: 10px;
-  overflow-x: hidden;
-  overflow-y: visible;
+/* -Theme switcher dialog
+-----------------------------------------------------------------------------*/
+$theme-switcher-toggle-padding: 10px;
+$theme-switcher-toggle-size: $icon-size + ($theme-switcher-toggle-padding * 2);
 
-  fieldset {
-    @include theme-tint-shade-transparent(
-      $rule: border,
-      $value-template: '1px solid {{color}}',
-      $amount: 0.15
-    );
-    margin: 0;
-    padding: 5px 10px 10px;
+.theme-switcher {
+  position: fixed;
+  overflow: hidden;
+  bottom: 0;
+  right: 0;
+  min-width: $theme-switcher-toggle-size;
+  min-height: $theme-switcher-toggle-size;
+  padding-right: $theme-switcher-toggle-size;
+  z-index: $z-theme-switcher;
+
+  .no-js & {
+    display: none !important;
   }
   input[type='radio'] {
     position: absolute;
     left: -40px;
+  }
+}
+
+.theme-switcher-body {
+  @include theme-tint-shade-transparent(
+    $rule: border,
+    $value-template: '1px solid {{color}}',
+    $amount: 0.15
+  );
+  @include theme-background-accent;
+
+  display: none;
+  margin: 1.5em 0 0;
+  padding: 5px 15px 12px;
+
+  .theme-switcher--open & {
+    display: block;
+  }
+}
+
+.theme-switcher-toggle {
+  @include theme-tint-shade-transparent(
+    $rule: color,
+    $amount: 0.5,
+    $important: true
+  );
+
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: $theme-switcher-toggle-size;
+  height: $theme-switcher-toggle-size;
+  padding: $theme-switcher-toggle-padding;
+  transition: color 0.15s ease;
+
+  &:hover,
+  &:focus {
+    @include theme-tint-shade-transparent(
+      $rule: color,
+      $amount: 0.9,
+      $important: true
+    );
+  }
+  .icon {
+    vertical-align: top;
   }
 }
 
@@ -32,6 +80,7 @@
 
   flex-grow: 1;
   position: relative;
+  min-width: 50px;
   height: 30px;
   box-shadow: 0 0 0 3px transparent;
   transition: box-shadow 0.2s ease;
@@ -56,14 +105,14 @@
 
   display: inline-block;
   position: absolute;
-  bottom: 100%;
-  left: -200px;
+  bottom: -100px;
+  left: 50%;
   transform: translateX(-50%);
   margin-bottom: 16px;
   padding: 4px 6px 5px;
   border-radius: 3px;
   opacity: 0.01;
-  transition: margin-bottom 0.2s ease, opacity 0.2s ease;
+  transition: margin-bottom 0.15s ease, opacity 0.15s ease, bottom 0s ease 0.15s;
   font-size: rem(12px);
   line-height: 1;
 
@@ -104,14 +153,14 @@
       $tint-shade-reverse: true
     );
   }
-  #theme-switcher-item-#{$theme-name}:hover
-    ~ .theme-switcher-item--#{$theme-name},
+  #theme-switcher-item-#{$theme-name}-label:hover,
   #theme-switcher-item-#{$theme-name}:focus
     ~ .theme-switcher-item--#{$theme-name} {
     .theme-switcher-item-label {
-      left: 50%;
+      bottom: 100%;
       margin-bottom: 12px;
       opacity: 1;
+      transition-delay: 0s;
     }
   }
 }
