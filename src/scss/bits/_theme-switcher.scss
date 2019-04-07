@@ -13,9 +13,6 @@ $theme-switcher-toggle-size: $icon-size + ($theme-switcher-toggle-padding * 2);
   padding-right: $theme-switcher-toggle-size;
   z-index: $z-theme-switcher;
 
-  .no-js & {
-    display: none !important;
-  }
   input[type='radio'] {
     position: absolute;
     left: -40px;

@@ -26,7 +26,7 @@ export default function Collapsible(props) {
       </h2>
       <Button
         variant="neutral"
-        className="collapsible-toggle"
+        className="collapsible-toggle js-only"
         onClick={() => {
           d.toggleCollapsible(id);
         }}

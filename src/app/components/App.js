@@ -46,7 +46,7 @@ export default function App() {
           <MainTableDescription />
         </div>
         <Filter />
-        <p className="perf-info">
+        <p className="perf-info js-only">
           Note that filtering and ordering can take a few seconds depending on
           the number of rows and your device.
         </p>

@@ -80,7 +80,7 @@ export default function Filter() {
   };
 
   return (
-    <Collapsible id="filter" heading="Filter" className="filter">
+    <Collapsible id="filter" heading="Filter" className="filter js-only">
       <form noValidate onReset={handleReset}>
         <div className="filter-kanji">
           <TextField

@@ -38,7 +38,9 @@ export default function ThemeSwitcher() {
 
   return (
     <div
-      className={`theme-switcher theme-switcher--${isOpen ? 'open' : 'closed'}`}
+      className={`theme-switcher theme-switcher--${
+        isOpen ? 'open' : 'closed'
+      } js-only`}
     >
       <Button
         variant="neutral"
