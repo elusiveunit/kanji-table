@@ -17,8 +17,6 @@
     }
   }
   button {
-    padding: 5px $table-cell-padding-horizontal;
-
     &:hover,
     &:focus {
       @include theme-tint-shade-transparent(
