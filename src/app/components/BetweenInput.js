@@ -2,9 +2,19 @@ import React from 'react';
 import pt from 'prop-types';
 
 import { MAX_SUFFIX, MIN_SUFFIX } from '../../constants';
+import TextField from './TextField';
 
 export default function BetweenInput(props) {
-  const { className, label, id, name, onMaxChange, onMinChange } = props;
+  const {
+    className,
+    label,
+    id,
+    name,
+    onMaxChange,
+    onMinChange,
+    valueMax,
+    valueMin,
+  } = props;
 
   return (
     <div
@@ -16,25 +26,25 @@ export default function BetweenInput(props) {
         {label}:
       </span>
       <span aria-hidden="true">Between</span>
-      <label htmlFor={`${id}${MIN_SUFFIX}`}>
-        <span className="visuallyhidden">Minimum {label.toLowerCase()}:</span>
-        <input
-          type="number"
-          id={`${id}${MIN_SUFFIX}`}
-          name={`${name}${MIN_SUFFIX}`}
-          onChange={onMinChange}
-        />
-      </label>
+      <TextField
+        label={`Minimum ${label.toLowerCase()}`}
+        hasVisibleLabel={false}
+        id={`${id}${MIN_SUFFIX}`}
+        name={`${name}${MIN_SUFFIX}`}
+        value={valueMin}
+        onChange={onMinChange}
+        pattern="[0-9]*"
+      />
       <span aria-hidden="true">and</span>
-      <label htmlFor={`${id}${MAX_SUFFIX}`}>
-        <span className="visuallyhidden">Maximum {label.toLowerCase()}:</span>
-        <input
-          type="number"
-          id={`${id}${MAX_SUFFIX}`}
-          name={`${name}${MAX_SUFFIX}`}
-          onChange={onMaxChange}
-        />
-      </label>
+      <TextField
+        label={`Maximum ${label.toLowerCase()}`}
+        hasVisibleLabel={false}
+        id={`${id}${MAX_SUFFIX}`}
+        name={`${name}${MAX_SUFFIX}`}
+        value={valueMax}
+        onChange={onMaxChange}
+        pattern="[0-9]*"
+      />
     </div>
   );
 }
@@ -46,6 +56,8 @@ BetweenInput.propTypes = {
   name: pt.string.isRequired,
   onMaxChange: pt.func.isRequired,
   onMinChange: pt.func.isRequired,
+  valueMax: pt.oneOfType([pt.string, pt.number]).isRequired,
+  valueMin: pt.oneOfType([pt.string, pt.number]).isRequired,
 };
 BetweenInput.defaultProps = {
   className: '',

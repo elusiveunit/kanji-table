@@ -18,6 +18,11 @@ textarea {
   }
 }
 
+textarea {
+  height: auto;
+  padding: rem($form-control-padding);
+}
+
 select {
   height: rem($form-control-height);
   padding: 0 rem($form-control-padding);

@@ -32,6 +32,26 @@ function isPrerendering() {
 export const IS_PRERENDERING = isPrerendering();
 
 /**
+ * Check if a value is truthy.
+ *
+ * @param {*} val - The value to check.
+ * @return {boolean}
+ */
+export function isTruthy(val) {
+  return Boolean(val);
+}
+
+/**
+ * Check if a value is a number or numeric string.
+ *
+ * @param {*} val - The value to check.
+ * @return {boolean}
+ */
+export function isNumeric(val) {
+  return typeof val === 'number' || val === String(Number(val));
+}
+
+/**
  * Assign properties of objects from left to right.
  *
  * A wrapper around `Object.assign` that doesn't mutate.
@@ -261,7 +281,7 @@ export function makeSorter(order, orderBy) {
 export function makeMultiSorter(order, ...fields) {
   // Assume per-prop sorting objects if the first is an object.
   const isPerProp = typeof order === 'object';
-  const filteredFields = fields.filter((f) => Boolean(f));
+  const filteredFields = fields.filter(isTruthy);
   const sortFields = isPerProp ? [order, ...filteredFields] : filteredFields;
   const sorters = sortFields.reduce((acc, field) => {
     const fieldName = isPerProp ? getKey(field) : field;
@@ -292,7 +312,7 @@ export function makeMultiSorter(order, ...fields) {
  */
 export function getDataSelectOptions(key) {
   return Array.from(new Set(kanjiData.map((item) => item[key])))
-    .filter((val) => Boolean(val))
+    .filter(isTruthy)
     .sort(sortAsc)
     .map((val) => ({
       label: val,
@@ -312,12 +332,12 @@ export function isMinFilter(filterKey) {
   return MIN_SUFFIX_REGEX.test(filterKey);
 }
 
-export function getRangeFilterDataKey(filterKey) {
-  return filterKey.replace(MIN_MAX_SUFFIX_REGEX, '');
-}
-
 export function isRangeFilter(filterKey) {
   return isMinFilter(filterKey) || isMaxFilter(filterKey);
+}
+
+export function getRangeFilterDataKey(filterKey) {
+  return filterKey.replace(MIN_MAX_SUFFIX_REGEX, '');
 }
 
 export function inRange(value, min, max) {

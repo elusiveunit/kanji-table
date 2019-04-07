@@ -17,7 +17,9 @@ button,
 input,
 textarea {
   @include theme-foreground;
+
   font-family: $font-stack-main;
+  tab-size: 2;
 }
 
 // pre,

@@ -13,7 +13,7 @@ $filter-spacing: 15px;
 .filter-kanji {
   margin: 5px 0 $filter-spacing;
 
-  input {
+  textarea {
     display: block;
     width: 100%;
   }
@@ -41,6 +41,6 @@ $filter-spacing: 15px;
 
 .filter-stroke-count {
   input {
-    width: 4rem;
+    width: 3em;
   }
 }

@@ -10,6 +10,7 @@ export default function Select(props) {
     name,
     onChange,
     options,
+    value,
   } = props;
 
   return (
@@ -17,7 +18,7 @@ export default function Select(props) {
     // eslint-disable-next-line jsx-a11y/label-has-for
     <label htmlFor={id} className={className}>
       <span className="text">{label}:</span>
-      <select id={id} name={name} onChange={onChange}>
+      <select id={id} name={name} onChange={onChange} value={value}>
         {Boolean(emptyOptionLabel) && (
           <option value="">{emptyOptionLabel}</option>
         )}
@@ -45,8 +46,9 @@ Select.propTypes = {
       value: pt.oneOfType([pt.string, pt.number]).isRequired,
     }),
   ).isRequired,
+  value: pt.oneOfType([pt.string, pt.number]).isRequired,
 };
 Select.defaultProps = {
-  className: '',
+  className: undefined,
   emptyOptionLabel: '',
 };
