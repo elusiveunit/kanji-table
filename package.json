@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "build-json": "node scripts/build-json.js",
-    "subset-font": "node scripts/subset-font.js",
     "build": "cross-env NODE_ENV=production webpack",
+    "build-all": "npm run build-json && npm run build",
+    "subset-font": "node scripts/subset-font.js",
     "start": "cross-env NODE_ENV=development webpack-dev-server --mode development",
     "serve-prod": "http-server ./build",
     "test": "jest",

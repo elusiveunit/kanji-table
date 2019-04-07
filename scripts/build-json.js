@@ -30,6 +30,7 @@ const GRADE_PATHS = {
 const STROKE_COUNT_PATH = '../data/stroke-count.json';
 const VARIANTS_PATH = '../data/variants.json';
 const OUTPUT_PATH = '../data/kanji.json';
+const OUTPUT_COMPRESSED_PATH = '../data/kanji-compressed.json';
 
 /* -------------------- Utils -------------------- */
 function assign(...obj) {
@@ -222,11 +223,33 @@ const output = kanjiWithStrokeCount.map((obj) => {
   );
 });
 
-/* -------------------- Write to file -------------------- */
+/* -------------------- Write files -------------------- */
 console.log('Writing file...');
 fs.writeFileSync(
   path.resolve(__dirname, OUTPUT_PATH),
-  JSON.stringify(output, null, 2),
+  JSON.stringify(
+    output.map((item) => ({
+      kanji: item[constants.KANJI],
+      kklc: item[constants.KKLC],
+      rtk: item[constants.RTK],
+      jlpt: item[constants.JLPT],
+      joyo: item[constants.JOYO],
+      strokes: item[constants.STROKES],
+      bunka: item[constants.BUNKA],
+      aozora: item[constants.AOZORA],
+      news: item[constants.NEWS],
+      twitter: item[constants.TWITTER],
+      wikipedia: item[constants.WIKIPEDIA],
+    })),
+    null,
+    2,
+  ),
+);
+
+console.log('Writing compressed file...');
+fs.writeFileSync(
+  path.resolve(__dirname, OUTPUT_COMPRESSED_PATH),
+  JSON.stringify(output),
 );
 
 console.log('Done!');

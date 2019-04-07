@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const childProcess = require('child_process');
 const path = require('path');
 
@@ -25,7 +27,7 @@ const FONT_FORMATS = ['woff2', 'woff'];
 console.log('Creating kanji unicode range...');
 fs.ensureDirSync(TEMP_PATH);
 const kanji = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '../data/kanji.json'), {
+  fs.readFileSync(path.resolve(__dirname, '../data/kanji-compressed.json'), {
     encoding: 'utf-8',
   }),
 );
@@ -33,7 +35,7 @@ const kanjiChars = kanji.reduce((acc, item) => acc + item[constants.KANJI], '');
 const charSet = new CharacterSet(kanjiChars);
 
 // Save to a temp file, the command will be too long if trying to pass all
-// the characters via a flag.
+// the characters via a CLI flag.
 fs.writeFileSync(UNICODE_RANGE_FILE_PATH, charSet.toHexRangeString());
 
 /* -------------------- Create fonts -------------------- */

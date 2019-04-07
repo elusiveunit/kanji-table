@@ -1,4 +1,4 @@
-import kanjiData from '../../data/kanji.json';
+import kanjiData from '../../data/kanji-compressed.json';
 import {
   FREQUENCY_NAME,
   FREQUENCY_KEYS,

@@ -1,20 +1,20 @@
-// Data keys
+// Data keys for compressed version
 const KANJI = 'k';
-const KKLC = 'kl';
-const RTK = 'rt';
-const AOZORA = 'ao';
-const NEWS = 'nw';
-const TWITTER = 'tw';
-const WIKIPEDIA = 'wk';
-const BUNKA = 'bu';
-const JLPT = 'jl';
-const JOYO = 'jo';
-const STROKES = 'st';
+const KKLC = 'l';
+const RTK = 'r';
+const JLPT = 'j';
+const JOYO = 'o';
+const STROKES = 's';
+const BUNKA = 'b';
+const AOZORA = 'a';
+const NEWS = 'n';
+const TWITTER = 't';
+const WIKIPEDIA = 'w';
 
 // CommonJS format for Node compatability since
 // it's used in the JSON build script.
 module.exports = {
-  // Data keys
+  // ----- Data keys -----
   KANJI,
   KKLC,
   RTK,
@@ -27,11 +27,10 @@ module.exports = {
   JOYO,
   STROKES,
 
-  // App
+  // ----- App -----
   ORDER_ASC: 'ASC',
   ORDER_DESC: 'DESC',
   ORDER_NONE: 'NONE',
-
   MAX_SUFFIX: '-max',
   MIN_SUFFIX: '-min',
   FREQUENCY_NAME: 'frequency',

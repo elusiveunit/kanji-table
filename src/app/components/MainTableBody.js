@@ -1,7 +1,7 @@
 import React from 'react';
 import pt from 'prop-types';
 
-import kanjiData from '../../../data/kanji.json';
+import kanjiData from '../../../data/kanji-compressed.json';
 import {
   KANJI,
   KKLC,
