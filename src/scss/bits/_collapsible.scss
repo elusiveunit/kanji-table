@@ -7,6 +7,17 @@ $collapsible-toggle-size: 40px;
   margin-bottom: $base-type-spacing;
 }
 
+.collapsible-heading {
+  @include theme-tint-shade-transparent(
+    $rule: border-bottom,
+    $value-template: '1px solid {{color}}',
+    $amount: 0.2
+  );
+
+  margin-bottom: 5px;
+  padding-bottom: 3px;
+}
+
 .collapsible-toggle {
   position: absolute;
   top: 0;
