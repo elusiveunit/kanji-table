@@ -46,6 +46,10 @@ export default function App() {
           <MainTableDescription />
         </div>
         <Filter />
+        <p className="perf-info">
+          Note that filtering and ordering can take a few seconds depending on
+          the number of rows and your device.
+        </p>
         <MainTable />
       </div>
     </StoreProvider>

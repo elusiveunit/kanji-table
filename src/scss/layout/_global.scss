@@ -8,3 +8,15 @@
   max-width: rem($page-width);
   margin: 0 auto;
 }
+
+.perf-info {
+  @include theme-tint-shade-transparent(color, 0.7);
+
+  margin-bottom: 1em;
+  font-size: rem(14px);
+  font-style: italic;
+
+  .no-js & {
+    display: none !important;
+  }
+}
