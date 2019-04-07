@@ -41,7 +41,13 @@ function MainTableBody(props) {
         resultData.map((d) => (
           <tr key={d[KANJI]}>
             <th scope="row" lang="ja">
-              {d[KANJI]}
+              <a
+                href={`https://jisho.org/search/${encodeURIComponent(
+                  d[KANJI],
+                )}%23kanji`}
+              >
+                {d[KANJI]}
+              </a>
             </th>
             <td>{d[KKLC] || blank}</td>
             <td>{d[RTK] || blank}</td>

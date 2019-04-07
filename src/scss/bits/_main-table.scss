@@ -4,6 +4,16 @@
   th:first-child {
     padding-left: 15px;
     padding-right: 25px;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        text-decoration: underline;
+      }
+    }
   }
   .no-results {
     padding-top: 20px;
