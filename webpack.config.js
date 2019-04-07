@@ -27,38 +27,26 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
+        use: { loader: 'babel-loader' },
       },
       {
         test: /\.(woff2?|ttf|otf)$/,
         exclude: /node_modules/,
         use: {
           loader: 'file-loader',
-          options: {
-            outputPath: 'fonts',
-            name: '[name].[contenthash].[ext]',
-          },
+          options: { outputPath: 'fonts', name: '[name].[contenthash].[ext]' },
         },
       },
       {
         test: /\.scss$/,
         use: [
           isProd ? { loader: MiniCssExtractPlugin.loader } : 'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true,
-            },
-          },
+          { loader: 'css-loader', options: { sourceMap: true } },
+          { loader: 'postcss-loader', options: { sourceMap: true } },
           'resolve-url-loader',
           {
             loader: 'sass-loader',
-            options: {
-              sourceMap: true,
-              outputStyle: 'compressed',
-            },
+            options: { sourceMap: true, outputStyle: 'compressed' },
           },
         ],
       },
