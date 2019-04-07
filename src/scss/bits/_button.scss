@@ -15,7 +15,7 @@
   text-transform: none;
   text-align: center;
   font-size: 100%;
-  font-weight: $font-weight-bold;
+  font-weight: $font-weight-regular;
   line-height: rem($form-control-height - 1px);
   vertical-align: baseline;
   text-shadow: none;
@@ -54,7 +54,8 @@ input[type='reset'] {
   @include button-primary;
 
   &[disabled] {
-    opacity: 0.5;
+    opacity: 0.4;
+    cursor: default;
   }
 }
 

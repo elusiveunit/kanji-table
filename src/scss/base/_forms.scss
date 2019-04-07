@@ -4,12 +4,24 @@ input[type='number'],
 input[type='search'],
 input[type='text'],
 textarea {
+  @include theme-rule(
+    $rule: border,
+    $color-name: 'foreground',
+    $value-template: '1px solid {{color}}',
+    $tint-shade-amount: 60%,
+    $tint-shade-reverse: true
+  );
+  @include theme-rule(
+    $rule: background-color,
+    $color-name: 'background',
+    $tint-shade-amount: 5%,
+    $tint-shade-reverse: true
+  );
+
   height: rem($form-control-height);
   padding: 0 rem($form-control-padding);
-  border: 1px solid #ccc;
   border-radius: 3px;
   font-size: 1rem;
-  background-color: #fff;
   transition: border-color 0.15s linear;
 
   &:focus {
