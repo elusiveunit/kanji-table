@@ -15,6 +15,9 @@ $collapsible-toggle-size: 40px;
   height: $collapsible-toggle-size;
   line-height: $collapsible-toggle-size;
 
+  .no-js & {
+    display: none !important;
+  }
   .icon {
     position: relative;
 
@@ -35,13 +38,15 @@ $collapsible-toggle-size: 40px;
       z-index: 2;
     }
   }
-  &:hover,
-  &:focus {
-    .icon::before {
-      @include theme-tint-shade-transparent(
-        $rule: background-color,
-        $amount: 0.1
-      );
+  &:not([disabled]) {
+    &:hover,
+    &:focus {
+      .icon::before {
+        @include theme-tint-shade-transparent(
+          $rule: background-color,
+          $amount: 0.1
+        );
+      }
     }
   }
   .show-focus &:focus {

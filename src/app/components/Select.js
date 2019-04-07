@@ -1,9 +1,12 @@
 import React from 'react';
 import pt from 'prop-types';
 
+import { usePrerenderFlag } from '../utils';
+
 export default function Select(props) {
   const {
     className,
+    disabled,
     emptyOptionLabel,
     label,
     id,
@@ -12,13 +15,20 @@ export default function Select(props) {
     options,
     value,
   } = props;
+  const isPrerendering = usePrerenderFlag();
 
   return (
     // Doesn't understand the ID for some reason.
     // eslint-disable-next-line jsx-a11y/label-has-for
     <label htmlFor={id} className={className}>
       <span className="text">{label}:</span>
-      <select id={id} name={name} onChange={onChange} value={value}>
+      <select
+        id={id}
+        name={name}
+        onChange={onChange}
+        value={value}
+        disabled={disabled || isPrerendering}
+      >
         {Boolean(emptyOptionLabel) && (
           <option value="">{emptyOptionLabel}</option>
         )}
@@ -34,6 +44,7 @@ export default function Select(props) {
 Select.displayName = 'Select';
 Select.propTypes = {
   className: pt.string,
+  disabled: pt.bool,
   label: pt.string.isRequired,
   id: pt.string.isRequired,
   name: pt.string.isRequired,
@@ -50,5 +61,6 @@ Select.propTypes = {
 };
 Select.defaultProps = {
   className: undefined,
+  disabled: false,
   emptyOptionLabel: '',
 };

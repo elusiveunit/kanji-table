@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import kanjiData from '../../data/kanji-compressed.json';
 import {
   FREQUENCY_NAME,
@@ -182,6 +184,25 @@ export function getDataSelectOptions(key) {
         value: val,
       }))
   );
+}
+
+/**
+ * Hook for getting a flag that indicates if currently running in a
+ * prerendering task.
+ *
+ * Will be true by default and switch to false when a component is mounted in
+ * the browser.
+ *
+ * @return {boolean}
+ */
+export function usePrerenderFlag() {
+  const [isPrerender, setIsPrerender] = useState(true);
+  useEffect(() => {
+    if (!IS_PRERENDERING) {
+      setIsPrerender(false);
+    }
+  }, []);
+  return isPrerender;
 }
 
 /* -------------------- Ordering -------------------- */

@@ -48,4 +48,7 @@ select {
   .show-focus &:focus {
     outline: 2px dotted;
   }
+  &[disabled] {
+    opacity: 0.5;
+  }
 }

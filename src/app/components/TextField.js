@@ -1,6 +1,8 @@
 import React from 'react';
 import pt from 'prop-types';
 
+import { usePrerenderFlag } from '../utils';
+
 const NEWLINE_REGEX = /\r\n|\r|\n/g;
 // Scientifically deduced from pasting kanji and counting. It's not critical in
 // any way so it doesn't matter.
@@ -11,6 +13,7 @@ export default function TextField(props) {
   const {
     autoHeight,
     className,
+    disabled,
     fieldClassName,
     hasVisibleLabel,
     id,
@@ -24,6 +27,8 @@ export default function TextField(props) {
   const isTextarea = type === 'textarea';
   const Component = isTextarea ? 'textarea' : 'input';
   const typeProp = isTextarea ? undefined : type;
+  const isPrerendering = usePrerenderFlag();
+
   let rows;
   if (autoHeight && isTextarea) {
     rows = 1;
@@ -50,6 +55,7 @@ export default function TextField(props) {
         onChange={onChange}
         className={fieldClassName}
         rows={rows}
+        disabled={disabled || isPrerendering}
       />
     </label>
   );
@@ -58,6 +64,7 @@ TextField.displayName = 'TextField';
 TextField.propTypes = {
   autoHeight: pt.bool,
   className: pt.string,
+  disabled: pt.bool,
   fieldClassName: pt.string,
   label: pt.string.isRequired,
   id: pt.string.isRequired,
@@ -70,6 +77,7 @@ TextField.propTypes = {
 TextField.defaultProps = {
   autoHeight: false,
   className: undefined,
+  disabled: false,
   fieldClassName: undefined,
   hasVisibleLabel: true,
   type: 'text',

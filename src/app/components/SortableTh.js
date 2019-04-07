@@ -2,7 +2,7 @@ import React from 'react';
 import pt from 'prop-types';
 
 import { ORDER_ASC, ORDER_DESC, ORDER_NONE } from '../../constants';
-import { IS_PRERENDERING, cycleValues } from '../utils';
+import { cycleValues, usePrerenderFlag } from '../utils';
 import Button from './Button';
 import Icon from './Icon';
 
@@ -21,6 +21,7 @@ function SortableTh(props) {
   const isCurrent = orderBy === field;
   const iconKey = isCurrent ? order : ORDER_NONE;
   const ariaSort = isCurrent ? ARIA_SORT[order] : undefined;
+  const isPrerendering = usePrerenderFlag();
 
   function handleClick() {
     setOrdering(
@@ -37,7 +38,7 @@ function SortableTh(props) {
   );
 
   // Output text when prerendering, only adding buttons when JS is available
-  if (IS_PRERENDERING) {
+  if (isPrerendering) {
     content = <span className="btn-placeholder">{content}</span>;
   } else {
     content = (

@@ -23,7 +23,7 @@ async function onBrowserLoad() {
       html.classList.add('jp-font-loaded');
     } catch (err) {
       // eslint-disable-next-line no-console
-      console.error(err);
+      console.warn(err);
     }
   }
 }

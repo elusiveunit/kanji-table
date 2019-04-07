@@ -1,9 +1,20 @@
 import React from 'react';
 import pt from 'prop-types';
 
+import { usePrerenderFlag } from '../utils';
+
 export default function Button(props) {
-  const { className, children, onClick, type, variant, ...passProps } = props;
+  const {
+    className,
+    children,
+    disabled,
+    onClick,
+    type,
+    variant,
+    ...passProps
+  } = props;
   const cls = ((className || '') + (variant ? ` btn-${variant}` : '')).trim();
+  const isPrerendering = usePrerenderFlag();
 
   return (
     <button
@@ -11,6 +22,7 @@ export default function Button(props) {
       type={type}
       className={cls || undefined}
       onClick={onClick}
+      disabled={disabled || isPrerendering}
     >
       {children}
     </button>
@@ -20,12 +32,14 @@ Button.displayName = 'Button';
 Button.propTypes = {
   children: pt.node.isRequired,
   className: pt.string,
+  disabled: pt.bool,
   onClick: pt.func,
   type: pt.oneOf(['button', 'submit', 'reset']),
   variant: pt.oneOf(['neutral']),
 };
 Button.defaultProps = {
   className: '',
+  disabled: false,
   onClick: undefined,
   type: 'button',
   variant: undefined,
