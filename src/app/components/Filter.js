@@ -9,7 +9,7 @@ import {
   STROKES,
 } from '../../constants';
 import { useDispatch } from '../state/store';
-import { filter } from '../state/actions/filtering';
+import { clearFilters, addFilter } from '../state/actions/filtering';
 import {
   assign,
   getDataSelectOptions,
@@ -18,6 +18,7 @@ import {
 } from '../utils';
 
 import BetweenInput from './BetweenInput';
+import Button from './Button';
 import Collapsible from './Collapsible';
 import TextField from './TextField';
 import Select from './Select';
@@ -28,6 +29,16 @@ const FREQUENCY_NAME = 'frequency';
 
 let debounceTimer;
 
+const inialState = {
+  [KANJI]: '',
+  [JLPT]: '',
+  [JOYO]: '',
+  [`${STROKES}${MIN_SUFFIX}`]: '',
+  [`${STROKES}${MAX_SUFFIX}`]: '',
+  [`${FREQUENCY_NAME}${MIN_SUFFIX}`]: '',
+  [`${FREQUENCY_NAME}${MAX_SUFFIX}`]: '',
+};
+
 function isNumberField(fieldName) {
   return [STROKES, FREQUENCY_NAME].includes(getRangeFilterDataKey(fieldName));
 }
@@ -37,16 +48,9 @@ function isSelectField(fieldName) {
 }
 
 export default function Filter() {
-  const d = useDispatch({ filter });
-  const [values, setValues] = useState({
-    [KANJI]: '',
-    [JLPT]: '',
-    [JOYO]: '',
-    [`${STROKES}${MIN_SUFFIX}`]: '',
-    [`${STROKES}${MAX_SUFFIX}`]: '',
-    [`${FREQUENCY_NAME}${MIN_SUFFIX}`]: '',
-    [`${FREQUENCY_NAME}${MAX_SUFFIX}`]: '',
-  });
+  const d = useDispatch({ addFilter, clearFilters });
+  const [values, setValues] = useState(inialState);
+  const hasValues = Object.values(values).some((val) => val !== '');
   const setValue = (name, value) => {
     setValues(assign(values, { [name]: value }));
   };
@@ -66,20 +70,25 @@ export default function Filter() {
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
       const intVal = parseInt(value, 10);
-      d.filter(name, value === String(intVal) ? intVal : value);
+      d.addFilter(name, value === String(intVal) ? intVal : value);
     }, debounceTime);
+  };
+  const handleReset = (e) => {
+    e.preventDefault();
+    setValues(inialState);
+    d.clearFilters();
   };
 
   return (
     <Collapsible id="filter" heading="Filter" className="filter">
-      <form noValidate>
+      <form noValidate onReset={handleReset}>
         <div className="filter-kanji">
           <TextField
             type="textarea"
             id="filter-kanji"
             name={KANJI}
             fieldClassName="jp"
-            label="Only kanji contained in text"
+            label="Only kanji contained in this text"
             value={values[KANJI]}
             onChange={handleChange}
             autoHeight
@@ -125,6 +134,9 @@ export default function Filter() {
           valueMin={values[`${FREQUENCY_NAME}${MIN_SUFFIX}`]}
           valueMax={values[`${FREQUENCY_NAME}${MAX_SUFFIX}`]}
         />
+        <Button type="reset" className="filter-reset" disabled={!hasValues}>
+          Reset
+        </Button>
       </form>
     </Collapsible>
   );

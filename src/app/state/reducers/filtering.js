@@ -1,4 +1,4 @@
-import { FILTER } from '../actions/filtering';
+import { CLEAR_FILTERS, ADD_FILTER } from '../actions/filtering';
 import { assign } from '../../utils';
 
 export const initialState = {
@@ -7,7 +7,7 @@ export const initialState = {
 
 export default function filteringReducer(state, action) {
   switch (action.type) {
-    case FILTER: {
+    case ADD_FILTER: {
       const base = state.filters.filter((f) => f.key !== action.key);
       return assign(state, {
         // Don't add the filter if there is no value to filter by
@@ -16,6 +16,9 @@ export default function filteringReducer(state, action) {
           : base,
       });
     }
+
+    case CLEAR_FILTERS:
+      return assign(state, { filters: initialState.filters });
 
     default:
       return state;

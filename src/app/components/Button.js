@@ -6,7 +6,12 @@ export default function Button(props) {
   const cls = ((className || '') + (variant ? ` btn-${variant}` : '')).trim();
 
   return (
-    <button {...passProps} type={type} className={cls} onClick={onClick}>
+    <button
+      {...passProps}
+      type={type}
+      className={cls || undefined}
+      onClick={onClick}
+    >
       {children}
     </button>
   );
@@ -15,12 +20,13 @@ Button.displayName = 'Button';
 Button.propTypes = {
   children: pt.node.isRequired,
   className: pt.string,
-  onClick: pt.func.isRequired,
+  onClick: pt.func,
   type: pt.oneOf(['button', 'submit', 'reset']),
   variant: pt.oneOf(['neutral']),
 };
 Button.defaultProps = {
   className: '',
+  onClick: undefined,
   type: 'button',
   variant: undefined,
 };

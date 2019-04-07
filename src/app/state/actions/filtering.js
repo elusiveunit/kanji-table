@@ -1,15 +1,27 @@
-export const FILTER = 'FILTER';
+export const ADD_FILTER = 'ADD_FILTER';
 /**
- * Set which field to order by.
+ * Add a table filter.
  *
  * @param {string} key - The filter field key.
  * @param {string} value - The value to filter by.
  * @return {Object} Action.
  */
-export function filter(key, value) {
+export function addFilter(key, value) {
   return {
-    type: FILTER,
+    type: ADD_FILTER,
     key,
     value,
+  };
+}
+
+export const CLEAR_FILTERS = 'CLEAR_FILTERS';
+/**
+ * Clear all active filters.
+ *
+ * @return {Object} Action.
+ */
+export function clearFilters() {
+  return {
+    type: CLEAR_FILTERS,
   };
 }
