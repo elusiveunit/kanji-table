@@ -3,7 +3,10 @@
 $table-border-tint-shade-amount: 0.15;
 
 .table-wrap {
-  overflow-x: auto;
+  // Only set overflow when needed since position sticky doesn't work with it
+  @include media-max(rem($page-width) + rem($page-padding)) {
+    overflow-x: auto;
+  }
 }
 
 table {
