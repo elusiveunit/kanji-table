@@ -26,27 +26,35 @@ function MainTableBody(props) {
     coreOrderBy !== orderBy ? { [coreOrderBy]: ORDER_ASC } : null,
   );
   const resultData = filterKanjiData(kanjiData, filters).sort(sorter);
-  // const resultData = kanjiData.slice().sort(sorter);
+  const hasResults = Boolean(resultData.length);
 
   return (
     <tbody>
-      {resultData.map((d) => (
-        <tr key={d[KANJI]}>
-          <th scope="row" lang="ja">
-            {d[KANJI]}
-          </th>
-          <td>{d[KKLC] || blank}</td>
-          <td>{d[RTK] || blank}</td>
-          <td>{d[JLPT] || blank}</td>
-          <td>{d[JOYO] || blank}</td>
-          <td>{d[STROKES] || blank}</td>
-          <td>{d[BUNKA] || blank}</td>
-          <td>{d[AOZORA] || blank}</td>
-          <td>{d[NEWS] || blank}</td>
-          <td>{d[TWITTER] || blank}</td>
-          <td>{d[WIKIPEDIA] || blank}</td>
+      {!hasResults && (
+        <tr>
+          <td className="no-results" colSpan="11">
+            No results
+          </td>
         </tr>
-      ))}
+      )}
+      {hasResults &&
+        resultData.map((d) => (
+          <tr key={d[KANJI]}>
+            <th scope="row" lang="ja">
+              {d[KANJI]}
+            </th>
+            <td>{d[KKLC] || blank}</td>
+            <td>{d[RTK] || blank}</td>
+            <td>{d[JLPT] || blank}</td>
+            <td>{d[JOYO] || blank}</td>
+            <td>{d[STROKES] || blank}</td>
+            <td>{d[BUNKA] || blank}</td>
+            <td>{d[AOZORA] || blank}</td>
+            <td>{d[NEWS] || blank}</td>
+            <td>{d[TWITTER] || blank}</td>
+            <td>{d[WIKIPEDIA] || blank}</td>
+          </tr>
+        ))}
     </tbody>
   );
 }
