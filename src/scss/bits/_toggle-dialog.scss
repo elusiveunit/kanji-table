@@ -1,0 +1,9 @@
+/* -Generic toggle dialog
+-----------------------------------------------------------------------------*/
+.toggle-dialog-body {
+  display: none;
+
+  .toggle-dialog--open & {
+    display: block;
+  }
+}

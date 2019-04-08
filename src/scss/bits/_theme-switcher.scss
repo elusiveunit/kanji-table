@@ -20,6 +20,10 @@ $theme-switcher-toggle-size: $icon-size + ($theme-switcher-toggle-padding * 2);
 }
 
 .theme-switcher-body {
+  overflow: hidden;
+}
+
+.theme-switcher-controls {
   @include theme-tint-shade-transparent(
     $rule: border,
     $value-template: '1px solid {{color}}',
@@ -27,13 +31,8 @@ $theme-switcher-toggle-size: $icon-size + ($theme-switcher-toggle-padding * 2);
   );
   @include theme-background-accent;
 
-  display: none;
   margin: 1.5em 0 0;
   padding: 5px 15px 12px;
-
-  .theme-switcher--open & {
-    display: block;
-  }
 }
 
 .theme-switcher-toggle {

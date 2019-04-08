@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 import { getCookie, setCookie } from '../utils';
-import Button from './Button';
 import Icon from './Icon';
+import ToggleDialog from './ToggleDialog';
 
 const THEMES = [
   { name: 'light', label: 'Light' },
@@ -22,11 +22,6 @@ export default function ThemeSwitcher() {
     setTheme(e.target.value);
   };
 
-  const [isOpen, setOpen] = useState(false);
-  const handleToggleClick = () => {
-    setOpen(!isOpen);
-  };
-
   useEffect(() => {
     const html = document.documentElement;
     html.className = html.className.replace(
@@ -37,22 +32,17 @@ export default function ThemeSwitcher() {
   }, [theme]);
 
   return (
-    <div
-      className={`theme-switcher theme-switcher--${
-        isOpen ? 'open' : 'closed'
-      } js-only`}
+    <ToggleDialog
+      name="theme-switcher"
+      buttonLabelClosed="Open theme switcher"
+      buttonLabelOpened="Close theme switcher"
+      buttonText={<Icon name="palette" />}
+      buttonExtraProps={{
+        variant: 'neutral',
+        className: 'theme-switcher-toggle',
+      }}
     >
-      <Button
-        variant="neutral"
-        className="theme-switcher-toggle"
-        onClick={handleToggleClick}
-        aria-label={isOpen ? 'Close theme switcher' : 'Open theme switcher'}
-        aria-expanded={String(isOpen)}
-        aria-controls="theme-switcher-body"
-      >
-        <Icon name="palette" />
-      </Button>
-      <fieldset className="theme-switcher-body" id="theme-switcher-body">
+      <fieldset className="theme-switcher-controls">
         <legend>Theme</legend>
         <div className="theme-switcher-items">
           {THEMES.map(({ name, label }) => {
@@ -81,7 +71,7 @@ export default function ThemeSwitcher() {
           })}
         </div>
       </fieldset>
-    </div>
+    </ToggleDialog>
   );
 }
 ThemeSwitcher.displayName = 'ThemeSwitcher';
