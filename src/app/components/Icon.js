@@ -4,6 +4,7 @@ import pt from 'prop-types';
 const AVAILABLE_ICON_NAMES = [
   'chevron-down',
   'chevron-up',
+  'column',
   'github',
   'palette',
   'sort',

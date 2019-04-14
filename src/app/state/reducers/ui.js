@@ -1,12 +1,18 @@
-import { TOGGLE_COLLAPSIBLE } from '../actions/ui';
+import { SET_HIDDEN_COLUMNS, TOGGLE_COLLAPSIBLE } from '../actions/ui';
 import { assign } from '../../utils';
 
 export const initialState = {
   collapsedSections: [],
+  hiddenColumns: [],
 };
 
 export default function uiReducer(state, action) {
   switch (action.type) {
+    case SET_HIDDEN_COLUMNS:
+      return assign(state, {
+        hiddenColumns: action.columns,
+      });
+
     case TOGGLE_COLLAPSIBLE:
       return assign(state, {
         collapsedSections: state.collapsedSections.includes(action.id)

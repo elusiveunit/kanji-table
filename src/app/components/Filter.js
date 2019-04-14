@@ -25,7 +25,7 @@ import Select from './Select';
 
 const JLPT_OPTIONS = getDataSelectOptions(JLPT);
 const JOYO_OPTIONS = getDataSelectOptions(JOYO);
-const FREQUENCY_NAME = 'frequency';
+const FREQUENCY = 'frequency';
 
 let debounceTimer;
 
@@ -35,12 +35,12 @@ const inialState = {
   [JOYO]: '',
   [`${STROKES}${MIN_SUFFIX}`]: '',
   [`${STROKES}${MAX_SUFFIX}`]: '',
-  [`${FREQUENCY_NAME}${MIN_SUFFIX}`]: '',
-  [`${FREQUENCY_NAME}${MAX_SUFFIX}`]: '',
+  [`${FREQUENCY}${MIN_SUFFIX}`]: '',
+  [`${FREQUENCY}${MAX_SUFFIX}`]: '',
 };
 
 function isNumberField(fieldName) {
-  return [STROKES, FREQUENCY_NAME].includes(getRangeFilterDataKey(fieldName));
+  return [STROKES, FREQUENCY].includes(getRangeFilterDataKey(fieldName));
 }
 
 function isSelectField(fieldName) {
@@ -126,13 +126,13 @@ export default function Filter() {
         />
         <BetweenInput
           label="Frequency"
-          name={FREQUENCY_NAME}
+          name={FREQUENCY}
           id="filter-frequency"
           className="filter-frequency"
           onMinChange={handleChange}
           onMaxChange={handleChange}
-          valueMin={values[`${FREQUENCY_NAME}${MIN_SUFFIX}`]}
-          valueMax={values[`${FREQUENCY_NAME}${MAX_SUFFIX}`]}
+          valueMin={values[`${FREQUENCY}${MIN_SUFFIX}`]}
+          valueMax={values[`${FREQUENCY}${MAX_SUFFIX}`]}
         />
         <Button type="reset" className="filter-reset" disabled={!hasValues}>
           Reset

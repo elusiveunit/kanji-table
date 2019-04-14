@@ -47,7 +47,7 @@ thead {
     // The th border stays behind when scrolling so disable it and do it via
     // the below pseudo element instead.
     border-bottom: 0;
-    z-index: 10;
+    z-index: $z-sticky-th;
 
     &::after {
       @include theme-tint-shade-transparent(

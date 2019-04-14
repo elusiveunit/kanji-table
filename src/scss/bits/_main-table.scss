@@ -1,6 +1,31 @@
 /* -The main kanji table
 -----------------------------------------------------------------------------*/
+
+/* -------------------- Intro -------------------- */
+.main-table-intro {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1em;
+}
+.perf-info {
+  @include theme-tint-shade-transparent(color, 0.7);
+
+  margin-bottom: 0;
+  font-size: rem(14px);
+  font-style: italic;
+}
+
+/* -------------------- Table -------------------- */
+.main-table-wrap {
+  min-height: 25em;
+}
+
 .main-table {
+  width: auto;
+
+  &[data-cols='11'] {
+    width: 100%;
+  }
   th:first-child {
     padding-left: 15px;
     padding-right: 25px;

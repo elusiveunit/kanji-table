@@ -8,18 +8,19 @@
   align-items: center;
   justify-content: center;
   height: rem($form-control-height);
+  line-height: rem($form-control-height - 1px);
   padding: 5px 10px;
   border: 0;
   border-radius: 3px;
+  vertical-align: baseline;
+  box-shadow: none;
   text-decoration: none;
   text-transform: none;
   text-align: center;
+  text-shadow: none;
   font-size: 100%;
   font-weight: $font-weight-regular;
-  line-height: rem($form-control-height - 1px);
-  vertical-align: baseline;
-  text-shadow: none;
-  box-shadow: none;
+  white-space: nowrap;
 
   &:focus {
     @include theme-rule(
@@ -44,19 +45,44 @@
   }
 }
 
+@mixin button-secondary {
+  @include button;
+  @include theme-rule(background-color, 'action-secondary');
+  @include theme-rule(color, 'foreground');
+
+  &:not([disabled]) {
+    &:hover,
+    &:focus {
+      @include theme-rule(background-color, 'action-secondary', 10%);
+      @include theme-rule(border-color, 'action-secondary', 10%);
+    }
+  }
+}
+
 // ---------- Standard button classes ---------- //
 .btn,
 a.btn,
-button,
-input[type='submit'],
-input[type='button'],
-input[type='reset'] {
+button {
   @include button-primary;
 
   &[disabled] {
     opacity: 0.4;
-    cursor: default;
   }
+  .icon:first-child {
+    margin-right: 0.25em;
+  }
+  .icon:last-child {
+    margin-right: 0.25em;
+  }
+  .icon:first-child:last-child {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+// 'Invisible' button
+.btn-secondary {
+  @include button-secondary;
 }
 
 // 'Invisible' button

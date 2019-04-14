@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 
 import kanjiData from '../../data/kanji-compressed.json';
 import {
-  FREQUENCY_NAME,
+  CHILDREN_KEY,
+  FREQUENCY,
   FREQUENCY_KEYS,
   KANJI,
   MAX_SUFFIX,
@@ -141,6 +142,60 @@ export function mapObject(obj, iteratee) {
     result[key] = iteratee(obj[key], key, obj);
   }
   return result;
+}
+
+/**
+ * Recursively find an item in an array of objects.
+ *
+ * @param {Array.<Object>} arr - Array to search in.
+ * @param {Function} predicate - The function invoked per iteration.
+ * @param {string} [childKey] - Key for the object property that contains any
+ *   children. Defaults to the standard key.
+ * @return {Object | undefined}
+ */
+export function findDeep(arr, predicate, childKey = CHILDREN_KEY) {
+  return (
+    arr.find(predicate) ||
+    findDeep(arr.flatMap((item) => item[childKey] || []), predicate, childKey)
+  );
+}
+
+/**
+ * Recursively map over an array of objects.
+ *
+ * @param {Array.<Object>} arr - Array to map over.
+ * @param {Function} predicate - The function invoked per iteration.
+ * @param {string} [childKey] - Key for the object property that contains any
+ *   children. Defaults to the standard key.
+ * @return {Array.<Object>}
+ */
+export function mapDeep(arr, cb, childKey = CHILDREN_KEY) {
+  return arr.map((item, i) =>
+    assign(
+      cb(item, i, arr),
+      item[childKey]
+        ? { [childKey]: mapDeep(item[childKey], cb, childKey) }
+        : {},
+    ),
+  );
+}
+
+/**
+ * Recursively get leaf nodes from an array of objects.
+ *
+ * @param {Array.<Object>} tree - Array to iterate over.
+ * @param {string} [childKey] - Key for the object property that contains any
+ *   children. Defaults to the standard key.
+ * @return {Array.<Object>} Flat array.
+ */
+export function getLeafNodes(tree, childKey = CHILDREN_KEY) {
+  return tree.reduce(
+    (leaves, item) =>
+      leaves.concat(
+        item[childKey] ? getLeafNodes(item[childKey], childKey) : item,
+      ),
+    [],
+  );
 }
 
 /**
@@ -388,7 +443,7 @@ export function filterKanjiData(data, filters) {
         const dataKey = getRangeFilterDataKey(key);
         const min = isMinFilter(key) ? value : null;
         const max = isMaxFilter(key) ? value : null;
-        return dataKey === FREQUENCY_NAME
+        return dataKey === FREQUENCY
           ? FREQUENCY_KEYS.every((freqKey) => inRange(row[freqKey], min, max))
           : inRange(row[dataKey], min, max);
       }

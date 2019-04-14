@@ -19,14 +19,15 @@ import {
 import { filterKanjiData, makeMultiSorter } from '../utils';
 
 function MainTableBody(props) {
-  const { coreOrderBy, filters, orderBy, order } = props;
-  const blank = <span aria-label="None">—</span>;
+  const { coreOrderBy, filters, hiddenColumns, orderBy, order } = props;
   const sorter = makeMultiSorter(
     { [orderBy]: order },
     coreOrderBy !== orderBy ? { [coreOrderBy]: ORDER_ASC } : null,
   );
   const resultData = filterKanjiData(kanjiData, filters).sort(sorter);
   const hasResults = Boolean(resultData.length);
+  const isVisible = (name) => !hiddenColumns.includes(name);
+  const blank = <span aria-label="None">—</span>;
 
   return (
     <tbody>
@@ -49,16 +50,16 @@ function MainTableBody(props) {
                 {d[KANJI]}
               </a>
             </th>
-            <td>{d[KKLC] || blank}</td>
-            <td>{d[RTK] || blank}</td>
-            <td>{d[JLPT] || blank}</td>
-            <td>{d[JOYO] || blank}</td>
-            <td>{d[STROKES] || blank}</td>
-            <td>{d[BUNKA] || blank}</td>
-            <td>{d[AOZORA] || blank}</td>
-            <td>{d[NEWS] || blank}</td>
-            <td>{d[TWITTER] || blank}</td>
-            <td>{d[WIKIPEDIA] || blank}</td>
+            {isVisible(KKLC) && <td>{d[KKLC] || blank}</td>}
+            {isVisible(RTK) && <td>{d[RTK] || blank}</td>}
+            {isVisible(JLPT) && <td>{d[JLPT] || blank}</td>}
+            {isVisible(JOYO) && <td>{d[JOYO] || blank}</td>}
+            {isVisible(STROKES) && <td>{d[STROKES] || blank}</td>}
+            {isVisible(BUNKA) && <td>{d[BUNKA] || blank}</td>}
+            {isVisible(AOZORA) && <td>{d[AOZORA] || blank}</td>}
+            {isVisible(NEWS) && <td>{d[NEWS] || blank}</td>}
+            {isVisible(TWITTER) && <td>{d[TWITTER] || blank}</td>}
+            {isVisible(WIKIPEDIA) && <td>{d[WIKIPEDIA] || blank}</td>}
           </tr>
         ))}
     </tbody>
@@ -70,6 +71,7 @@ MainTableBody.propTypes = {
   filters: pt.arrayOf(
     pt.shape({ key: pt.string, value: pt.oneOfType([pt.string, pt.number]) }),
   ).isRequired,
+  hiddenColumns: pt.arrayOf(pt.string).isRequired,
   order: pt.string.isRequired,
   orderBy: pt.string.isRequired,
 };
@@ -78,7 +80,8 @@ function propsAreEqual(prevProps, nextProps) {
   return (
     prevProps.order === nextProps.order &&
     prevProps.orderBy === nextProps.orderBy &&
-    prevProps.filters === nextProps.filters
+    prevProps.filters === nextProps.filters &&
+    prevProps.hiddenColumns === nextProps.hiddenColumns
   );
 }
 export default React.memo(MainTableBody, propsAreEqual);

@@ -35,7 +35,7 @@ Button.propTypes = {
   disabled: pt.bool,
   onClick: pt.func,
   type: pt.oneOf(['button', 'submit', 'reset']),
-  variant: pt.oneOf(['neutral']),
+  variant: pt.oneOf(['secondary', 'neutral']),
 };
 Button.defaultProps = {
   className: '',

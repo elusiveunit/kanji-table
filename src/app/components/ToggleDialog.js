@@ -14,6 +14,7 @@ export default function ToggleDialog(props) {
     name,
   } = props;
   const bodyId = `${name}-body`;
+  const extraButtonClass = buttonExtraProps.className || '';
 
   const [isOpen, setOpen] = useState(false);
   const handleToggleClick = () => {
@@ -52,6 +53,7 @@ export default function ToggleDialog(props) {
     >
       <Button
         {...buttonExtraProps}
+        className={`toggle-dialog-trigger ${extraButtonClass}`.trim()}
         onClick={handleToggleClick}
         aria-label={isOpen ? buttonLabelOpened : buttonLabelClosed}
         aria-expanded={String(isOpen)}

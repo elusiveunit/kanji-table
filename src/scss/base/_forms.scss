@@ -30,6 +30,12 @@ textarea {
   }
 }
 
+input[type='checkbox'],
+input[type='radio'] {
+  vertical-align: middle;
+  margin-right: 0.25em;
+}
+
 textarea {
   height: auto;
   padding: rem($form-control-padding);
