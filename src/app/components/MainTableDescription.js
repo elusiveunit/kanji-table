@@ -14,12 +14,12 @@ export default function MainTableDescription() {
           different&nbsp;sources.
           <ul>
             <li>
-              <strong>KKLC:</strong> Order in{' '}
+              <strong>KKLC:</strong> order in{' '}
               <i>The Kodansha Kanji Learner’s Course</i> by Andrew Scott Conning
               (ISBN&nbsp;9781568365268).
             </li>
             <li>
-              <strong>RTK:</strong> Order in{' '}
+              <strong>RTK:</strong> order in{' '}
               <i>Remembering The Kanji 1, 6th edition</i> by James W. Heisig
               (ISBN&nbsp;9780824835927).
             </li>
@@ -41,7 +41,7 @@ export default function MainTableDescription() {
               , since there is no official JLPT kanji&nbsp;list.
             </li>
             <li>
-              <strong>Jōyō:</strong> The grade in which the kanji is taught in
+              <strong>Jōyō:</strong> the grade in which the kanji is taught in
               schools in Japan, where the numbers represent grade 1-6 in
               elementary school while ’S’ means it’s taught in
               secondary&nbsp;school.
