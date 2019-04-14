@@ -13,10 +13,8 @@
 @import 'base/forms';
 @import 'base/tables';
 
-// Page layout
-@import 'layout/global';
-
 // Various bits and parts of content, with more generic parts first
+@import 'bits/app';
 @import 'bits/between-input';
 @import 'bits/button';
 @import 'bits/collapsible';
@@ -37,4 +35,4 @@
 @import 'base/helpers';
 
 // ...Apart from print styles that should override any other overrides
-@import 'layout/print';
+@import 'bits/print';
