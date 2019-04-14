@@ -407,22 +407,57 @@ const MAX_SUFFIX_REGEX = new RegExp(`${MAX_SUFFIX}$`);
 const MIN_SUFFIX_REGEX = new RegExp(`${MIN_SUFFIX}$`);
 const MIN_MAX_SUFFIX_REGEX = new RegExp(`(${MIN_SUFFIX}|${MAX_SUFFIX})$`);
 
+/**
+ * Check if a filter key is for a max value.
+ *
+ * @param {string} filterKey - Filter key to check.
+ * @return {boolean}
+ */
 export function isMaxFilter(filterKey) {
   return MAX_SUFFIX_REGEX.test(filterKey);
 }
 
+/**
+ * Check if a filter key is for a min value.
+ *
+ * @param {string} filterKey - Filter key to check.
+ * @return {boolean}
+ */
 export function isMinFilter(filterKey) {
   return MIN_SUFFIX_REGEX.test(filterKey);
 }
 
+/**
+ * Check if a filter key is for a min or max value.
+ *
+ * @param {string} filterKey - Filter key to check.
+ * @return {boolean}
+ */
 export function isRangeFilter(filterKey) {
   return isMinFilter(filterKey) || isMaxFilter(filterKey);
 }
 
+/**
+ * Get a range (min/max) filter key without its suffix.
+ *
+ * @param {string} filterKey - Filter key to process.
+ * @return {string}
+ */
 export function getRangeFilterDataKey(filterKey) {
   return filterKey.replace(MIN_MAX_SUFFIX_REGEX, '');
 }
 
+/**
+ * Check if a value is within the specified range.
+ *
+ * Handles cases where min and/or max is not specified, in which case it
+ * behaves like the missing value is infinity.
+ *
+ * @param {number} value - Value to check.
+ * @param {number} [min] - Minimum value.
+ * @param {number} [max] - Maximum value.
+ * @return {boolean}
+ */
 export function inRange(value, min, max) {
   if (!min && !max) {
     return value;
@@ -433,6 +468,15 @@ export function inRange(value, min, max) {
   return min ? value >= min : value <= max;
 }
 
+/**
+ * Filter kanji data inclusively.
+ *
+ * @param {Array.<Object>} data - Kanji data to filter.
+ * @param {Array.<Object>} filters - Filters to 'apply'. Each filter has a `key`
+ *   that maps to a kanji data key and a value that the kanji data value has
+ *   to pass.
+ * @return {Array.<Object>} Filtered data.
+ */
 export function filterKanjiData(data, filters) {
   return data.filter((row) =>
     filters.every(({ key, value }) => {
