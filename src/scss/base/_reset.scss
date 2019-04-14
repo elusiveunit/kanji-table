@@ -163,9 +163,6 @@ select {
 
 // Disable vendor specific form control styling
 button,
-input[type='reset'],
-input[type='submit'],
-input[type='button'],
 input[type='search'],
 input[type='search']::-webkit-search-decoration {
   -webkit-appearance: none;
