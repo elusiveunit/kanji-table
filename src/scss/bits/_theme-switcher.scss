@@ -1,7 +1,9 @@
 /* -Theme switcher dialog
 -----------------------------------------------------------------------------*/
 $theme-switcher-toggle-padding: 10px;
-$theme-switcher-toggle-size: $icon-size + ($theme-switcher-toggle-padding * 2);
+$theme-switcher-icon-size: 20px;
+$theme-switcher-toggle-size: $theme-switcher-icon-size +
+  ($theme-switcher-toggle-padding * 2);
 
 .theme-switcher {
   position: fixed;
@@ -60,6 +62,8 @@ $theme-switcher-toggle-size: $icon-size + ($theme-switcher-toggle-padding * 2);
   }
   .icon {
     vertical-align: top;
+    width: $theme-switcher-icon-size;
+    height: $theme-switcher-icon-size;
   }
 }
 

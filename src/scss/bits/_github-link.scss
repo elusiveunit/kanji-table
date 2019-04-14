@@ -1,5 +1,7 @@
 /* -Link to source on GitHub
 -----------------------------------------------------------------------------*/
+$github-link-icon-size: 18px;
+
 .github-link {
   @include theme-tint-shade-transparent(
     $rule: color,
@@ -10,8 +12,8 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: $icon-size + 20px;
-  height: $icon-size + 20px;
+  width: $github-link-icon-size + 20px;
+  height: $github-link-icon-size + 20px;
   padding: 10px;
 
   &:hover,
@@ -23,6 +25,8 @@
     );
   }
   .icon {
+    width: $github-link-icon-size;
+    height: $github-link-icon-size;
     vertical-align: top;
   }
 }
