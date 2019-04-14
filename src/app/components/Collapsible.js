@@ -6,11 +6,16 @@ import { toggleCollapsible } from '../state/actions/ui';
 import Button from './Button';
 import Icon from './Icon';
 
+function mapState(state) {
+  return state.ui.collapsedSections;
+}
+const mapDispatch = {
+  toggleCollapsible,
+};
+
 export default function Collapsible(props) {
   const { children, heading, id } = props;
-  const [{ collapsedSections }, d] = useStoreState((state) => state.ui, {
-    toggleCollapsible,
-  });
+  const [collapsedSections, d] = useStoreState(mapState, mapDispatch);
   const isCollapsed = collapsedSections.includes(id);
   const classSuffix = isCollapsed ? 'collapsed' : 'expanded';
   const headingId = `${id}-heading`;
