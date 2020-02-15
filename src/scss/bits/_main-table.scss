@@ -14,6 +14,14 @@
   font-size: rem(14px);
   font-style: italic;
 }
+.main-table-intro-col {
+  & + & {
+    padding-left: 10px;
+  }
+  &:last-child {
+    margin-left: auto;
+  }
+}
 
 /* -------------------- Table -------------------- */
 .main-table-wrap {

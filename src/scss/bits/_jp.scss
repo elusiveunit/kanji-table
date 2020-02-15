@@ -16,7 +16,11 @@
 
 th[lang='ja'],
 td[lang='ja'] {
-  font-size: 24px;
+  font-size: rem(24px);
+
+  .table--compact & {
+    font-size: rem(18px);
+  }
 }
 
 p[lang='ja'] {
@@ -31,6 +35,6 @@ rt {
 
 @include media-max(rem($media-query-smaller-type)) {
   td[lang='ja'] {
-    font-size: 18px;
+    font-size: rem(18px);
   }
 }

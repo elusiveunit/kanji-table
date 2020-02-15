@@ -1,6 +1,6 @@
-/* -Column selection dialog
+/* -View control dialog
 -----------------------------------------------------------------------------*/
-.column-selector {
+.view-control {
   position: relative;
 
   ul {
@@ -13,15 +13,18 @@
   .toggle-dialog-trigger {
     position: relative;
     vertical-align: top;
-    z-index: $z-column-selector + 1;
+    z-index: $z-view-control + 1;
   }
   &.toggle-dialog--open .toggle-dialog-trigger {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
+  label {
+    white-space: nowrap;
+  }
 }
 
-.column-selector-body {
+.view-control-body {
   @include theme-background;
   @include theme-rule(
     $rule: border,
@@ -31,12 +34,22 @@
 
   position: absolute;
   top: 100%;
+  right: 0;
   margin-top: -1px;
-  padding: 10px 15px;
   min-width: 100%;
-  z-index: $z-column-selector;
+  z-index: $z-view-control;
 
   button:focus ~ & {
     @include theme-rule(border-color, 'action-secondary', 10%);
+  }
+  > div {
+    padding: 10px 15px;
+  }
+  > div + div {
+    @include theme-rule(
+      $rule: border-top,
+      $color-name: 'action-secondary',
+      $value-template: '1px solid {{color}}'
+    );
   }
 }

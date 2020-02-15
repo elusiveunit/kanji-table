@@ -30,6 +30,7 @@ import {
 } from '../../constants';
 import { useStoreState } from '../state/store';
 import { setOrdering } from '../state/actions/ordering';
+import { classNames } from '../utils';
 import SortableTh from './SortableTh';
 import MainTableBody from './MainTableBody';
 
@@ -37,6 +38,7 @@ function mapState(state) {
   return {
     filters: state.filtering.filters,
     hiddenColumns: state.ui.hiddenColumns,
+    isCompact: state.ui.isCompact,
     ordering: state.ordering,
   };
 }
@@ -45,7 +47,7 @@ const mapDispatch = {
 };
 
 export default function MainTable() {
-  const [{ filters, hiddenColumns, ordering }, d] = useStoreState(
+  const [{ filters, hiddenColumns, isCompact, ordering }, d] = useStoreState(
     mapState,
     mapDispatch,
   );
@@ -76,7 +78,9 @@ export default function MainTable() {
         {`Showing ${visibleCount} of ${totalCount} columns`}
       </p>
       <table
-        className="main-table"
+        className={classNames('main-table', {
+          'table--compact': isCompact,
+        })}
         id="main-table"
         aria-describedby="main-table-description"
         data-cols={visibleCount}

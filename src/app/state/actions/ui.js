@@ -25,3 +25,17 @@ export function toggleCollapsible(id) {
     id,
   };
 }
+
+export const TOGGLE_COMPACT = 'TOGGLE_COMPACT';
+/**
+ * Toggle compact style.
+ *
+ * @param {boolean} isCompact - If the compact view is active.
+ * @return {Object} Action.
+ */
+export function toggleCompact(isCompact) {
+  return {
+    type: TOGGLE_COMPACT,
+    isCompact,
+  };
+}

@@ -72,7 +72,7 @@ caption {
 
 legend {
   padding: 0 0.5em;
-  font-size: 14px;
+  font-size: rem(14px);
 }
 
 th,
@@ -93,7 +93,14 @@ td {
   &:last-child {
     padding-right: $table-cell-edge-padding-horizontal;
   }
+  tbody tr:hover & {
+    @include theme-tint-shade-transparent($rule: background, $amount: 0.03);
+  }
   tbody tr:last-child & {
     border-bottom: 0;
+  }
+  .table--compact tbody & {
+    padding-top: 1px;
+    padding-bottom: 1px;
   }
 }

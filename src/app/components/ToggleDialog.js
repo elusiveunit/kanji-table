@@ -69,8 +69,8 @@ export default function ToggleDialog({
 ToggleDialog.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   buttonExtraProps: pt.object,
-  buttonLabelClosed: pt.string.isRequired,
-  buttonLabelOpened: pt.string.isRequired,
+  buttonLabelClosed: pt.string,
+  buttonLabelOpened: pt.string,
   buttonText: pt.node.isRequired,
   children: pt.node.isRequired,
   className: pt.string,
@@ -78,5 +78,7 @@ ToggleDialog.propTypes = {
 };
 ToggleDialog.defaultProps = {
   buttonExtraProps: {},
+  buttonLabelClosed: undefined,
+  buttonLabelOpened: undefined,
   className: '',
 };

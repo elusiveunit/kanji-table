@@ -227,6 +227,53 @@ export function cycleValues(current, ...values) {
 }
 
 /**
+ * Join class names.
+ *
+ * Adjusted version of https://github.com/JedWatson/classnames.
+ *
+ * @param {...*} args - Arguments.
+ * @return {?string} - Undefined if the result is empty.
+ * @example
+ *
+ * classNames('one', ['two', 'three'], {
+ *   four: false,
+ *   five: true,
+ * });
+ * // => 'one two three five'
+ */
+export function classNames(...args) {
+  const classes = [];
+
+  for (let i = 0, len = args.length; i < len; i += 1) {
+    const arg = args[i];
+    if (!arg) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+
+    const argType = typeof arg;
+    if (argType === 'string' || argType === 'number') {
+      classes.push(arg);
+    } else if (Array.isArray(arg) && arg.length) {
+      const inner = classNames(...arg);
+      if (inner) {
+        classes.push(inner);
+      }
+    } else if (argType === 'object') {
+      // Keep for loop for perf since this runs in renders
+      // eslint-disable-next-line no-restricted-syntax
+      for (const key in arg) {
+        if (Object.prototype.hasOwnProperty.call(arg, key) && arg[key]) {
+          classes.push(key);
+        }
+      }
+    }
+  }
+
+  return classes.join(' ') || undefined;
+}
+
+/**
  * Get unique select options from the kanji data.
  *
  * @param {string} key Data key.

@@ -29,10 +29,12 @@ import {
   WIKIPEDIA,
   WIKIPEDIA_LABEL,
 } from '../../constants';
-import { setHiddenColumns } from '../state/actions/ui';
-import { useDispatch } from '../state/store';
+import { setHiddenColumns, toggleCompact } from '../state/actions/ui';
+import { useStoreState } from '../state/store';
 import { getLeafNodes } from '../utils';
+import Checkbox from './Checkbox';
 import CheckboxTree from './CheckboxTree';
+import FieldGroup from './FieldGroup';
 import Icon from './Icon';
 import ToggleDialog from './ToggleDialog';
 
@@ -65,9 +67,20 @@ const CONTROLS = [
   ]),
 ];
 
-export default function ColumnSelector() {
-  const d = useDispatch({ setHiddenColumns });
-  const handleChange = useCallback(
+function mapState(state) {
+  return {
+    isCompact: state.ui.isCompact,
+  };
+}
+const mapDispatch = {
+  setHiddenColumns,
+  toggleCompact,
+};
+
+export default function ViewControl() {
+  const [{ isCompact }, d] = useStoreState(mapState, mapDispatch);
+  // const d = useDispatch({ setHiddenColumns, toggleCompact });
+  const handleTreeChange = useCallback(
     (tree) => {
       d.setHiddenColumns(
         getLeafNodes(tree)
@@ -77,25 +90,40 @@ export default function ColumnSelector() {
     },
     [d],
   );
+  const handleCompactChange = useCallback(
+    (e) => {
+      d.toggleCompact(e.target.checked);
+    },
+    [d],
+  );
 
   const buttonText = (
     <>
       <Icon name="column" />
-      <span className="text">Select columns</span>
+      <span className="text">View</span>
     </>
   );
 
   return (
     <ToggleDialog
-      name="column-selector"
-      buttonLabelClosed="Open column selector"
-      buttonLabelOpened="Close column selector"
+      name="view-control"
       buttonText={buttonText}
       buttonExtraProps={{
         variant: 'secondary',
       }}
     >
-      <CheckboxTree controls={CONTROLS} onChange={handleChange} />
+      <div>
+        <Checkbox
+          id="view-compact"
+          name="view-compact"
+          label="Compact"
+          checked={isCompact}
+          onChange={handleCompactChange}
+        />
+      </div>
+      <FieldGroup label="Columns" labelId="view-columns">
+        <CheckboxTree controls={CONTROLS} onChange={handleTreeChange} />
+      </FieldGroup>
     </ToggleDialog>
   );
 }
