@@ -100,7 +100,7 @@ export default function ViewControl() {
   const buttonText = (
     <>
       <Icon name="column" />
-      <span className="text">View</span>
+      <span className="text">View…</span>
     </>
   );
 

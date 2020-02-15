@@ -1,0 +1,43 @@
+/* -Copy to clipboard control
+---------------------------------------------------------------------------- */
+@keyframes clipboard-copy-status-fade-down {
+  from {
+    transform: translate(-50%, -5px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+.clipboard-copy {
+  position: relative;
+}
+
+.clipboard-copy-status {
+  @include theme-rule($rule: background-color, $color-name: 'foreground');
+  @include theme-rule($rule: color, $color-name: 'background');
+
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-bottom: 5px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: rem(12px);
+  animation: clipboard-copy-status-fade-down 0.2s ease forwards;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -5px;
+    border: 5px solid transparent;
+    @include theme-rule($rule: border-top-color, $color-name: 'foreground');
+  }
+}

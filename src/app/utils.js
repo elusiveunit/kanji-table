@@ -541,9 +541,6 @@ export function filterKanjiData(data, filters) {
         const min = isMinFilter(key) ? value : null;
         const max = isMaxFilter(key) ? value : null;
         if (dataKey === ROWS) {
-          if (inRange(rowIndex + 1, min, max)) {
-            console.log('row', rowIndex + 1, min, max);
-          }
           return inRange(rowIndex + 1, min, max);
         }
         return dataKey === FREQUENCY

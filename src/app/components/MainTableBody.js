@@ -1,7 +1,6 @@
 import React from 'react';
 import pt from 'prop-types';
 
-import kanjiData from '../../../data/kanji-compressed.json';
 import {
   KANJI,
   KKLC,
@@ -14,23 +13,10 @@ import {
   JLPT,
   JOYO,
   STROKES,
-  ORDER_ASC,
 } from '../../constants';
-import { filterKanjiData, makeMultiSorter } from '../utils';
 
-function MainTableBody({
-  coreOrderBy,
-  filters,
-  hiddenColumns,
-  orderBy,
-  order,
-}) {
-  const sorter = makeMultiSorter(
-    { [orderBy]: order },
-    coreOrderBy !== orderBy ? { [coreOrderBy]: ORDER_ASC } : null,
-  );
-  const resultData = filterKanjiData(kanjiData.slice().sort(sorter), filters);
-  const hasResults = Boolean(resultData.length);
+function MainTableBody({ hiddenColumns, kanjiData }) {
+  const hasResults = Boolean(kanjiData.length);
   const isVisible = (name) => !hiddenColumns.includes(name);
   const blank = <span aria-label="None">—</span>;
 
@@ -44,7 +30,7 @@ function MainTableBody({
         </tr>
       )}
       {hasResults &&
-        resultData.map((d) => (
+        kanjiData.map((d) => (
           <tr key={d[KANJI]}>
             <th scope="row" lang="ja">
               <a
@@ -71,21 +57,14 @@ function MainTableBody({
   );
 }
 MainTableBody.propTypes = {
-  coreOrderBy: pt.string.isRequired,
-  filters: pt.arrayOf(
-    pt.shape({ key: pt.string, value: pt.oneOfType([pt.string, pt.number]) }),
-  ).isRequired,
   hiddenColumns: pt.arrayOf(pt.string).isRequired,
-  order: pt.string.isRequired,
-  orderBy: pt.string.isRequired,
+  kanjiData: pt.arrayOf(pt.object).isRequired,
 };
 
 function propsAreEqual(prevProps, nextProps) {
   return (
-    prevProps.order === nextProps.order &&
-    prevProps.orderBy === nextProps.orderBy &&
-    prevProps.filters === nextProps.filters &&
-    prevProps.hiddenColumns === nextProps.hiddenColumns
+    prevProps.hiddenColumns === nextProps.hiddenColumns &&
+    prevProps.kanjiData === nextProps.kanjiData
   );
 }
 export default React.memo(MainTableBody, propsAreEqual);

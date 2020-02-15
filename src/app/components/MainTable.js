@@ -28,7 +28,7 @@ import {
   WIKIPEDIA_LABEL,
   WIKIPEDIA,
 } from '../../constants';
-import { useStoreState } from '../state/store';
+import { useKanjiData, useStoreState } from '../state/store';
 import { setOrdering } from '../state/actions/ordering';
 import { classNames } from '../utils';
 import SortableTh from './SortableTh';
@@ -36,7 +36,6 @@ import MainTableBody from './MainTableBody';
 
 function mapState(state) {
   return {
-    filters: state.filtering.filters,
     hiddenColumns: state.ui.hiddenColumns,
     isCompact: state.ui.isCompact,
     ordering: state.ordering,
@@ -47,10 +46,11 @@ const mapDispatch = {
 };
 
 export default function MainTable() {
-  const [{ filters, hiddenColumns, isCompact, ordering }, d] = useStoreState(
+  const [{ hiddenColumns, isCompact, ordering }, d] = useStoreState(
     mapState,
     mapDispatch,
   );
+  const kanjiData = useKanjiData();
   const thItems = [
     [KKLC, KKLC_LABEL],
     [RTK, RTK_LABEL],
@@ -132,11 +132,7 @@ export default function MainTable() {
             )}
           </tr>
         </thead>
-        <MainTableBody
-          {...ordering}
-          filters={filters}
-          hiddenColumns={hiddenColumns}
-        />
+        <MainTableBody kanjiData={kanjiData} hiddenColumns={hiddenColumns} />
       </table>
     </div>
   );

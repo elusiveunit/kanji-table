@@ -1,10 +1,18 @@
 // Must use the generic object type here.
 /* eslint-disable react/forbid-prop-types */
 
-import React, { createContext, useContext, useReducer, useMemo } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useMemo,
+  useCallback,
+} from 'react';
 import pt from 'prop-types';
 
-import { mapObject } from '../utils';
+import kanjiData from '../../../data/kanji-compressed.json';
+import { ORDER_ASC } from '../../constants';
+import { filterKanjiData, makeMultiSorter, mapObject } from '../utils';
 import mainReducer, { initialState } from './reducers/main';
 
 export const StoreContext = createContext();
@@ -80,6 +88,32 @@ export function useDispatch(mapDispatch) {
     () => mapObject(obj, (action) => (...args) => dispatch(action(...args))),
     [dispatch, obj],
   );
+}
+
+/**
+ * Hook that returns kanji data with filtering and ordering applied.
+ *
+ * @returns {Array.<object>}
+ */
+export function useKanjiData() {
+  const [{ filters, ordering }] = useStoreState((state) => ({
+    filters: state.filtering.filters,
+    ordering: state.ordering,
+  }));
+  const { coreOrderBy, order, orderBy } = ordering;
+  const sorter = useCallback(
+    makeMultiSorter(
+      { [orderBy]: order },
+      coreOrderBy !== orderBy ? { [coreOrderBy]: ORDER_ASC } : null,
+    ),
+    [coreOrderBy, orderBy, order],
+  );
+  const resultData = useMemo(
+    () => filterKanjiData(kanjiData.slice().sort(sorter), filters),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sorter, JSON.stringify(filters)],
+  );
+  return resultData;
 }
 
 /**
