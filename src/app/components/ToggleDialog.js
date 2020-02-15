@@ -3,16 +3,15 @@ import pt from 'prop-types';
 
 import Button from './Button';
 
-export default function ToggleDialog(props) {
-  const {
-    buttonLabelClosed,
-    buttonLabelOpened,
-    buttonExtraProps,
-    buttonText,
-    children,
-    className,
-    name,
-  } = props;
+export default function ToggleDialog({
+  buttonLabelClosed,
+  buttonLabelOpened,
+  buttonExtraProps,
+  buttonText,
+  children,
+  className,
+  name,
+}) {
   const bodyId = `${name}-body`;
   const extraButtonClass = buttonExtraProps.className || '';
 
@@ -67,7 +66,6 @@ export default function ToggleDialog(props) {
     </div>
   );
 }
-ToggleDialog.displayName = 'ToggleDialog';
 ToggleDialog.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   buttonExtraProps: pt.object,

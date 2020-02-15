@@ -9,21 +9,20 @@ const NEWLINE_REGEX = /\r\n|\r|\n/g;
 const KANJI_LINE_LENGTH = 48;
 const CHUNK_REGEX = new RegExp(`.{1,${KANJI_LINE_LENGTH}}`, 'g');
 
-export default function TextField(props) {
-  const {
-    autoHeight,
-    className,
-    disabled,
-    fieldClassName,
-    hasVisibleLabel,
-    id,
-    label,
-    name,
-    onChange,
-    type,
-    value,
-    ...passProps
-  } = props;
+export default function TextField({
+  autoHeight,
+  className,
+  disabled,
+  fieldClassName,
+  hasVisibleLabel,
+  id,
+  label,
+  name,
+  onChange,
+  type,
+  value,
+  ...passProps
+}) {
   const isTextarea = type === 'textarea';
   const Component = isTextarea ? 'textarea' : 'input';
   const typeProp = isTextarea ? undefined : type;
@@ -60,7 +59,6 @@ export default function TextField(props) {
     </label>
   );
 }
-TextField.displayName = 'TextField';
 TextField.propTypes = {
   autoHeight: pt.bool,
   className: pt.string,

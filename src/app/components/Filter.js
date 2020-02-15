@@ -141,4 +141,3 @@ export default function Filter() {
     </Collapsible>
   );
 }
-Filter.displayName = 'Filter';

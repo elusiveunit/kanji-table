@@ -74,4 +74,3 @@ export default function ThemeSwitcher() {
     </ToggleDialog>
   );
 }
-ThemeSwitcher.displayName = 'ThemeSwitcher';

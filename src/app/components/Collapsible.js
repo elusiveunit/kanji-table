@@ -13,19 +13,16 @@ const mapDispatch = {
   toggleCollapsible,
 };
 
-export default function Collapsible(props) {
-  const { children, heading, id } = props;
+export default function Collapsible({ children, className, heading, id }) {
   const [collapsedSections, d] = useStoreState(mapState, mapDispatch);
   const isCollapsed = collapsedSections.includes(id);
   const classSuffix = isCollapsed ? 'collapsed' : 'expanded';
   const headingId = `${id}-heading`;
   const contentId = `collapsible-${id}`;
-  const className = `collapsible collapsible--${classSuffix} ${
-    props.className
-  }`.trim();
+  const cls = `collapsible collapsible--${classSuffix} ${className}`.trim();
 
   return (
-    <div className={className} id={id}>
+    <div className={cls} id={id}>
       <h2 className="collapsible-heading" id={headingId}>
         {heading}
       </h2>
@@ -50,7 +47,6 @@ export default function Collapsible(props) {
     </div>
   );
 }
-Collapsible.displayName = 'Collapsible';
 Collapsible.propTypes = {
   children: pt.node.isRequired,
   className: pt.string,

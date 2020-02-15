@@ -198,15 +198,31 @@ describe('makeMultiSorter', () => {
   });
 
   it('handles field duplicates', () => {
-    const input = [{ a: 1, b: 2 }, { a: 2, b: 1 }, { a: 1, b: 1 }];
-    const expected = [{ a: 1, b: 2 }, { a: 1, b: 1 }, { a: 2, b: 1 }];
+    const input = [
+      { a: 1, b: 2 },
+      { a: 2, b: 1 },
+      { a: 1, b: 1 },
+    ];
+    const expected = [
+      { a: 1, b: 2 },
+      { a: 1, b: 1 },
+      { a: 2, b: 1 },
+    ];
     const sorter = makeMultiSorter(ORDER_ASC, 'a', 'a');
     expect(input.slice().sort(sorter)).toEqual(expected);
   });
 
   it('handles field duplicates for per-prop sorting', () => {
-    const input = [{ a: 1, b: 2 }, { a: 2, b: 1 }, { a: 1, b: 1 }];
-    const expected = [{ a: 1, b: 2 }, { a: 1, b: 1 }, { a: 2, b: 1 }];
+    const input = [
+      { a: 1, b: 2 },
+      { a: 2, b: 1 },
+      { a: 1, b: 1 },
+    ];
+    const expected = [
+      { a: 1, b: 2 },
+      { a: 1, b: 1 },
+      { a: 2, b: 1 },
+    ];
     const sorter = makeMultiSorter({ a: ORDER_DESC }, { a: ORDER_ASC });
     expect(input.slice().sort(sorter)).toEqual(expected);
   });

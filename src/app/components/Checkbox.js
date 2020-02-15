@@ -1,8 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import pt from 'prop-types';
 
-export default function Checkbox(props) {
-  const { checked, indeterminate, label, name, onChange, ...passProps } = props;
+export default function Checkbox({
+  checked,
+  indeterminate,
+  label,
+  name,
+  onChange,
+  ...passProps
+}) {
   const inputEl = useRef(null);
 
   useEffect(() => {
@@ -32,7 +38,6 @@ export default function Checkbox(props) {
     </label>
   );
 }
-Checkbox.displayName = 'Checkbox';
 Checkbox.propTypes = {
   checked: pt.bool,
   indeterminate: pt.bool,

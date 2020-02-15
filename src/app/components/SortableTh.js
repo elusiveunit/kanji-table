@@ -16,8 +16,7 @@ const ARIA_SORT = {
   [ORDER_DESC]: 'descending',
 };
 
-function SortableTh(props) {
-  const { field, order, orderBy, setOrdering, text } = props;
+function SortableTh({ field, order, orderBy, setOrdering, text }) {
   const isCurrent = orderBy === field;
   const iconKey = isCurrent ? order : ORDER_NONE;
   const ariaSort = isCurrent ? ARIA_SORT[order] : undefined;
@@ -31,10 +30,10 @@ function SortableTh(props) {
     );
   }
   let content = (
-    <React.Fragment>
+    <>
       <span className="text">{text}</span>
       <Icon name={ICON_NAMES[iconKey]} />
-    </React.Fragment>
+    </>
   );
 
   // Output text when prerendering, only adding buttons when JS is available
@@ -59,7 +58,6 @@ function SortableTh(props) {
     </th>
   );
 }
-SortableTh.displayName = 'SortableTh';
 SortableTh.propTypes = {
   field: pt.string.isRequired,
   order: pt.string.isRequired,

@@ -25,12 +25,12 @@ export default function mainReducer(state, action) {
     /* eslint-disable no-console */
     const resultDiff = Object.keys(result).reduce(
       (diff, key) =>
-        (state[key] === result[key]
+        state[key] === result[key]
           ? diff
           : {
-            ...diff,
-            [key]: result[key],
-          }),
+              ...diff,
+              [key]: result[key],
+            },
       {},
     );
     console.groupCollapsed(`action [${action.type}]`);

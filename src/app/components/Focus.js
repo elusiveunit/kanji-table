@@ -1,5 +1,3 @@
-import React from 'react';
-
 const CLASS_NAME_HIDE = 'hide-focus';
 const CLASS_NAME_SHOW = 'show-focus';
 const ARROW_KEYS = ['ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp'];
@@ -28,9 +26,7 @@ const TEXT_INPUT_TYPES = [
  * clicked to enable hiding them. The class is removed again whenever a relevant
  * keyboard event is detected.
  */
-export default class Focus extends React.Component {
-  static displayName = 'Focus';
-
+export default class Focus {
   isHidden = null;
 
   hasTouchAndMouse = true;
@@ -55,7 +51,7 @@ export default class Focus extends React.Component {
    *
    * http://patrickhlauke.github.io/touch/tests/results/
    */
-  componentDidMount() {
+  constructor() {
     if (window.PointerEvent) {
       this.target.addEventListener('pointerdown', this.handlePointer);
     } else {
@@ -133,9 +129,5 @@ export default class Focus extends React.Component {
     this.isHidden = true;
     this.target.classList.add(CLASS_NAME_HIDE);
     this.target.classList.remove(CLASS_NAME_SHOW);
-  }
-
-  render() {
-    return null;
   }
 }

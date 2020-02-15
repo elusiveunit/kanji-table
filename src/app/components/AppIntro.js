@@ -4,7 +4,7 @@ import GitHubLink from './GitHubLink';
 
 export default function AppIntro() {
   return (
-    <React.Fragment>
+    <>
       <h1>Kanji Table</h1>
       <GitHubLink />
       <p>
@@ -15,7 +15,6 @@ export default function AppIntro() {
           Color schemes can be selected in the bottom right corner.
         </span>
       </p>
-    </React.Fragment>
+    </>
   );
 }
-AppIntro.displayName = 'AppIntro';

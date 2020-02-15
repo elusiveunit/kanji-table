@@ -100,4 +100,3 @@ export default function MainTableDescription() {
     </Collapsible>
   );
 }
-MainTableDescription.displayName = 'MainTableDescription';

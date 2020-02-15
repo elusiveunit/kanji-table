@@ -17,9 +17,7 @@ const controlsProp = pt.arrayOf(pt.shape(controlShape));
 
 const mapName = ({ name }) => name;
 
-export function CheckboxTreeLevel(props) {
-  const { controls, onChange } = props;
-
+export function CheckboxTreeLevel({ controls, onChange }) {
   return (
     <ul>
       {controls.map((control) => (
@@ -34,8 +32,8 @@ export function CheckboxTreeLevel(props) {
             aria-controls={
               control[CHILDREN_KEY]
                 ? control[CHILDREN_KEY].map(
-                  (child) => `${child.name}-input`,
-                ).join(' ')
+                    (child) => `${child.name}-input`,
+                  ).join(' ')
                 : undefined
             }
           />
@@ -50,14 +48,12 @@ export function CheckboxTreeLevel(props) {
     </ul>
   );
 }
-CheckboxTreeLevel.displayName = 'CheckboxTreeLevel';
 CheckboxTreeLevel.propTypes = {
   controls: controlsProp.isRequired,
   onChange: pt.func.isRequired,
 };
 
-export default function CheckboxTree(props) {
-  const { controls, onChange } = props;
+export default function CheckboxTree({ controls, onChange }) {
   const [state, setState] = useState(controls);
   const parentNames = state.map(mapName);
 
@@ -97,11 +93,12 @@ export default function CheckboxTree(props) {
   // The state setter is async, so run the callback when the value has changed
   useEffect(() => {
     onChange(state);
+    // Don't rerun when change callback changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   return <CheckboxTreeLevel controls={state} onChange={handleChange} />;
 }
-CheckboxTree.displayName = 'CheckboxTree';
 CheckboxTree.propTypes = {
   controls: controlsProp.isRequired,
   onChange: pt.func.isRequired,

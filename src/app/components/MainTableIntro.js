@@ -13,4 +13,3 @@ export default function MainTableIntro() {
     </div>
   );
 }
-MainTableIntro.displayName = 'MainTableIntro';

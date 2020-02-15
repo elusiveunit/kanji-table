@@ -3,18 +3,17 @@ import pt from 'prop-types';
 
 import { usePrerenderFlag } from '../utils';
 
-export default function Select(props) {
-  const {
-    className,
-    disabled,
-    emptyOptionLabel,
-    label,
-    id,
-    name,
-    onChange,
-    options,
-    value,
-  } = props;
+export default function Select({
+  className,
+  disabled,
+  emptyOptionLabel,
+  label,
+  id,
+  name,
+  onChange,
+  options,
+  value,
+}) {
   const isPrerendering = usePrerenderFlag();
 
   return (
@@ -41,7 +40,6 @@ export default function Select(props) {
     </label>
   );
 }
-Select.displayName = 'Select';
 Select.propTypes = {
   className: pt.string,
   disabled: pt.bool,

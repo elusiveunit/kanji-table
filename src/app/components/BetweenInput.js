@@ -4,21 +4,19 @@ import pt from 'prop-types';
 import { MAX_SUFFIX, MIN_SUFFIX } from '../../constants';
 import TextField from './TextField';
 
-export default function BetweenInput(props) {
+export default function BetweenInput({
+  className,
+  label,
+  id,
+  name,
+  onMaxChange,
+  onMinChange,
+  valueMax,
+  valueMin,
+}) {
   // There are proper labels in the TextField component, the labels here are
   // just to make the text clickable.
   /* eslint-disable jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for */
-
-  const {
-    className,
-    label,
-    id,
-    name,
-    onMaxChange,
-    onMinChange,
-    valueMax,
-    valueMin,
-  } = props;
 
   return (
     <div
@@ -56,7 +54,6 @@ export default function BetweenInput(props) {
     </div>
   );
 }
-BetweenInput.displayName = 'BetweenInput';
 BetweenInput.propTypes = {
   className: pt.string,
   label: pt.string.isRequired,

@@ -18,8 +18,13 @@ import {
 } from '../../constants';
 import { filterKanjiData, makeMultiSorter } from '../utils';
 
-function MainTableBody(props) {
-  const { coreOrderBy, filters, hiddenColumns, orderBy, order } = props;
+function MainTableBody({
+  coreOrderBy,
+  filters,
+  hiddenColumns,
+  orderBy,
+  order,
+}) {
   const sorter = makeMultiSorter(
     { [orderBy]: order },
     coreOrderBy !== orderBy ? { [coreOrderBy]: ORDER_ASC } : null,
@@ -65,7 +70,6 @@ function MainTableBody(props) {
     </tbody>
   );
 }
-MainTableBody.displayName = 'MainTableBody';
 MainTableBody.propTypes = {
   coreOrderBy: pt.string.isRequired,
   filters: pt.arrayOf(

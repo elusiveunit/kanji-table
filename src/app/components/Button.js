@@ -3,16 +3,15 @@ import pt from 'prop-types';
 
 import { usePrerenderFlag } from '../utils';
 
-export default function Button(props) {
-  const {
-    className,
-    children,
-    disabled,
-    onClick,
-    type,
-    variant,
-    ...passProps
-  } = props;
+export default function Button({
+  className,
+  children,
+  disabled,
+  onClick,
+  type,
+  variant,
+  ...passProps
+}) {
   const cls = ((className || '') + (variant ? ` btn-${variant}` : '')).trim();
   const isPrerendering = usePrerenderFlag();
 
@@ -28,7 +27,6 @@ export default function Button(props) {
     </button>
   );
 }
-Button.displayName = 'Button';
 Button.propTypes = {
   children: pt.node.isRequired,
   className: pt.string,

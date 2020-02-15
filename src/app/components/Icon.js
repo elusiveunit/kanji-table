@@ -10,20 +10,19 @@ const AVAILABLE_ICON_NAMES = [
   'sort',
 ];
 
-export default function Icon(props) {
+export default function Icon({ name }) {
   return (
     <span
-      className={`icon icon--${props.name}`}
+      className={`icon icon--${name}`}
       role="presentation"
       aria-hidden="true"
     >
       <svg xmlns="http://www.w3.org/2000/svg">
-        <use xlinkHref={`#icon-${props.name}`} />
+        <use xlinkHref={`#icon-${name}`} />
       </svg>
     </span>
   );
 }
-Icon.displayName = 'Icon';
 Icon.propTypes = {
   name: pt.oneOf(AVAILABLE_ICON_NAMES).isRequired,
 };

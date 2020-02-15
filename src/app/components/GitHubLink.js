@@ -13,4 +13,3 @@ export default function GitHubLink() {
     </a>
   );
 }
-GitHubLink.displayName = 'GitHubLink';

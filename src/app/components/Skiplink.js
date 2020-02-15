@@ -3,20 +3,8 @@ import pt from 'prop-types';
 
 const FOCUSABLE_ELEMENTS_REGEX = /^(?:a|select|input|button|textarea)$/;
 
-export default class Skiplink extends React.Component {
-  static displayName = 'Skiplink';
-
-  static propTypes = {
-    children: pt.node.isRequired,
-    href: pt.string.isRequired,
-    isHidden: pt.bool,
-  };
-
-  static defaultProps = {
-    isHidden: false,
-  };
-
-  handleClick = (e) => {
+export default function Skiplink({ href, isHidden, children }) {
+  const handleClick = (e) => {
     const id = e.target.getAttribute('href').replace(/^#/, '');
     const element = document.getElementById(id);
     if (element) {
@@ -31,19 +19,25 @@ export default class Skiplink extends React.Component {
     }
   };
 
-  render() {
-    return (
-      <a
-        href={this.props.href}
-        className={
-          this.props.isHidden
-            ? 'visuallyhidden visuallyhidden--focusable skiplink'
-            : undefined
-        }
-        onClick={this.handleClick}
-      >
-        {this.props.children}
-      </a>
-    );
-  }
+  return (
+    <a
+      href={href}
+      className={
+        isHidden
+          ? 'visuallyhidden visuallyhidden--focusable skiplink'
+          : undefined
+      }
+      onClick={handleClick}
+    >
+      {children}
+    </a>
+  );
 }
+Skiplink.propTypes = {
+  children: pt.node.isRequired,
+  href: pt.string.isRequired,
+  isHidden: pt.bool,
+};
+Skiplink.defaultProps = {
+  isHidden: false,
+};

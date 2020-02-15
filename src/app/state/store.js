@@ -1,7 +1,7 @@
 // Must use the generic object type here.
 /* eslint-disable react/forbid-prop-types */
 
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useMemo } from 'react';
 import pt from 'prop-types';
 
 import { mapObject } from '../utils';
@@ -22,7 +22,6 @@ export function StoreProvider({ children }) {
     </StoreContext.Provider>
   );
 }
-StoreProvider.displayName = 'StoreProvider';
 StoreProvider.propTypes = {
   children: pt.node.isRequired,
 };
@@ -52,8 +51,8 @@ export function useStoreState(mapState, mapDispatch) {
     mapState ? mapState(state) : state,
     mapDispatch
       ? mapObject(mapDispatch, (action) => (...args) =>
-        dispatch(action(...args)),
-      )
+          dispatch(action(...args)),
+        )
       : dispatch,
     mapDispatch ? dispatch : undefined,
   ];
@@ -72,8 +71,14 @@ export function useStoreState(mapState, mapDispatch) {
  */
 export function useDispatch(mapDispatch) {
   const dispatch = useContext(StoreContext)[1];
-  return mapObject(mapDispatch, (action) => (...args) =>
-    dispatch(action(...args)),
+  const obj = useMemo(
+    () => mapDispatch,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    Object.values(mapDispatch),
+  );
+  return useMemo(
+    () => mapObject(obj, (action) => (...args) => dispatch(action(...args))),
+    [dispatch, obj],
   );
 }
 
@@ -100,9 +105,7 @@ export function withStoreState(Component, mapState, mapDispatch) {
         : { dispatch, ...actions };
     return <Component {...props} {...stateProp} {...dispatchProp} />;
   }
-  WithStoreStateComponent.displayName = `withStoreState(${
-    Component.displayName
-  })`;
+  WithStoreStateComponent.displayName = `withStoreState(${Component.displayName})`;
 
   return WithStoreStateComponent;
 }

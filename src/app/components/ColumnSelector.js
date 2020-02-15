@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import {
   AOZORA,
@@ -67,19 +67,22 @@ const CONTROLS = [
 
 export default function ColumnSelector() {
   const d = useDispatch({ setHiddenColumns });
-  const handleChange = (tree) => {
-    d.setHiddenColumns(
-      getLeafNodes(tree)
-        .filter(({ checked }) => !checked)
-        .map(({ name }) => name),
-    );
-  };
+  const handleChange = useCallback(
+    (tree) => {
+      d.setHiddenColumns(
+        getLeafNodes(tree)
+          .filter(({ checked }) => !checked)
+          .map(({ name }) => name),
+      );
+    },
+    [d],
+  );
 
   const buttonText = (
-    <React.Fragment>
+    <>
       <Icon name="column" />
       <span className="text">Select columns</span>
-    </React.Fragment>
+    </>
   );
 
   return (
@@ -96,4 +99,3 @@ export default function ColumnSelector() {
     </ToggleDialog>
   );
 }
-ColumnSelector.displayName = 'ColumnSelector';

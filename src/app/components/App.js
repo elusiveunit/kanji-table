@@ -13,6 +13,9 @@ import MainTableDescription from './MainTableDescription';
 import Skiplink from './Skiplink';
 import ThemeSwitcher from './ThemeSwitcher';
 
+// eslint-disable-next-line no-new
+new Focus();
+
 async function onBrowserLoad() {
   if (!IS_PRERENDERING) {
     const html = document.documentElement;
@@ -36,7 +39,6 @@ export default function App() {
 
   return (
     <StoreProvider>
-      <Focus />
       <Skiplink href="#main-table" isHidden>
         Skip to table
       </Skiplink>
@@ -53,4 +55,3 @@ export default function App() {
     </StoreProvider>
   );
 }
-App.displayName = 'App';

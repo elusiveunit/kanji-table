@@ -90,7 +90,7 @@ export default function MainTable() {
         </colgroup>
         <thead>
           <tr>
-            <th />
+            <td />
             {!!orderCount && (
               <th scope="colgroup" colSpan={orderCount}>
                 {ORDER_LABEL}
@@ -101,7 +101,7 @@ export default function MainTable() {
                 {GRADE_LABEL}
               </th>
             )}
-            {!!strokesCount && <th />}
+            {!!strokesCount && <td />}
             {!!freqCount && (
               <th scope="colgroup" colSpan={freqCount}>
                 {FREQUENCY_LABEL}
@@ -135,4 +135,3 @@ export default function MainTable() {
     </div>
   );
 }
-MainTable.displayName = 'MainTable';

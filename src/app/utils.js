@@ -156,7 +156,11 @@ export function mapObject(obj, iteratee) {
 export function findDeep(arr, predicate, childKey = CHILDREN_KEY) {
   return (
     arr.find(predicate) ||
-    findDeep(arr.flatMap((item) => item[childKey] || []), predicate, childKey)
+    findDeep(
+      arr.flatMap((item) => item[childKey] || []),
+      predicate,
+      childKey,
+    )
   );
 }
 
