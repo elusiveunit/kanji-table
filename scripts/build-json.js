@@ -95,6 +95,7 @@ function parseKanjiFrequency(filePath, kanjiWhitelist) {
       if (latestFreq !== item[1]) {
         latestRank += 1;
       }
+      // eslint-disable-next-line prefer-destructuring
       latestFreq = item[1];
       result[item[0]] = rank;
       return result;

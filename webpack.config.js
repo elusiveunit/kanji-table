@@ -1,6 +1,6 @@
 const path = require('path');
 
-const CleanPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin: CleanPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -46,7 +46,10 @@ module.exports = {
           'resolve-url-loader',
           {
             loader: 'sass-loader',
-            options: { sourceMap: true, outputStyle: 'compressed' },
+            options: {
+              sourceMap: true,
+              sassOptions: { outputStyle: 'compressed' },
+            },
           },
         ],
       },
