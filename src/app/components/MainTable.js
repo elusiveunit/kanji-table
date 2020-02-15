@@ -94,7 +94,8 @@ export default function MainTable() {
         </colgroup>
         <thead>
           <tr>
-            <td />
+            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+            <th />
             {!!orderCount && (
               <th scope="colgroup" colSpan={orderCount}>
                 {ORDER_LABEL}
@@ -105,7 +106,8 @@ export default function MainTable() {
                 {GRADE_LABEL}
               </th>
             )}
-            {!!strokesCount && <td />}
+            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+            {!!strokesCount && <th />}
             {!!freqCount && (
               <th scope="colgroup" colSpan={freqCount}>
                 {FREQUENCY_LABEL}

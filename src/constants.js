@@ -11,6 +11,8 @@ const NEWS = 'n';
 const TWITTER = 't';
 const WIKIPEDIA = 'w';
 
+const ROWS = 'g';
+
 // CommonJS format for Node compatability since
 // it's used in the JSON build script.
 module.exports = {
@@ -27,6 +29,8 @@ module.exports = {
   TWITTER,
   WIKIPEDIA,
 
+  ROWS,
+
   // ----- App -----
   KANJI_LABEL: 'Kanji',
   KKLC_LABEL: 'KKLC',
@@ -39,6 +43,8 @@ module.exports = {
   NEWS_LABEL: 'News',
   TWITTER_LABEL: 'Twitter',
   WIKIPEDIA_LABEL: 'Wiki',
+
+  ROWS_LABEL: 'Range',
 
   ORDER: 'order',
   ORDER_KEYS: [KKLC, RTK],

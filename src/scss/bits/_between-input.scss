@@ -2,13 +2,21 @@
 -----------------------------------------------------------------------------*/
 .between-input {
   input {
-    width: 4em;
-    margin: 0 0.25em;
+    width: 3.5em;
   }
 }
 
 .between-input-label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
   font-weight: $font-weight-bold;
+}
+
+.between-input-label-text {
+  margin-left: 0.25em;
+  margin-right: 0.25em;
+
+  label:first-of-type & {
+    margin-left: 0;
+  }
 }

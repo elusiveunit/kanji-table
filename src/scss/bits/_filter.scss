@@ -19,10 +19,7 @@ $filter-spacing: 15px;
   }
 }
 
-.filter-jlpt,
-.filter-joyo,
-.filter-stroke-count,
-.filter-frequency {
+.filter-block {
   display: inline-block;
   vertical-align: top;
   margin: 0 1.75em $filter-spacing 0;
@@ -38,7 +35,7 @@ $filter-spacing: 15px;
 
 .filter-stroke-count {
   input {
-    width: 3em;
+    width: 2.5em;
   }
 }
 

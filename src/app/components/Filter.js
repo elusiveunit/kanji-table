@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
 import {
+  FREQUENCY,
   KANJI,
   JLPT,
   JOYO,
   MIN_SUFFIX,
   MAX_SUFFIX,
+  ROWS,
   STROKES,
 } from '../../constants';
 import { useDispatch } from '../state/store';
@@ -25,7 +27,6 @@ import Select from './Select';
 
 const JLPT_OPTIONS = getDataSelectOptions(JLPT);
 const JOYO_OPTIONS = getDataSelectOptions(JOYO);
-const FREQUENCY = 'frequency';
 
 let debounceTimer;
 
@@ -37,10 +38,12 @@ const inialState = {
   [`${STROKES}${MAX_SUFFIX}`]: '',
   [`${FREQUENCY}${MIN_SUFFIX}`]: '',
   [`${FREQUENCY}${MAX_SUFFIX}`]: '',
+  [`${ROWS}${MIN_SUFFIX}`]: '',
+  [`${ROWS}${MAX_SUFFIX}`]: '',
 };
 
 function isNumberField(fieldName) {
-  return [STROKES, FREQUENCY].includes(getRangeFilterDataKey(fieldName));
+  return [STROKES, FREQUENCY, ROWS].includes(getRangeFilterDataKey(fieldName));
 }
 
 function isSelectField(fieldName) {
@@ -97,7 +100,7 @@ export default function Filter() {
         <Select
           id="filter-jlpt"
           name={JLPT}
-          className="filter-jlpt"
+          className="filter-block filter-jlpt"
           label="JLPT level"
           emptyOptionLabel="Any"
           options={JLPT_OPTIONS}
@@ -107,7 +110,7 @@ export default function Filter() {
         <Select
           id="filter-joyo"
           name={JOYO}
-          className="filter-joyo"
+          className="filter-block filter-joyo"
           label="Jōyō grade"
           emptyOptionLabel="Any"
           options={JOYO_OPTIONS}
@@ -118,7 +121,7 @@ export default function Filter() {
           label="Stroke count"
           name={STROKES}
           id="filter-stroke-count"
-          className="filter-stroke-count"
+          className="filter-block filter-stroke-count"
           onMinChange={handleChange}
           onMaxChange={handleChange}
           valueMin={values[`${STROKES}${MIN_SUFFIX}`]}
@@ -128,11 +131,21 @@ export default function Filter() {
           label="Frequency"
           name={FREQUENCY}
           id="filter-frequency"
-          className="filter-frequency"
+          className="filter-block filter-frequency"
           onMinChange={handleChange}
           onMaxChange={handleChange}
           valueMin={values[`${FREQUENCY}${MIN_SUFFIX}`]}
           valueMax={values[`${FREQUENCY}${MAX_SUFFIX}`]}
+        />
+        <BetweenInput
+          label="Visible rows"
+          name={ROWS}
+          id="filter-rows"
+          className="filter-block filter-rows"
+          onMinChange={handleChange}
+          onMaxChange={handleChange}
+          valueMin={values[`${ROWS}${MIN_SUFFIX}`]}
+          valueMax={values[`${ROWS}${MAX_SUFFIX}`]}
         />
         <Button type="reset" className="filter-reset" disabled={!hasValues}>
           Reset

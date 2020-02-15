@@ -2,12 +2,15 @@ import React from 'react';
 import pt from 'prop-types';
 
 import { MAX_SUFFIX, MIN_SUFFIX } from '../../constants';
+import { classNames } from '../utils';
 import TextField from './TextField';
 
 export default function BetweenInput({
   className,
-  label,
   id,
+  label,
+  leadingLabel,
+  middleLabel,
   name,
   onMaxChange,
   onMinChange,
@@ -22,13 +25,15 @@ export default function BetweenInput({
     <div
       role="group"
       aria-labelledby={`${id}-label`}
-      className={`between-input ${className}`.trim()}
+      className={classNames('between-input', className)}
     >
       <span id={`${id}-label`} className="between-input-label">
         {label}:
       </span>
       <label htmlFor={`${id}${MIN_SUFFIX}`} aria-hidden="true">
-        Between
+        <span className="between-input-label-text visuallyhidden">
+          {leadingLabel}
+        </span>
       </label>
       <TextField
         label={`Minimum ${label.toLowerCase()}`}
@@ -40,7 +45,7 @@ export default function BetweenInput({
         pattern="[0-9]*"
       />
       <label htmlFor={`${id}${MAX_SUFFIX}`} aria-hidden="true">
-        and
+        <span className="between-input-label-text">{middleLabel}</span>
       </label>
       <TextField
         label={`Maximum ${label.toLowerCase()}`}
@@ -56,8 +61,10 @@ export default function BetweenInput({
 }
 BetweenInput.propTypes = {
   className: pt.string,
-  label: pt.string.isRequired,
   id: pt.string.isRequired,
+  label: pt.string.isRequired,
+  leadingLabel: pt.string,
+  middleLabel: pt.string,
   name: pt.string.isRequired,
   onMaxChange: pt.func.isRequired,
   onMinChange: pt.func.isRequired,
@@ -66,4 +73,6 @@ BetweenInput.propTypes = {
 };
 BetweenInput.defaultProps = {
   className: '',
+  leadingLabel: 'From',
+  middleLabel: 'to',
 };

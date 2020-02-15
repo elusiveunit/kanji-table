@@ -10,6 +10,7 @@ import {
   MIN_SUFFIX,
   ORDER_ASC,
   ORDER_DESC,
+  ROWS,
 } from '../constants';
 
 /**
@@ -523,13 +524,14 @@ export function inRange(value, min, max) {
  * Filter kanji data inclusively.
  *
  * @param {Array.<Object>} data - Kanji data to filter.
- * @param {Array.<Object>} filters - Filters to 'apply'. Each filter has a `key`
- *   that maps to a kanji data key and a value that the kanji data value has
- *   to pass.
+ * @param {Array.<Object>} filters - Filters to 'apply'. Each filter has a
+ *   `key` and `value` that in most cases maps to a kanji data key and value
+ *   that must match. Some other filters are based on something other than the
+ *   data ifself.
  * @return {Array.<Object>} Filtered data.
  */
 export function filterKanjiData(data, filters) {
-  return data.filter((row) =>
+  return data.filter((row, rowIndex) =>
     filters.every(({ key, value }) => {
       if (key === KANJI) {
         return value.indexOf(row[KANJI]) !== -1;
@@ -538,6 +540,12 @@ export function filterKanjiData(data, filters) {
         const dataKey = getRangeFilterDataKey(key);
         const min = isMinFilter(key) ? value : null;
         const max = isMaxFilter(key) ? value : null;
+        if (dataKey === ROWS) {
+          if (inRange(rowIndex + 1, min, max)) {
+            console.log('row', rowIndex + 1, min, max);
+          }
+          return inRange(rowIndex + 1, min, max);
+        }
         return dataKey === FREQUENCY
           ? FREQUENCY_KEYS.every((freqKey) => inRange(row[freqKey], min, max))
           : inRange(row[dataKey], min, max);

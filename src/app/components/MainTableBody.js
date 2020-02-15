@@ -29,7 +29,7 @@ function MainTableBody({
     { [orderBy]: order },
     coreOrderBy !== orderBy ? { [coreOrderBy]: ORDER_ASC } : null,
   );
-  const resultData = filterKanjiData(kanjiData, filters).sort(sorter);
+  const resultData = filterKanjiData(kanjiData.slice().sort(sorter), filters);
   const hasResults = Boolean(resultData.length);
   const isVisible = (name) => !hiddenColumns.includes(name);
   const blank = <span aria-label="None">—</span>;

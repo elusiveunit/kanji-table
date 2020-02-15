@@ -1,6 +1,7 @@
 import { ORDER_ASC, ORDER_DESC } from '../constants';
 import {
   assignIfNull,
+  inRange,
   cycleValues,
   getSortValue,
   makeSorter,
@@ -46,6 +47,32 @@ describe('cycleValues', () => {
     expect(() => {
       cycleValues('str', 1, 2, 3);
     }).toThrow();
+  });
+});
+
+describe('inRange', () => {
+  it('returns true when in range', () => {
+    expect(inRange(5, 2, 8)).toBe(true);
+  });
+
+  it('returns false when not in range', () => {
+    expect(inRange(1, 2, 8)).toBe(false);
+    expect(inRange(9, 2, 8)).toBe(false);
+  });
+
+  it('is inclusive', () => {
+    expect(inRange(2, 2, 8)).toBe(true);
+    expect(inRange(8, 2, 8)).toBe(true);
+  });
+
+  it('handles missing min value', () => {
+    expect(inRange(2, null, 8)).toBe(true);
+    expect(inRange(9, null, 8)).toBe(false);
+  });
+
+  it('handles missing max value', () => {
+    expect(inRange(3, 2, null)).toBe(true);
+    expect(inRange(1, 2, null)).toBe(false);
   });
 });
 
