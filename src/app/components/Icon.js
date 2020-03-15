@@ -5,6 +5,7 @@ const AVAILABLE_ICON_NAMES = [
   'chevron-down',
   'chevron-up',
   'column',
+  'cross',
   'github',
   'palette',
   'sort',

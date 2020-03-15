@@ -14,6 +14,11 @@ $form-control-padding: 5px;
 
 $media-query-smaller-type: 550px;
 
+// Match with constants.js
+$paper-a4-width: 210mm;
+$paper-a4-height: 297mm;
+$paper-padding: 10mm;
+
 /* -Type
 -----------------------------------------------------------------------------*/
 $font-stack-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,

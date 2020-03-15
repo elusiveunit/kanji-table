@@ -1,0 +1,90 @@
+/* -Printable grid of kanji
+---------------------------------------------------------------------------- */
+.printable-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background: #f6f6f6;
+  color: #333;
+  z-index: $z-printable-grid;
+}
+
+.printable-grid__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 45px;
+  height: 45px;
+  line-height: 45px;
+
+  &:hover,
+  &:focus {
+    @include theme-tint-shade-transparent(
+      $rule: 'background-color',
+      $amount: 0.1,
+      $important: true
+    );
+  }
+}
+
+.printable-grid__page {
+  // A4 paper size
+  width: $paper-a4-width;
+  height: $paper-a4-height;
+  padding: $paper-padding;
+  margin: 20px auto;
+  background: #fff;
+  color: #000;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+
+  span {
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    border-right: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+  }
+  .row-1 {
+    border-top: 1px solid #bbb;
+  }
+  .low-freq {
+    color: #777;
+  }
+}
+.printable-grid__page--tiny {
+  font-size: 12px;
+}
+.printable-grid__page--small {
+  font-size: 14px;
+}
+.printable-grid__page-content {
+  border-left: 1px solid #bbb;
+}
+
+@media print {
+  .printable-grid {
+    &,
+    & * {
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+  }
+}
+
+@for $i from 30 through 60 {
+  .sq-#{str-replace(inspect($i / 10), '.', '-')} span {
+    width: #{$i / 10}mm;
+    height: #{$i / 10}mm;
+    line-height: #{$i / 10}mm;
+  }
+}
+@for $i from 6 through 100 {
+  .sq-#{$i} span {
+    width: #{$i}mm;
+    height: #{$i}mm;
+    line-height: #{$i}mm;
+  }
+}

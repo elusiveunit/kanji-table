@@ -64,4 +64,9 @@ module.exports = {
   MIN_SUFFIX: '-min',
 
   CHILDREN_KEY: 'children',
+
+  // Millimeters, match with _variables.scss
+  PAPER_A4_WIDTH: 210,
+  PAPER_A4_HEIGHT: 297,
+  PAPER_PADDING: 10,
 };

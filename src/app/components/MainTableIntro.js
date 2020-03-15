@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ClipboardCopy from './ClipboardCopy';
+import PrintableGridToggle from './PrintableGridToggle';
 import ViewControl from './ViewControl';
 
 export default function MainTableIntro() {
@@ -11,6 +12,9 @@ export default function MainTableIntro() {
           Note that filtering and ordering can take a few seconds depending on
           the number of rows and your&nbsp;device.
         </p>
+      </div>
+      <div className="main-table-intro-col">
+        <PrintableGridToggle />
       </div>
       <div className="main-table-intro-col">
         <ClipboardCopy />

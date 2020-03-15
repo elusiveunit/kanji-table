@@ -10,6 +10,7 @@ import Filter from './Filter';
 import Focus from './Focus';
 import MainTable from './MainTable';
 import MainTableDescription from './MainTableDescription';
+import PrintableGrid from './PrintableGrid';
 import Skiplink from './Skiplink';
 import ThemeSwitcher from './ThemeSwitcher';
 
@@ -51,6 +52,7 @@ export default function App() {
         <Filter />
         <MainTableIntro />
         <MainTable />
+        <PrintableGrid />
       </div>
     </StoreProvider>
   );

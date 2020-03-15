@@ -3,6 +3,7 @@ import {
   assignIfNull,
   inRange,
   cycleValues,
+  getPackedSquareSize,
   getSortValue,
   makeSorter,
   makeMultiSorter,
@@ -47,6 +48,22 @@ describe('cycleValues', () => {
     expect(() => {
       cycleValues('str', 1, 2, 3);
     }).toThrow();
+  });
+});
+
+describe('getPackedSquareSize', () => {
+  it('evenly packs squares', () => {
+    expect(getPackedSquareSize(4, 6, 24)).toBe(1);
+    expect(getPackedSquareSize(4, 6, 6)).toBe(2);
+  });
+
+  it('can return fractions', () => {
+    expect(getPackedSquareSize(5, 6, 7)).toBe(15 / 9);
+  });
+
+  it('allows leftovers', () => {
+    expect(getPackedSquareSize(4, 6, 23)).toBe(1);
+    expect(getPackedSquareSize(4, 6, 5)).toBe(2);
   });
 });
 

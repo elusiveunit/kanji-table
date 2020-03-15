@@ -275,6 +275,33 @@ export function classNames(...args) {
 }
 
 /**
+ * Get the size of squares that should fit into a rectangle.
+ *
+ * https://math.stackexchange.com/a/466248
+ *
+ * @param {number} width - Container width.
+ * @param {number} height - Container height.
+ * @param {number} count - Number of squares to pack.
+ * @returns {number}
+ */
+export function getPackedSquareSize(width, height, count) {
+  const px = Math.ceil(Math.sqrt((count * width) / height));
+  const sx =
+    Math.floor((px * height) / width) * px < count
+      ? // Doesn't fit, height / (width / px) = px * height / width
+        height / Math.ceil((px * height) / width)
+      : width / px;
+  const py = Math.ceil(Math.sqrt((count * height) / width));
+  const sy =
+    Math.floor((py * width) / height) * py < count
+      ? // Doesn't fit
+        width / Math.ceil((width * py) / height)
+      : height / py;
+
+  return Math.max(sx, sy);
+}
+
+/**
  * Get unique select options from the kanji data.
  *
  * @param {string} key Data key.
@@ -506,8 +533,8 @@ export function getRangeFilterDataKey(filterKey) {
  * behaves like the missing value is infinity.
  *
  * @param {number} value - Value to check.
- * @param {number} [min] - Minimum value.
- * @param {number} [max] - Maximum value.
+ * @param {number} [min] - Minimum value, inclusive.
+ * @param {number} [max] - Maximum value, inclusive.
  * @return {boolean}
  */
 export function inRange(value, min, max) {

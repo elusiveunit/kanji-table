@@ -39,3 +39,17 @@ export function toggleCompact(isCompact) {
     isCompact,
   };
 }
+
+export const TOGGLE_PRINTABLE_GRID = 'TOGGLE_PRINTABLE_GRID';
+/**
+ * Toggle printable grid visibility.
+ *
+ * @param {boolean} isVisible - If the grid is visible.
+ * @return {Object} Action.
+ */
+export function togglePrintableGrid(isVisible) {
+  return {
+    type: TOGGLE_PRINTABLE_GRID,
+    isVisible,
+  };
+}

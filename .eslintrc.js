@@ -32,13 +32,6 @@ module.exports = {
       },
     ],
 
-    // Airbnb doesn't seen to have this.
-    'operator-linebreak': [
-      ERR,
-      'after',
-      { overrides: { '?': 'before', ':': 'before' } },
-    ],
-
     // Keep the same extension everywhere.
     'react/jsx-filename-extension': OFF,
 
