@@ -19,7 +19,7 @@ Build the font with `npm run subset-font`.
 ## Sources and credits
 
 - [The Kodansha Kanji Learner's Course Memrise course](https://www.memrise.com/course/196282/the-kodansha-kanji-learners-course/) for order, with a few double checked against the book.
-- [“All 2200 Kanji from Heisig's Remembering the Kanji 6th edition” Reddit post](https://www.reddit.com/r/LearnJapanese/comments/1a126a/all_2200_kanji_from_heisigs_remembering_the_kanji/) for order, with a few double checked against entries on [Jisho](jisho.org).
+- [“All 2200 Kanji from Heisig's Remembering the Kanji 6th edition” Reddit post](https://www.reddit.com/r/LearnJapanese/comments/1a126a/all_2200_kanji_from_heisigs_remembering_the_kanji/) for order, with a few double checked against entries on [Jisho](https://jisho.org).
 - [JLPT Kanji from Jonathan Waller's JLPT Resources](http://www.tanos.co.uk/jlpt/skills/kanji/) for JLPT level. Since there is no official JLPT kanji list, this is more of an estimation.
 - [List of jōyō kanji Wikipedia page](https://en.wikipedia.org/wiki/List_of_j%C5%8Dy%C5%8D_kanji) for Japanese school grade: “The ‘Grade’ column specifies the grade in which the kanji is taught in Elementary schools in Japan. Grade ’S’ means that it is taught in secondary school.” (Other useful Wikipedia pages are [Kyōiku kanji](https://en.wikipedia.org/wiki/Ky%C5%8Diku_kanji) and [Jinmeiyō kanji](https://en.wikipedia.org/wiki/Jinmeiy%C5%8D_kanji).)
 - [List of kanji by stroke count Wikipedia page](https://en.wikipedia.org/wiki/List_of_kanji_by_stroke_count) for stroke count, with the count for kanji not on that page complemented from [KANJIDIC](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project) via [Yomichan](https://foosoft.net/projects/yomichan/).
