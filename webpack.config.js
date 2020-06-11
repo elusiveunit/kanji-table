@@ -17,7 +17,7 @@ module.exports = {
   output: {
     path: `${__dirname}/${buildFolder}`,
     publicPath: '/',
-    filename: 'app.[contenthash].js',
+    filename: 'app.[contenthash:8].js',
   },
   externals: {
     'react-dom/server': 'ReactDOMServer',
@@ -34,7 +34,10 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'file-loader',
-          options: { outputPath: 'fonts', name: '[name].[contenthash].[ext]' },
+          options: {
+            outputPath: 'fonts',
+            name: '[name].[contenthash:8].[ext]',
+          },
         },
       },
       {
@@ -58,7 +61,7 @@ module.exports = {
   plugins: [
     isProd && new CleanPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].[hash].css',
+      filename: '[name].[contenthash:8].css',
     }),
     new HtmlPlugin({
       template: isProd
@@ -71,14 +74,16 @@ module.exports = {
       defaultAttribute: 'defer',
     }),
     isProd &&
-      new CopyPlugin([
-        {
-          from: 'public/*',
-          transformPath(targetPath) {
-            return targetPath.replace(/public\/?/, '');
+      new CopyPlugin({
+        patterns: [
+          {
+            from: 'public/*',
+            transformPath(targetPath) {
+              return targetPath.replace(/public\/?/, '');
+            },
           },
-        },
-      ]),
+        ],
+      }),
   ].filter((p) => Boolean(p)),
   devServer: {
     contentBase: path.join(__dirname, `${buildFolder}/`),
