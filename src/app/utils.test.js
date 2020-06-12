@@ -2,6 +2,7 @@ import { ORDER_ASC, ORDER_DESC } from '../constants';
 import {
   assignIfNull,
   inRange,
+  range,
   cycleValues,
   getSortValue,
   makeSorter,
@@ -73,6 +74,16 @@ describe('inRange', () => {
   it('handles missing max value', () => {
     expect(inRange(3, 2, null)).toBe(true);
     expect(inRange(1, 2, null)).toBe(false);
+  });
+});
+
+describe.only('range', () => {
+  it('returns an array of numbers, inclusive', () => {
+    expect(range(0, 2)).toEqual([0, 1, 2]);
+  });
+
+  it('accepts a custom step', () => {
+    expect(range(0, 6, 2)).toEqual([0, 2, 4, 6]);
   });
 });
 

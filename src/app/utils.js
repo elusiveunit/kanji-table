@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import kanjiData from '../../data/kanji-compressed.json';
+import fullKanjiData from '../../data/kanji-compressed.json';
 import {
   ALL_LABEL,
   ALL_VALUE,
@@ -230,6 +230,28 @@ export function cycleValues(current, ...values) {
 }
 
 /**
+ * Create an array of numbers in a range.
+ *
+ * @param {number} start - Start number
+ * @param {number} end - End number
+ * @param {number} [step] - Step.
+ * @return {Array.<number>}
+ */
+export function range(start, end, step = 1) {
+  /* eslint-disable no-plusplus, no-param-reassign */
+
+  let index = -1;
+  let length = Math.ceil((end + 1 - start) / step);
+  const result = Array(length);
+
+  while (length--) {
+    result[++index] = start;
+    start += step;
+  }
+  return result;
+}
+
+/**
  * Join class names.
  *
  * Adjusted version of https://github.com/JedWatson/classnames.
@@ -284,7 +306,7 @@ export function classNames(...args) {
  * @return {Array.<Object>} Objects with `label` and `value`.
  */
 export function getDataSelectOptions(key, includeAll = true) {
-  const options = Array.from(new Set(kanjiData.map((item) => item[key])))
+  const options = Array.from(new Set(fullKanjiData.map((item) => item[key])))
     .filter(isTruthy)
     // eslint-disable-next-line no-use-before-define
     .sort(sortAsc)
@@ -316,9 +338,43 @@ export function usePrerenderFlag() {
   return isPrerender;
 }
 
+/**
+ * Hook for getting the previous value.
+ *
+ * @see https://reactjs.org/docs/hooks-faq.html#how-to-get-the-previous-props-or-state
+ * @param {*} value
+ * @return {*}
+ */
+export function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
+
+/**
+ * Run an effect on updates, ignoring the first render.
+ *
+ * @param {Function} effect - Effect to run.
+ * @param {Array.<*>} deps - Dependencies to trigger the effect.
+ */
+export function useUpdateEffect(effect, deps) {
+  const isFirstRun = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      return undefined;
+    }
+    return effect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
+}
+
 /* -------------------- Ordering -------------------- */
 
-const NUM_REGEX = /\d+/;
+const NON_NUM_REGEX = /[^\d]+/;
 
 /**
  * Get a number for sorting.
@@ -327,14 +383,15 @@ const NUM_REGEX = /\d+/;
  * @return {?number}
  */
 export function getSortValue(raw) {
+  const stringVal = String(raw).toUpperCase();
   // Jōyō grade indicating secondary school. Could be equivalent to 7 for jōyō
   // sorting purposes, but let's keep the S as a generic 'high number value'.
-  if (String(raw).toUpperCase() === 'S') {
+  if (stringVal === 'S') {
     return 100;
   }
   // Handle things like 'N2' for JLPT.
-  const match = String(raw).match(NUM_REGEX);
-  return match ? parseInt(match[0], 10) : null;
+  const num = stringVal.replace(NON_NUM_REGEX, '');
+  return num ? parseInt(num, 10) : null;
 }
 
 /**

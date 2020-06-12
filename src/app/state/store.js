@@ -1,16 +1,11 @@
 // Must use the generic object type here.
 /* eslint-disable react/forbid-prop-types */
 
-import React, {
-  createContext,
-  useContext,
-  useReducer,
-  useMemo,
-  useCallback,
-} from 'react';
+import React, { createContext, useContext, useReducer, useMemo } from 'react';
 import pt from 'prop-types';
+import memoize from 'lodash/memoize';
 
-import kanjiData from '../../../data/kanji-compressed.json';
+import fullKanjiData from '../../../data/kanji-compressed.json';
 import { ORDER_ASC } from '../../constants';
 import { filterKanjiData, makeMultiSorter, mapObject } from '../utils';
 import mainReducer, { initialState } from './reducers/main';
@@ -91,6 +86,28 @@ export function useDispatch(mapDispatch) {
 }
 
 /**
+ * Get kanji data with filtering and ordering applied.
+ *
+ * Memoized globally to avoid processing for each component where the
+ * useKanjiData hook is used.
+ *
+ * @ignore
+ * @param {object} options - Filtering and ordering data from state.
+ * @returns {Array.<object>}
+ */
+const getProcessedKanjiData = memoize(
+  (options) => {
+    const { coreOrderBy, order, orderBy, filters } = options;
+    const sorter = makeMultiSorter(
+      { [orderBy]: order },
+      coreOrderBy !== orderBy ? { [coreOrderBy]: ORDER_ASC } : null,
+    );
+    return filterKanjiData(fullKanjiData.slice().sort(sorter), filters);
+  },
+  (options) => JSON.stringify(options),
+);
+
+/**
  * Hook that returns kanji data with filtering and ordering applied.
  *
  * @returns {Array.<object>}
@@ -101,19 +118,8 @@ export function useKanjiData() {
     ordering: state.ordering,
   }));
   const { coreOrderBy, order, orderBy } = ordering;
-  const sorter = useCallback(
-    makeMultiSorter(
-      { [orderBy]: order },
-      coreOrderBy !== orderBy ? { [coreOrderBy]: ORDER_ASC } : null,
-    ),
-    [coreOrderBy, orderBy, order],
-  );
-  const resultData = useMemo(
-    () => filterKanjiData(kanjiData.slice().sort(sorter), filters),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [sorter, JSON.stringify(filters)],
-  );
-  return resultData;
+
+  return getProcessedKanjiData({ coreOrderBy, order, orderBy, filters });
 }
 
 /**
