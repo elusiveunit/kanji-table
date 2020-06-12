@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 
 import kanjiData from '../../data/kanji-compressed.json';
 import {
+  ALL_LABEL,
+  ALL_VALUE,
   CHILDREN_KEY,
   FREQUENCY,
   FREQUENCY_KEYS,
@@ -277,20 +279,22 @@ export function classNames(...args) {
 /**
  * Get unique select options from the kanji data.
  *
- * @param {string} key Data key.
+ * @param {string} key - Data key.
+ * @param {boolean} [includeAll] - If an 'all' option should be included.
  * @return {Array.<Object>} Objects with `label` and `value`.
  */
-export function getDataSelectOptions(key) {
-  return (
-    Array.from(new Set(kanjiData.map((item) => item[key])))
-      .filter(isTruthy)
-      // eslint-disable-next-line no-use-before-define
-      .sort(sortAsc)
-      .map((val) => ({
-        label: val,
-        value: val,
-      }))
-  );
+export function getDataSelectOptions(key, includeAll = true) {
+  const options = Array.from(new Set(kanjiData.map((item) => item[key])))
+    .filter(isTruthy)
+    // eslint-disable-next-line no-use-before-define
+    .sort(sortAsc)
+    .map((val) => ({
+      label: val,
+      value: val,
+    }));
+  return includeAll
+    ? [{ label: ALL_LABEL, value: ALL_VALUE }].concat(options)
+    : options;
 }
 
 /**
@@ -546,6 +550,9 @@ export function filterKanjiData(data, filters) {
         return dataKey === FREQUENCY
           ? FREQUENCY_KEYS.every((freqKey) => inRange(row[freqKey], min, max))
           : inRange(row[dataKey], min, max);
+      }
+      if (value === ALL_VALUE) {
+        return !!row[key];
       }
       return row[key] === value;
     }),

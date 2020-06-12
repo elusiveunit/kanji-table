@@ -56,6 +56,9 @@ module.exports = {
   FREQUENCY_KEYS: [BUNKA, AOZORA, NEWS, TWITTER, WIKIPEDIA],
   FREQUENCY_LABEL: 'Frequency',
 
+  ALL_LABEL: 'All',
+  ALL_VALUE: 'all',
+
   ORDER_ASC: 'ASC',
   ORDER_DESC: 'DESC',
   ORDER_NONE: 'NONE',
