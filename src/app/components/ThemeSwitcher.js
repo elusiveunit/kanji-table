@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-import { getCookie, setCookie } from '../utils';
+import { getCookie, setCookie, useUpdateEffect } from '../utils';
 import Icon from './Icon';
 import ToggleDialog from './ToggleDialog';
 
@@ -11,7 +11,10 @@ const THEMES = [
 ];
 
 const COOKIE_NAME = 'theme';
-const cookieValue = getCookie(COOKIE_NAME) || 'light';
+const defaultTheme = window.matchMedia('(prefers-color-scheme:dark)').matches
+  ? 'dark'
+  : 'light';
+const cookieValue = getCookie(COOKIE_NAME) || defaultTheme;
 
 export default function ThemeSwitcher() {
   // Nesting won't allow styling the label as active
@@ -22,7 +25,7 @@ export default function ThemeSwitcher() {
     setTheme(e.target.value);
   };
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     const html = document.documentElement;
     html.className = html.className.replace(
       /\btheme-[a-z]+\b/,

@@ -7,7 +7,8 @@
     <script>
       /* prettier-ignore */
       (function(d,h){
-        h.classList.add('theme-'+((d.cookie.match(/\btheme\s*=\s*([^;]+)/)||[])[1]||'light'));
+        var def=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+        h.classList.add('theme-'+((d.cookie.match(/\btheme\s*=\s*([^;]+)/)||[])[1]||def));
         h.classList.remove('no-js');
         h.classList.add('js');
       }(document,document.documentElement))
