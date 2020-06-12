@@ -51,6 +51,7 @@ export default function MainTable() {
     mapDispatch,
   );
   const kanjiData = useKanjiData();
+  const rowCount = kanjiData.length;
   const thItems = [
     [KKLC, KKLC_LABEL],
     [RTK, RTK_LABEL],
@@ -69,13 +70,24 @@ export default function MainTable() {
   const gradeCount = GRADE_KEYS.filter((key) => isVisible(key)).length;
   const strokesCount = isVisible(STROKES) ? 1 : 0;
   const freqCount = FREQUENCY_KEYS.filter((key) => isVisible(key)).length;
-  const visibleCount = orderCount + gradeCount + strokesCount + freqCount + 1;
-  const totalCount = thItems.length + 1;
+  const visibleColCount =
+    orderCount + gradeCount + strokesCount + freqCount + 1;
+  const totalColCount = thItems.length + 1;
+  // Approximation, slightly lower than what the browser shows at default
+  // font size and zoom.
+  const rowHeight = isCompact ? 25 : 40;
 
   return (
-    <div className="main-table-wrap table-wrap">
+    <div
+      className="main-table-wrap table-wrap"
+      // Prevent the scrollbar from drastically changing as the staggered
+      // rendering is happening.
+      style={
+        rowCount > 50 ? { minHeight: `${rowCount * rowHeight}px` } : undefined
+      }
+    >
       <p className="visuallyhidden" aria-live="polite">
-        {`Showing ${visibleCount} of ${totalCount} columns`}
+        {`Showing ${visibleColCount} of ${totalColCount} columns`}
       </p>
       <table
         className={classNames('main-table', {
@@ -83,7 +95,7 @@ export default function MainTable() {
         })}
         id="main-table"
         aria-describedby="main-table-description"
-        data-cols={visibleCount}
+        data-cols={visibleColCount}
       >
         <colgroup>
           <col className="col-kanji" />
