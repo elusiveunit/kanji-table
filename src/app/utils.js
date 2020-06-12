@@ -698,7 +698,7 @@ export function setCookie(
     value,
   )}${expires}${domain ? `; domain=${domain}` : ''}${
     path ? `; path=${path}` : ''
-  }${secure ? '; secure' : ''}`;
+  }${secure ? '; secure' : ''}; SameSite=Strict`;
 }
 
 /**
