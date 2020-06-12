@@ -8,14 +8,7 @@ $collapsible-toggle-size: 40px;
 }
 
 .collapsible-heading {
-  @include theme-tint-shade-transparent(
-    $rule: border-bottom,
-    $value-template: '1px solid {{color}}',
-    $amount: 0.2
-  );
-
-  margin-bottom: 5px;
-  padding-bottom: 3px;
+  @include bordered;
 }
 
 .collapsible-toggle {

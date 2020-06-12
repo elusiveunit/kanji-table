@@ -63,8 +63,8 @@ export default function Filter() {
       return;
     }
     const current = values[name];
-    // I change of more than one character change likely means the field was
-    // cleared or that something was pasted, no need to delay in that case.
+    // A change of more than one character likely means the field was cleared
+    // or that something was pasted, no need to delay in that case.
     const debounceTime =
       isSelectField(name) || Math.abs(current.length - value.length) > 1
         ? 20
@@ -84,6 +84,10 @@ export default function Filter() {
 
   return (
     <Collapsible id="filter" heading="Filter" className="filter js-only">
+      <p className="filter-info">
+        Filtering and ordering happens in real-time and can take a few seconds
+        depending on the number of rows and your&nbsp;device.
+      </p>
       <form noValidate onReset={handleReset}>
         <div className="filter-kanji">
           <TextField

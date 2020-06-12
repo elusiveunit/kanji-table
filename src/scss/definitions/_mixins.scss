@@ -1,3 +1,14 @@
+@mixin bordered {
+  @include theme-tint-shade-transparent(
+    $rule: border-bottom,
+    $value-template: '1px solid {{color}}',
+    $amount: 0.2
+  );
+
+  margin-bottom: 5px;
+  padding-bottom: 3px;
+}
+
 @mixin media-max($size) {
   @media screen and (max-width: $size) {
     @content;

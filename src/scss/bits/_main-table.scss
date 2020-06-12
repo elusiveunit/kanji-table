@@ -3,23 +3,19 @@
 
 /* -------------------- Intro -------------------- */
 .main-table-intro {
+  @include bordered;
+
   display: flex;
   align-items: flex-start;
+  justify-content: flex-end;
   margin-bottom: 1em;
-}
-.perf-info {
-  @include theme-tint-shade-transparent(color, 0.7);
-
-  margin-bottom: 0;
-  font-size: rem(14px);
-  font-style: italic;
 }
 .main-table-intro-col {
   & + & {
     padding-left: 10px;
   }
-  &:last-child {
-    margin-left: auto;
+  &:first-child {
+    margin-right: auto;
   }
 }
 

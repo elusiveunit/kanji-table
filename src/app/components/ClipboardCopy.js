@@ -4,9 +4,6 @@ import { KANJI } from '../../constants';
 import { useKanjiData } from '../state/store';
 import Button from './Button';
 
-const STATUS_SUCCESS = 'Copied!';
-const STATUS_ERROR = 'Copy failed';
-
 export default function ClipboardCopy() {
   const [status, setStatus] = useState(null);
   const timerRef = useRef(null);
@@ -22,14 +19,17 @@ export default function ClipboardCopy() {
     };
     navigator.clipboard
       .writeText(kanjiData.map((d) => d[KANJI]).join(''))
-      .then(makeDoneCallback(STATUS_SUCCESS), makeDoneCallback(STATUS_ERROR));
+      .then(
+        makeDoneCallback(`Copied ${kanjiData.length} kanji`),
+        makeDoneCallback('Copy failed'),
+      );
   };
 
   return (
     <div className="clipboard-copy">
       {status && <div className="clipboard-copy-status">{status}</div>}
       <Button variant="secondary" onClick={handleClick}>
-        Copy curent rows
+        Copy kanji from current rows
       </Button>
     </div>
   );

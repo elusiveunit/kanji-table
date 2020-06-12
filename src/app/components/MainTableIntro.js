@@ -1,16 +1,18 @@
 import React from 'react';
 
+import { useKanjiData } from '../state/store';
 import ClipboardCopy from './ClipboardCopy';
 import ViewControl from './ViewControl';
 
 export default function MainTableIntro() {
+  const kanjiData = useKanjiData();
+
   return (
     <div className="main-table-intro js-only">
       <div className="main-table-intro-col">
-        <p className="perf-info">
-          Note that filtering and ordering can take a few seconds depending on
-          the number of rows and your&nbsp;device.
-        </p>
+        <h2 aria-live="polite" aria-atomic="true">
+          {kanjiData.length} rows
+        </h2>
       </div>
       <div className="main-table-intro-col">
         <ClipboardCopy />
