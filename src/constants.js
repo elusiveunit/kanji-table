@@ -68,5 +68,7 @@ module.exports = {
 
   CHILDREN_KEY: 'children',
 
+  TABLE_DESC_ID: 'main-table-description',
+  TABLE_ID: 'main-table',
   SORT_HINT_ID: 'sort-hint',
 };

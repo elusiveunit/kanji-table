@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import FontFaceObserver from 'fontfaceobserver';
 
+import { TABLE_ID } from '../../constants';
 import { StoreProvider } from '../state/store';
 import { IS_PRERENDERING } from '../utils';
-
 import AppIntro from './AppIntro';
 import MainTableIntro from './MainTableIntro';
 import Filter from './Filter';
@@ -39,7 +39,7 @@ export default function App() {
 
   return (
     <StoreProvider>
-      <Skiplink href="#main-table" isHidden>
+      <Skiplink href={`#${TABLE_ID}`} isHidden>
         Skip to table
       </Skiplink>
       <div className="app">

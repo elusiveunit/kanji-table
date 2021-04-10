@@ -24,6 +24,8 @@ import {
   SORT_HINT_ID,
   STROKES_LABEL,
   STROKES,
+  TABLE_DESC_ID,
+  TABLE_ID,
   TWITTER_LABEL,
   TWITTER,
   WIKIPEDIA_LABEL,
@@ -85,8 +87,8 @@ export default function MainTable() {
         className={classNames('main-table', {
           'table--compact': isCompact,
         })}
-        id="main-table"
-        aria-describedby="main-table-description"
+        id={TABLE_ID}
+        aria-describedby={TABLE_DESC_ID}
         data-cols={visibleCount}
       >
         <colgroup>

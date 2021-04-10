@@ -1,11 +1,12 @@
 import React from 'react';
 
+import { TABLE_DESC_ID } from '../../constants';
 import Collapsible from './Collapsible';
 
 export default function MainTableDescription() {
   return (
     <Collapsible
-      id="main-table-description"
+      id={TABLE_DESC_ID}
       heading="Column descriptions and sources/credits"
     >
       <ul>
