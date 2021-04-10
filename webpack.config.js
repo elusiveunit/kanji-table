@@ -78,9 +78,11 @@ module.exports = {
         patterns: [
           {
             from: 'public/*',
-            transformPath(targetPath) {
-              return targetPath.replace(/public\/?/, '');
+            to({ absoluteFilename }) {
+              // absoluteFilename is the absolute 'from' path
+              return absoluteFilename.replace(/\bpublic\b/, 'build');
             },
+            toType: 'file',
           },
         ],
       }),
