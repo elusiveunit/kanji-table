@@ -21,6 +21,7 @@ import {
   ORDER_LABEL,
   RTK_LABEL,
   RTK,
+  SORT_HINT_ID,
   STROKES_LABEL,
   STROKES,
   TWITTER_LABEL,
@@ -76,6 +77,9 @@ export default function MainTable() {
     <div className="main-table-wrap table-wrap">
       <p className="visuallyhidden" aria-live="polite">
         {`Showing ${visibleCount} of ${totalCount} columns`}
+      </p>
+      <p id={SORT_HINT_ID} hidden>
+        Sort by
       </p>
       <table
         className={classNames('main-table', {

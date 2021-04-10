@@ -67,4 +67,6 @@ module.exports = {
   MIN_SUFFIX: '-min',
 
   CHILDREN_KEY: 'children',
+
+  SORT_HINT_ID: 'sort-hint',
 };

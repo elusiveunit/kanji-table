@@ -1,7 +1,12 @@
 import React from 'react';
 import pt from 'prop-types';
 
-import { ORDER_ASC, ORDER_DESC, ORDER_NONE } from '../../constants';
+import {
+  ORDER_ASC,
+  ORDER_DESC,
+  ORDER_NONE,
+  SORT_HINT_ID,
+} from '../../constants';
 import { cycleValues, usePrerenderFlag } from '../utils';
 import Button from './Button';
 import Icon from './Icon';
@@ -41,7 +46,11 @@ function SortableTh({ field, order, orderBy, setOrdering, text }) {
     content = <span className="btn-placeholder">{content}</span>;
   } else {
     content = (
-      <Button onClick={handleClick} variant="neutral">
+      <Button
+        onClick={handleClick}
+        variant="neutral"
+        aria-describedby={SORT_HINT_ID}
+      >
         {content}
       </Button>
     );
