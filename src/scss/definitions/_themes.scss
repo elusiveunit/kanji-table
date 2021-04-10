@@ -3,7 +3,7 @@
 // Theme color definitions
 $default-theme: 'light';
 $themes: (
-  light: (
+  'light': (
     type: 'light',
     background: #fbfdff,
     background-accent: #f5f7f9,
@@ -12,7 +12,7 @@ $themes: (
     action-foreground: #fff,
     action-secondary: #e0e3e6,
   ),
-  dark: (
+  'dark': (
     type: 'dark',
     background: #2d3037,
     background-accent: #292c33,
@@ -21,7 +21,7 @@ $themes: (
     action-foreground: #fff,
     action-secondary: #343842,
   ),
-  tan: (
+  'tan': (
     type: 'light',
     background: #efe9d3,
     background-accent: #e7dfcc,
