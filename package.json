@@ -53,7 +53,7 @@
     "mini-css-extract-plugin": "~1.4.1",
     "onchange": "~7.1.0",
     "postcss-loader": "~5.2.0",
-    "prerender-loader": "git@github.com:nettoolkit/prerender-loader.git",
+    "prerender-loader": "https://github.com/nettoolkit/prerender-loader.git",
     "prettier": "~2.2.1",
     "pretty-bytes": "~5.6.0",
     "resolve-url-loader": "~3.1.2",
