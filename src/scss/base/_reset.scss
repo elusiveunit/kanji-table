@@ -131,7 +131,7 @@ svg:not(:root) {
 
 // Correct display in IE10-
 [hidden] {
-  display: none;
+  display: none !important;
 }
 
 // 1. Change the font styles in all browsers.
